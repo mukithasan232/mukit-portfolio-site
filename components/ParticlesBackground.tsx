@@ -5,7 +5,7 @@ import { useTheme } from "next-themes";
 
 export function ParticlesBackground() {
     const canvasRef = useRef<HTMLCanvasElement>(null);
-    const { theme } = useTheme();
+    const { resolvedTheme } = useTheme();
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -19,6 +19,7 @@ export function ParticlesBackground() {
         const particles: Particle[] = [];
         const particleCount = 50; // Total number of particles
         const connectionDistance = 150; // Distance to connect particles
+        let animationFrameId: number;
         const resizeReset = () => {
             w = canvas.width = window.innerWidth;
             h = canvas.height = window.innerHeight;
@@ -51,7 +52,7 @@ export function ParticlesBackground() {
                 if (!ctx) return;
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fillStyle = theme === "dark" ? "rgba(255, 255, 255, 0.2)" : "rgba(0, 0, 0, 0.1)";
+                ctx.fillStyle = resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.2)" : "rgba(0, 0, 0, 0.1)";
                 ctx.fill();
             }
         }
@@ -80,7 +81,7 @@ export function ParticlesBackground() {
 
                     if (distance < connectionDistance) {
                         ctx.beginPath();
-                        ctx.strokeStyle = theme === "dark"
+                        ctx.strokeStyle = resolvedTheme === "dark"
                             ? `rgba(255, 255, 255, ${0.1 - distance / connectionDistance * 0.1})`
                             : `rgba(0, 0, 0, ${0.05 - distance / connectionDistance * 0.05})`;
                         ctx.lineWidth = 1;
@@ -91,7 +92,7 @@ export function ParticlesBackground() {
                 }
             }
 
-            requestAnimationFrame(animate);
+            animationFrameId = requestAnimationFrame(animate);
         };
 
         init();
@@ -100,8 +101,9 @@ export function ParticlesBackground() {
         window.addEventListener("resize", resizeReset);
         return () => {
             window.removeEventListener("resize", resizeReset);
+            cancelAnimationFrame(animationFrameId);
         };
-    }, [theme]);
+    }, [resolvedTheme]);
 
     // Fixed position, low z-index so it's behind everything
     return <canvas ref={canvasRef} className="fixed inset-0 -z-10 pointer-events-none" />;
