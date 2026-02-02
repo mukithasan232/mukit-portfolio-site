@@ -26,6 +26,9 @@ export const metadata: Metadata = {
     "Firebase Web App",
     "Modern Web Development"
   ],
+  verification: {
+    google: "DHTqBavAyRLQpo3M-EgwQ6T5S3IrhjnBbdXp-A7x604",
+  },
 };
 
 export default function RootLayout({
