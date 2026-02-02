@@ -69,10 +69,10 @@ export const DATA = {
 
 ## 🚢 Deployment
 
-This project is optimized for deployment on **Vercel**.
+This project is optimized for deployment on **Netlify**.
 
 1.  Push your code to GitHub.
-2.  Import the project in Vercel.
+2.  Import the project in Netlify.
 3.  Deploy! (Next.js settings are auto-detected).
 
 ## 📄 License
