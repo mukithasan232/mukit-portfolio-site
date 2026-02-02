@@ -51,7 +51,7 @@ export function About() {
                     >
                         <div className="relative w-full max-w-md aspect-square rounded-2xl overflow-hidden border border-border shadow-2xl bg-muted">
                             <Image
-                                src="/me.png"
+                                src="/me.jpeg"
                                 alt={DATA.name}
                                 fill
                                 className="object-cover hover:scale-105 transition-transform duration-500"

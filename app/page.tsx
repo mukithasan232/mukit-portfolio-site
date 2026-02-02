@@ -3,6 +3,7 @@ import { SocialProof } from "@/components/SocialProof";
 import { About } from "@/components/About";
 import { Skills } from "@/components/Skills";
 import { Projects } from "@/components/Projects";
+import { GitHubInsights } from "@/components/GitHubInsights";
 import { Services } from "@/components/Services";
 import { Experience } from "@/components/Experience";
 import { Blog } from "@/components/Blog";
@@ -17,6 +18,7 @@ export default function Home() {
       <About />
       <Skills />
       <Projects />
+      <GitHubInsights />
       <Services />
       <Experience />
       <Blog />

@@ -8,14 +8,16 @@ import { Footer } from "@/components/Footer";
 
 import { Analytics } from "@vercel/analytics/react";
 import { ParticlesBackground } from "@/components/ParticlesBackground";
+import { MukitAI } from "@/components/MukitAI";
+import { JsonLd } from "@/components/JsonLd";
 
 import Script from "next/script";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: `${DATA.name} | ${DATA.role}`, // Used pipe for cleaner look
-  description: DATA.headline, // Used headline which is better for SEO than tagline
+  title: "MD Mukit Hasan | Junior Web Developer (React, Next.js)",
+  description: "Modern, SEO-optimized, responsive websites using React, Next.js & Firebase. Hire a growth-focused junior developer.",
   keywords: [
     "Junior Web Developer",
     "Frontend Web Developer",
@@ -63,6 +65,8 @@ export default function RootLayout({
           <Footer />
           <Analytics />
           <ParticlesBackground />
+          <MukitAI />
+          <JsonLd />
         </ThemeProvider>
       </body>
     </html>

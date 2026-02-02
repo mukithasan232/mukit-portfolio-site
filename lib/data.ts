@@ -17,17 +17,17 @@ export const DATA = {
         },
         {
             name: "LinkedIn",
-            url: "#", // User to add
+            url: "https://www.linkedin.com/in/md-mukit-hasan-bd",
             icon: Linkedin,
         },
         {
             name: "Email",
-            url: "mailto:mukithasan232@gmail.com",
+            url: "mailto:mdmukithasan689@gmail.com",
             icon: Mail,
         },
         {
             name: "Upwork",
-            url: "#", // User to add
+            url: "https://www.upwork.com/freelancers/~01467066421f1d7887?mp_source=share", // User to add
             icon: Search, // Using Search icon as placeholder for Upwork if specific icon not available, or just generic User
         }
     ],
@@ -82,6 +82,16 @@ export const DATA = {
             result: "Faster data access, improved organization, and reduced manual workload.",
             live: "#",
             github: "#",
+            images: [
+                "/project2-screenshot1.png",
+                "/project2-screenshot2.png",
+                "/project2-screenshot3.png",
+                "/project2-screenshot4.png",
+                "/project2-screenshot5.png",
+                "/project2-screenshot6.png",
+                "/project2-screenshot7.png",
+                "/project2-screenshot8.png",
+            ],
         },
         {
             title: "Job Search Dashboard",

@@ -1,16 +1,32 @@
 import { MetadataRoute } from 'next'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-    const baseUrl = 'https://mukit-portfolio-site.vercel.app' // Update this to your custom domain once connected
+    const baseUrl = 'https://www.codernest.cloud' // Updated with the user's provided domain from previous context if applicable, or safe default. User mentioned codernest.cloud in prompts.
 
     return [
         {
             url: baseUrl,
             lastModified: new Date(),
-            changeFrequency: 'monthly',
+            changeFrequency: 'weekly',
             priority: 1,
         },
-        // Since it's a single page app with scroll sections, we mainly just need the root.
-        // If you add individual blog pages later, you would generate them here.
+        {
+            url: `${baseUrl}/#projects`,
+            lastModified: new Date(),
+            changeFrequency: 'weekly',
+            priority: 0.8,
+        },
+        {
+            url: `${baseUrl}/#services`,
+            lastModified: new Date(),
+            changeFrequency: 'monthly',
+            priority: 0.5,
+        },
+        {
+            url: `${baseUrl}/#contact`,
+            lastModified: new Date(),
+            changeFrequency: 'yearly',
+            priority: 0.5,
+        },
     ]
 }
