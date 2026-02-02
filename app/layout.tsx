@@ -7,6 +7,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 
 import { Analytics } from "@vercel/analytics/react";
+import { ParticlesBackground } from "@/components/ParticlesBackground";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -43,6 +44,7 @@ export default function RootLayout({
           {children}
           <Footer />
           <Analytics />
+          <ParticlesBackground />
         </ThemeProvider>
       </body>
     </html>
