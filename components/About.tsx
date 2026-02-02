@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { CheckCircle2 } from "lucide-react";
 
@@ -39,42 +41,25 @@ export function About() {
                         </div>
                     </motion.div>
 
-                    {/* Visual: Code Editor Mockup */}
+                    {/* Visual: Profile Image */}
                     <motion.div
                         initial={{ opacity: 0, scale: 0.9 }}
                         whileInView={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 0.5, delay: 0.2 }}
                         viewport={{ once: true }}
-                        className="relative"
+                        className="relative flex justify-center"
                     >
-                        <div className="relative rounded-lg border border-border bg-card shadow-2xl overflow-hidden">
-                            <div className="flex items-center px-4 py-2 border-b border-border bg-muted/50">
-                                <div className="flex space-x-2">
-                                    <div className="h-3 w-3 rounded-full bg-red-500" />
-                                    <div className="h-3 w-3 rounded-full bg-yellow-500" />
-                                    <div className="h-3 w-3 rounded-full bg-green-500" />
-                                </div>
-                                <div className="ml-4 text-xs text-muted-foreground font-mono">portfolio.tsx</div>
-                            </div>
-                            <div className="p-6 overflow-x-auto">
-                                <pre className="text-sm font-mono text-foreground">
-                                    <code>
-                                        <span className="text-pink-500">const</span> <span className="text-blue-500">Developer</span> = <span className="text-yellow-500">{"{"}</span>{"\n"}
-                                        {"  "}name: <span className="text-green-500">"MD Mukit Hasan"</span>,{"\n"}
-                                        {"  "}role: <span className="text-green-500">"Full Stack Developer"</span>,{"\n"}
-                                        {"  "}skills: [<span className="text-green-500">"Next.js"</span>, <span className="text-green-500">"React"</span>, <span className="text-green-500">"Tailwind"</span>],{"\n"}
-                                        {"  "}hardWorker: <span className="text-blue-500">true</span>,{"\n"}
-                                        {"  "}problemSolver: <span className="text-blue-500">true</span>,{"\n"}
-                                        {"  "}hireable: <span className="text-blue-500">function</span>() <span className="text-yellow-500">{"{"}</span>{"\n"}
-                                        {"    "}return <span className="text-green-500">"Ready to work!"</span>;{"\n"}
-                                        {"  "}<span className="text-yellow-500">{"}"}</span>{"\n"}
-                                        <span className="text-yellow-500">{"}"}</span>
-                                    </code>
-                                </pre>
-                            </div>
+                        <div className="relative w-full max-w-md aspect-square rounded-2xl overflow-hidden border border-border shadow-2xl bg-muted">
+                            <Image
+                                src="/me.png"
+                                alt={DATA.name}
+                                fill
+                                className="object-cover hover:scale-105 transition-transform duration-500"
+                            />
                         </div>
                         {/* Decorative Elements */}
                         <div className="absolute -z-10 top-[-20%] right-[-20%] h-[300px] w-[300px] bg-primary/20 rounded-full blur-[100px]" />
+                        <div className="absolute -z-10 bottom-[-20%] left-[-20%] h-[300px] w-[300px] bg-secondary/20 rounded-full blur-[100px]" />
                     </motion.div>
                 </div>
             </div>
