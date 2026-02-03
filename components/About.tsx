@@ -9,7 +9,7 @@ import { DATA } from "@/lib/data";
 
 export function About() {
     return (
-        <section id="about" className="py-20 bg-background">
+        <section id="about" className="py-24 bg-background scroll-mt-20">
             <div className="container px-4 md:px-6">
                 <div className="grid gap-12 lg:grid-cols-2 items-center">
                     <motion.div
@@ -41,48 +41,44 @@ export function About() {
                         </div>
                     </motion.div>
 
-                    {/* Visual: Profile Image Card */}
+                    {/* Visual: Nature & Pixel Perfect Card */}
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.9, rotate: -2 }}
-                        whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 0.7, delay: 0.2, type: "spring" }}
                         viewport={{ once: true }}
                         className="relative flex justify-center lg:justify-end"
                     >
-                        <div className="relative group w-full max-w-[400px] aspect-[4/5] sm:aspect-square md:aspect-[4/5] lg:aspect-square">
-                            {/* Multi-layered Light Effects */}
-                            <div className="absolute -inset-4 bg-gradient-to-r from-primary/40 to-blue-500/40 rounded-[2rem] blur-2xl opacity-50 group-hover:opacity-80 transition-opacity duration-500" />
-                            <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 via-transparent to-blue-500/20 rounded-2xl z-10 pointer-events-none" />
+                        <div className="relative group w-full max-w-[420px] aspect-[4/5] sm:aspect-square">
+                            {/* Refined Glow Effect */}
+                            <div className="absolute -inset-1 bg-gradient-to-r from-primary/30 to-blue-500/30 rounded-3xl blur-xl opacity-70" />
 
                             {/* Main Card Container */}
-                            <div className="relative h-full w-full rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-muted/30 backdrop-blur-sm z-0">
+                            <div className="relative h-full w-full rounded-2xl overflow-hidden border-2 border-border/50 shadow-2xl bg-card z-10 transition-all duration-500 group-hover:border-primary/50">
                                 <Image
                                     src={DATA.profilePicture}
                                     alt={DATA.name}
                                     fill
-                                    className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
+                                    className="object-cover transition-transform duration-700 ease-in-out group-hover:scale-105"
+                                    unoptimized
+                                    priority
                                 />
 
-                                {/* Bottom Overlay */}
-                                <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/60 to-transparent z-10 hidden sm:block" />
-                                <div className="absolute bottom-4 left-4 z-20 hidden sm:block">
-                                    <p className="text-white/90 text-sm font-medium backdrop-blur-md bg-white/10 px-3 py-1 rounded-full border border-white/10">
-                                        Creative Developer
-                                    </p>
+                                {/* Subtle vignette for depth without tinting the person */}
+                                <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/50 to-transparent z-20" />
+
+                                <div className="absolute bottom-6 left-6 z-30">
+                                    <div className="backdrop-blur-md bg-black/40 px-4 py-2 rounded-xl border border-white/10 shadow-lg">
+                                        <p className="text-white text-xs font-semibold tracking-wide uppercase">
+                                            Creative Developer
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
 
-                            {/* Decorative Floating Elements */}
-                            <motion.div
-                                animate={{ y: [0, -10, 0] }}
-                                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                                className="absolute -top-6 -right-6 w-20 h-20 bg-primary/20 rounded-full blur-xl z-[-1]"
-                            />
-                            <motion.div
-                                animate={{ y: [0, 10, 0] }}
-                                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                                className="absolute -bottom-8 -left-8 w-24 h-24 bg-blue-500/20 rounded-full blur-xl z-[-1]"
-                            />
+                            {/* Decorative Background Elements */}
+                            <div className="absolute -z-0 -top-8 -left-8 w-32 h-32 bg-primary/10 rounded-full blur-[60px] animate-pulse" />
+                            <div className="absolute -z-0 -bottom-8 -right-8 w-32 h-32 bg-blue-500/10 rounded-full blur-[60px] animate-pulse delay-700" />
                         </div>
                     </motion.div>
                 </div>
