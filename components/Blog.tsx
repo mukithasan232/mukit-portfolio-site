@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 import { DATA } from "@/lib/data";
 
@@ -31,7 +32,15 @@ export function Blog() {
                             className="group cursor-pointer"
                         >
                             <div className="aspect-[1.6] rounded-xl bg-muted/50 mb-4 overflow-hidden relative">
-                                <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-transparent opacity-50 group-hover:scale-105 transition-transform duration-500" />
+                                {post.image && (
+                                    <Image
+                                        src={post.image}
+                                        alt={post.title}
+                                        fill
+                                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                                    />
+                                )}
+                                <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-transparent opacity-30 group-hover:opacity-10 transition-opacity duration-500" />
                                 <div className="absolute bottom-4 left-4 bg-background/80 backdrop-blur px-2 py-1 rounded text-xs font-semibold">
                                     {post.category}
                                 </div>

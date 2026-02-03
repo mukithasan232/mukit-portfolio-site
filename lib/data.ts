@@ -157,25 +157,29 @@ export const DATA = {
             title: "How I Built My Portfolio Using React & Tailwind",
             excerpt: "A behind-the-scenes look at the design and code decisions for this personal site.",
             date: "Feb 2, 2026",
-            category: "React"
+            category: "React",
+            image: "/blog-react-tailwind.png"
         },
         {
             title: "Beginner Guide to Firebase for Web Developers",
             excerpt: "Understanding Authentication and Firestore for your first full-stack app.",
             date: "Jan 28, 2026",
-            category: "Firebase"
+            category: "Firebase",
+            image: "/blog-firebase.png"
         },
         {
             title: "Common Mistakes Junior Developers Make",
             excerpt: "Lessons learned from my early coding journey and how to avoid them.",
             date: "Jan 15, 2026",
-            category: "Career"
+            category: "Career",
+            image: "/blog-career-mistakes.png"
         },
         {
             title: "How SEO-Friendly Code Improves Website Traffic",
             excerpt: "Why semantic HTML and performance matter for Google ranking.",
             date: "Jan 10, 2026",
-            category: "SEO"
+            category: "SEO",
+            image: "/blog-seo.png"
         }
     ]
 };
