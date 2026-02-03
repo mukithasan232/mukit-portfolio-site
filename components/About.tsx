@@ -41,25 +41,49 @@ export function About() {
                         </div>
                     </motion.div>
 
-                    {/* Visual: Profile Image */}
+                    {/* Visual: Profile Image Card */}
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.5, delay: 0.2 }}
+                        initial={{ opacity: 0, scale: 0.9, rotate: -2 }}
+                        whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+                        transition={{ duration: 0.7, delay: 0.2, type: "spring" }}
                         viewport={{ once: true }}
-                        className="relative flex justify-center"
+                        className="relative flex justify-center lg:justify-end"
                     >
-                        <div className="relative w-full max-w-md aspect-square rounded-2xl overflow-hidden border border-border shadow-2xl bg-muted">
-                            <Image
-                                src={DATA.profilePicture}
-                                alt={DATA.name}
-                                fill
-                                className="object-cover hover:scale-105 transition-transform duration-500"
+                        <div className="relative group w-full max-w-[400px] aspect-[4/5] sm:aspect-square md:aspect-[4/5] lg:aspect-square">
+                            {/* Multi-layered Light Effects */}
+                            <div className="absolute -inset-4 bg-gradient-to-r from-primary/40 to-blue-500/40 rounded-[2rem] blur-2xl opacity-50 group-hover:opacity-80 transition-opacity duration-500" />
+                            <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 via-transparent to-blue-500/20 rounded-2xl z-10 pointer-events-none" />
+
+                            {/* Main Card Container */}
+                            <div className="relative h-full w-full rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-muted/30 backdrop-blur-sm z-0">
+                                <Image
+                                    src={DATA.profilePicture}
+                                    alt={DATA.name}
+                                    fill
+                                    className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
+                                />
+
+                                {/* Bottom Overlay */}
+                                <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/60 to-transparent z-10 hidden sm:block" />
+                                <div className="absolute bottom-4 left-4 z-20 hidden sm:block">
+                                    <p className="text-white/90 text-sm font-medium backdrop-blur-md bg-white/10 px-3 py-1 rounded-full border border-white/10">
+                                        Creative Developer
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* Decorative Floating Elements */}
+                            <motion.div
+                                animate={{ y: [0, -10, 0] }}
+                                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                                className="absolute -top-6 -right-6 w-20 h-20 bg-primary/20 rounded-full blur-xl z-[-1]"
+                            />
+                            <motion.div
+                                animate={{ y: [0, 10, 0] }}
+                                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+                                className="absolute -bottom-8 -left-8 w-24 h-24 bg-blue-500/20 rounded-full blur-xl z-[-1]"
                             />
                         </div>
-                        {/* Decorative Elements */}
-                        <div className="absolute -z-10 top-[-20%] right-[-20%] h-[300px] w-[300px] bg-primary/20 rounded-full blur-[100px]" />
-                        <div className="absolute -z-10 bottom-[-20%] left-[-20%] h-[300px] w-[300px] bg-secondary/20 rounded-full blur-[100px]" />
                     </motion.div>
                 </div>
             </div>
