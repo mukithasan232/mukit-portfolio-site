@@ -26,18 +26,31 @@ export function About() {
                             {DATA.about.description}
                         </p>
 
-                        <div className="space-y-2">
+                        <div className="grid grid-cols-2 gap-4 pt-4">
                             {[
-                                "SEO-First Development",
-                                "Responsive & Mobile-First",
-                                "Clean & Scalable Architecture",
-                                "Performance Optimized"
+                                { title: "SEO-First", desc: "Search Engine Optimization" },
+                                { title: "Mobile-First", desc: "Fully Responsive" },
+                                { title: "Scalable", desc: "Clean Architecture" },
+                                { title: "Optimized", desc: "Fast Performance" }
                             ].map((item, index) => (
-                                <div key={index} className="flex items-center space-x-2">
-                                    <CheckCircle2 className="h-5 w-5 text-primary" />
-                                    <span className="font-medium">{item}</span>
+                                <div key={index} className="flex flex-col p-3 rounded-lg bg-card border border-border shadow-sm">
+                                    <div className="flex items-center space-x-2 text-primary mb-1">
+                                        <CheckCircle2 className="h-4 w-4" />
+                                        <span className="font-bold text-sm tracking-tight">{item.title}</span>
+                                    </div>
+                                    <span className="text-[10px] text-muted-foreground uppercase">{item.desc}</span>
                                 </div>
                             ))}
+                        </div>
+
+                        <div className="pt-6">
+                            <p className="text-sm font-medium text-muted-foreground mb-4">Want to discuss a project?</p>
+                            <Link
+                                href="#contact"
+                                className="inline-flex items-center justify-center px-6 py-3 rounded-full bg-primary text-primary-foreground font-bold hover:scale-105 transition-transform"
+                            >
+                                Let&apos;s Talk
+                            </Link>
                         </div>
                     </motion.div>
 

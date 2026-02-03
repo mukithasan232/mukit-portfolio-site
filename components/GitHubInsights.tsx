@@ -18,7 +18,8 @@ interface ContributionDay {
 }
 
 export function GitHubInsights() {
-    const [hoveredWeek, setHoveredWeek] = useState<number | null>(null);
+    const [hoveredDay, setHoveredDay] = useState<number | null>(null);
+    const [selectedYear, setSelectedYear] = useState<string>("2026");
     const [loading, setLoading] = useState(true);
     const [stats, setStats] = useState({
         totalContributions: 0,
@@ -26,7 +27,10 @@ export function GitHubInsights() {
         publicRepos: 0,
         totalStars: 0,
         topLanguages: [] as { name: string; percentage: number; color: string }[],
+        recentLanguages: [] as { name: string; percentage: number; color: string }[],
         contributionGraph: [] as ContributionDay[],
+        allContributions: [] as ContributionDay[],
+        years: [] as string[],
     });
 
     useEffect(() => {
@@ -40,36 +44,63 @@ export function GitHubInsights() {
                     let totalReposWithLang = 0;
 
                     if (Array.isArray(data.repos)) {
-                        data.repos.forEach((repo: GitHubRepo) => {
+                        const now = new Date();
+                        const ninetyDaysAgo = new Date(now.setDate(now.getDate() - 90));
+                        const recentLanguageCounts: Record<string, number> = {};
+                        let recentTotal = 0;
+
+                        data.repos.forEach((repo: any) => {
                             stars += repo.stargazers_count;
                             if (repo.language) {
                                 languageCounts[repo.language] = (languageCounts[repo.language] || 0) + 1;
                                 totalReposWithLang++;
+
+                                const updatedAt = new Date(repo.updated_at || repo.pushed_at);
+                                if (updatedAt > ninetyDaysAgo) {
+                                    recentLanguageCounts[repo.language] = (recentLanguageCounts[repo.language] || 0) + 1;
+                                    recentTotal++;
+                                }
                             }
                         });
+
+                        const processLangs = (counts: Record<string, number>, total: number) =>
+                            Object.entries(counts)
+                                .sort(([, a], [, b]) => b - a)
+                                .slice(0, 5)
+                                .map(([name, count]) => ({
+                                    name,
+                                    percentage: Math.round((count / total) * 100),
+                                    color: getLanguageColor(name),
+                                }));
+
+                        const sortedLanguages = processLangs(languageCounts, totalReposWithLang);
+                        const recentLanguages = processLangs(recentLanguageCounts, recentTotal);
+
+                        const contributions = data.contributions?.contributions || [];
+                        const years = data.contributions?.total ? Object.keys(data.contributions.total).sort((a, b) => b.localeCompare(a)) : [];
+                        const currentYear = years[0] || "2026";
+                        setSelectedYear(currentYear);
+
+                        let allTimeContributions = 0;
+                        if (data.contributions?.total) {
+                            allTimeContributions = Object.values(data.contributions.total as Record<string, number>)
+                                .reduce((acc, curr) => acc + curr, 0);
+                        } else {
+                            allTimeContributions = contributions.reduce((acc: number, curr: ContributionDay) => acc + curr.count, 0);
+                        }
+
+                        setStats({
+                            totalContributions: allTimeContributions,
+                            followers: data.user.followers,
+                            publicRepos: data.user.public_repos,
+                            totalStars: stars,
+                            topLanguages: sortedLanguages,
+                            recentLanguages: recentLanguages,
+                            contributionGraph: contributions.filter((d: any) => d.date.startsWith(currentYear)),
+                            allContributions: contributions,
+                            years: years,
+                        });
                     }
-
-                    const sortedLanguages = Object.entries(languageCounts)
-                        .sort(([, a], [, b]) => b - a)
-                        .slice(0, 3)
-                        .map(([name, count]) => ({
-                            name,
-                            percentage: Math.round((count / totalReposWithLang) * 100),
-                            color: getLanguageColor(name),
-                        }));
-
-                    // Process Contributions
-                    const contributions = data.contributions?.contributions || [];
-                    const lastYearContribs = contributions.reduce((acc: number, curr: ContributionDay) => acc + curr.count, 0);
-
-                    setStats({
-                        totalContributions: lastYearContribs,
-                        followers: data.user.followers,
-                        publicRepos: data.user.public_repos,
-                        totalStars: stars,
-                        topLanguages: sortedLanguages,
-                        contributionGraph: contributions, // Take last 365 or so
-                    });
                 }
             } catch (error) {
                 console.error("Failed to load GitHub stats", error);
@@ -80,6 +111,14 @@ export function GitHubInsights() {
 
         loadData();
     }, []);
+
+    const handleYearChange = (year: string) => {
+        setSelectedYear(year);
+        setStats(prev => ({
+            ...prev,
+            contributionGraph: prev.allContributions.filter(d => d.date.startsWith(year))
+        }));
+    };
 
     const getLanguageColor = (lang: string) => {
         const colors: Record<string, string> = {
@@ -109,7 +148,7 @@ export function GitHubInsights() {
     }
 
     return (
-        <section className="py-20 bg-muted/20 border-y border-border/50">
+        <section id="activity" className="py-20 bg-muted/20 border-y border-border/50 scroll-mt-20">
             <div className="container px-4 md:px-6">
                 <div className="flex flex-col md:flex-row gap-12 items-start">
 
@@ -127,34 +166,34 @@ export function GitHubInsights() {
                             </p>
                         </div>
 
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                            <div className="p-4 rounded-xl bg-card border border-border shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
+                        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+                            <div className="p-3 md:p-4 rounded-xl bg-card border border-border shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
                                 <div className="absolute top-2 right-2 text-muted-foreground/10 group-hover:text-blue-500/20 transition-colors">
                                     <GitCommit size={48} />
                                 </div>
-                                <div className="text-3xl font-bold text-foreground relative z-10">{stats.totalContributions}</div>
-                                <div className="text-xs text-muted-foreground uppercase tracking-wide mt-1 relative z-10">Total Contributions</div>
+                                <div className="text-2xl md:text-3xl font-bold text-foreground relative z-10">{stats.totalContributions}</div>
+                                <div className="text-[10px] md:text-xs text-muted-foreground uppercase tracking-wide mt-1 relative z-10">All-Time Contributions</div>
                             </div>
                             <div className="p-4 rounded-xl bg-card border border-border shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
                                 <div className="absolute top-2 right-2 text-muted-foreground/10 group-hover:text-yellow-500/20 transition-colors">
                                     <Star size={48} />
                                 </div>
-                                <div className="text-3xl font-bold text-foreground relative z-10">{stats.totalStars}</div>
-                                <div className="text-xs text-muted-foreground uppercase tracking-wide mt-1 relative z-10">Stars Earned</div>
+                                <div className="text-2xl md:text-3xl font-bold text-foreground relative z-10">{stats.totalStars}</div>
+                                <div className="text-[10px] md:text-xs text-muted-foreground uppercase tracking-wide mt-1 relative z-10">Stars Earned</div>
                             </div>
                             <div className="p-4 rounded-xl bg-card border border-border shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
                                 <div className="absolute top-2 right-2 text-muted-foreground/10 group-hover:text-purple-500/20 transition-colors">
                                     <BookMarked size={48} />
                                 </div>
-                                <div className="text-3xl font-bold text-foreground relative z-10">{stats.publicRepos}</div>
-                                <div className="text-xs text-muted-foreground uppercase tracking-wide mt-1 relative z-10">Public Repos</div>
+                                <div className="text-2xl md:text-3xl font-bold text-foreground relative z-10">{stats.publicRepos}</div>
+                                <div className="text-[10px] md:text-xs text-muted-foreground uppercase tracking-wide mt-1 relative z-10">Public Repos</div>
                             </div>
                             <div className="p-4 rounded-xl bg-card border border-border shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
                                 <div className="absolute top-2 right-2 text-muted-foreground/10 group-hover:text-green-500/20 transition-colors">
                                     <Users size={48} />
                                 </div>
-                                <div className="text-3xl font-bold text-foreground relative z-10">{stats.followers}</div>
-                                <div className="text-xs text-muted-foreground uppercase tracking-wide mt-1 relative z-10">Followers</div>
+                                <div className="text-2xl md:text-3xl font-bold text-foreground relative z-10">{stats.followers}</div>
+                                <div className="text-[10px] md:text-xs text-muted-foreground uppercase tracking-wide mt-1 relative z-10">Followers</div>
                             </div>
                         </div>
 
@@ -174,60 +213,135 @@ export function GitHubInsights() {
 
                     {/* Right: Visual Activity Graph */}
                     <div className="flex-1 w-full bg-card rounded-2xl border border-border shadow-sm p-6 md:p-8">
-                        <h3 className="text-lg font-semibold mb-6 flex items-center justify-between">
-                            <span>Contribution Activity (Last Year)</span>
-                            <a href="https://github.com/mukithasan232" target="_blank" className="text-xs text-muted-foreground hover:text-primary flex items-center gap-1 transition-colors">
+                        <h3 className="text-sm font-medium mb-6 flex items-center justify-between text-muted-foreground">
+                            <div className="flex items-center gap-4">
+                                {stats.years.map(year => (
+                                    <button
+                                        key={year}
+                                        onClick={() => handleYearChange(year)}
+                                        className={cn(
+                                            "px-2 py-0.5 rounded transition-colors",
+                                            selectedYear === year ? "bg-primary text-primary-foreground font-bold" : "hover:text-primary"
+                                        )}
+                                    >
+                                        {year}
+                                    </button>
+                                ))}
+                            </div>
+                            <a href="https://github.com/mukithasan232" target="_blank" className="text-xs hover:text-primary flex items-center gap-1 transition-colors">
                                 View Profile <ExternalLink size={12} />
                             </a>
                         </h3>
 
-                        {/* Visual Contribution Graph (Real) */}
-                        <div className="flex flex-wrap gap-1 mb-8 max-h-[300px] overflow-y-auto" onMouseLeave={() => setHoveredWeek(null)}>
-                            {stats.contributionGraph.slice(-160).map((day, i) => (
-                                <motion.div
-                                    key={i}
-                                    initial={{ scale: 0 }}
-                                    whileInView={{ scale: 1 }}
-                                    transition={{ delay: Math.min(i * 0.005, 0.5) }}
-                                    onMouseEnter={() => setHoveredWeek(i)}
-                                    className={cn(
-                                        "w-2.5 h-2.5 rounded-[1px] cursor-pointer relative",
-                                        day.level === 0 ? "bg-secondary/40" :
-                                            day.level === 1 ? "bg-green-200 dark:bg-green-900" :
-                                                day.level === 2 ? "bg-green-300 dark:bg-green-700" :
-                                                    day.level === 3 ? "bg-green-400 dark:bg-green-600" :
-                                                        "bg-green-500 dark:bg-green-500"
-                                    )}
-                                >
-                                    {hoveredWeek === i && (
-                                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-black text-white text-[10px] rounded whitespace-nowrap z-20">
-                                            {day.date}: {day.count} contributions
+                        {/* Contribution Grid Container */}
+                        <div className="relative mb-8 pt-4 pb-2 border border-border/50 rounded-lg bg-muted/30 p-4 overflow-x-auto custom-scrollbar">
+                            <div className="flex gap-2 min-w-max">
+                                {/* Day Labels (Left) */}
+                                <div className="flex flex-col gap-1 pr-2 text-[10px] text-muted-foreground pt-5">
+                                    <div className="h-3">Mon</div>
+                                    <div className="h-3"></div>
+                                    <div className="h-3">Wed</div>
+                                    <div className="h-3"></div>
+                                    <div className="h-3">Fri</div>
+                                    <div className="h-3"></div>
+                                    <div className="h-3"></div>
+                                </div>
+
+                                {/* Columns of Weeks */}
+                                <div className="flex gap-1" onMouseLeave={() => setHoveredDay(null)}>
+                                    {Array.from({ length: Math.ceil(stats.contributionGraph.length / 7) }).map((_, weekIndex) => (
+                                        <div key={weekIndex} className="flex flex-col gap-1">
+                                            {stats.contributionGraph.slice(weekIndex * 7, (weekIndex * 7) + 7).map((day, dayIndex) => {
+                                                const globalIndex = weekIndex * 7 + dayIndex;
+                                                return (
+                                                    <motion.div
+                                                        key={day.date}
+                                                        initial={{ opacity: 0 }}
+                                                        animate={{ opacity: 1 }}
+                                                        transition={{ delay: globalIndex * 0.0005 }}
+                                                        onMouseEnter={() => setHoveredDay(globalIndex)}
+                                                        className={cn(
+                                                            "w-3 h-3 rounded-[2px] transition-colors relative",
+                                                            day.level === 0 ? "bg-secondary dark:bg-muted" :
+                                                                day.level === 1 ? "bg-[#9be9a8] dark:bg-[#0e4429]" :
+                                                                    day.level === 2 ? "bg-[#40c463] dark:bg-[#006d32]" :
+                                                                        day.level === 3 ? "bg-[#30a14e] dark:bg-[#26a641]" :
+                                                                            "bg-[#216e39] dark:bg-[#39d353]"
+                                                        )}
+                                                    >
+                                                        {hoveredDay === globalIndex && (
+                                                            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-popover text-popover-foreground text-[10px] rounded shadow-lg border border-border whitespace-nowrap z-50">
+                                                                <span className="font-bold">{day.count} contributions</span> on {new Date(day.date).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}
+                                                            </div>
+                                                        )}
+                                                    </motion.div>
+                                                );
+                                            })}
                                         </div>
-                                    )}
-                                </motion.div>
-                            ))}
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Legend (Bottom Right) */}
+                            <div className="mt-4 flex items-center justify-end gap-2 text-[10px] text-muted-foreground">
+                                <span>Less</span>
+                                <div className="flex gap-1">
+                                    <div className="w-3 h-3 rounded-[2px] bg-secondary dark:bg-muted" />
+                                    <div className="w-3 h-3 rounded-[2px] bg-[#9be9a8] dark:bg-[#0e4429]" />
+                                    <div className="w-3 h-3 rounded-[2px] bg-[#40c463] dark:bg-[#006d32]" />
+                                    <div className="w-3 h-3 rounded-[2px] bg-[#30a14e] dark:bg-[#26a641]" />
+                                    <div className="w-3 h-3 rounded-[2px] bg-[#216e39] dark:bg-[#39d353]" />
+                                </div>
+                                <span>More</span>
+                            </div>
                         </div>
 
                         {/* Language Breakdown */}
-                        <div className="space-y-4">
-                            <h4 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Top Languages</h4>
-                            <div className="space-y-3">
-                                {stats.topLanguages.map((lang) => (
-                                    <div key={lang.name}>
-                                        <div className="flex justify-between text-xs mb-1">
-                                            <span className="font-medium">{lang.name}</span>
-                                            <span className="text-muted-foreground">{lang.percentage}%</span>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div className="space-y-4">
+                                <h4 className="text-sm font-medium text-muted-foreground uppercase tracking-wider flex items-center gap-2">
+                                    <Sparkles size={14} className="text-blue-500" /> Recent Focus (90 Days)
+                                </h4>
+                                <div className="space-y-3">
+                                    {stats.recentLanguages.length > 0 ? stats.recentLanguages.map((lang) => (
+                                        <div key={lang.name}>
+                                            <div className="flex justify-between text-xs mb-1">
+                                                <span className="font-medium">{lang.name}</span>
+                                                <span className="text-muted-foreground">{lang.percentage}%</span>
+                                            </div>
+                                            <div className="h-1.5 w-full bg-secondary rounded-full overflow-hidden">
+                                                <motion.div
+                                                    initial={{ width: 0 }}
+                                                    whileInView={{ width: `${lang.percentage}%` }}
+                                                    transition={{ duration: 1, ease: "easeOut" }}
+                                                    className={cn("h-full rounded-full", lang.color)}
+                                                />
+                                            </div>
                                         </div>
-                                        <div className="h-2 w-full bg-secondary rounded-full overflow-hidden">
-                                            <motion.div
-                                                initial={{ width: 0 }}
-                                                whileInView={{ width: `${lang.percentage}%` }}
-                                                transition={{ duration: 1, ease: "easeOut" }}
-                                                className={cn("h-full rounded-full", lang.color)}
-                                            />
+                                    )) : <p className="text-xs text-muted-foreground">No recent activity found.</p>}
+                                </div>
+                            </div>
+
+                            <div className="space-y-4">
+                                <h4 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Overall Proficiency</h4>
+                                <div className="space-y-3">
+                                    {stats.topLanguages.map((lang) => (
+                                        <div key={lang.name}>
+                                            <div className="flex justify-between text-xs mb-1">
+                                                <span className="font-medium">{lang.name}</span>
+                                                <span className="text-muted-foreground">{lang.percentage}%</span>
+                                            </div>
+                                            <div className="h-1.5 w-full bg-secondary rounded-full overflow-hidden">
+                                                <motion.div
+                                                    initial={{ width: 0 }}
+                                                    whileInView={{ width: `${lang.percentage}%` }}
+                                                    transition={{ duration: 1, ease: "easeOut" }}
+                                                    className={cn("h-full rounded-full", lang.color)}
+                                                />
+                                            </div>
                                         </div>
-                                    </div>
-                                ))}
+                                    ))}
+                                </div>
                             </div>
                         </div>
 

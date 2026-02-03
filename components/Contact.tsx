@@ -17,7 +17,7 @@ export function Contact() {
     };
 
     return (
-        <section id="contact" className="py-20 bg-background">
+        <section id="contact" className="py-20 bg-background scroll-mt-20">
             <div className="container px-4 md:px-6 max-w-5xl mx-auto">
                 <div className="grid lg:grid-cols-2 gap-12">
                     {/* Info */}
@@ -54,7 +54,30 @@ export function Contact() {
                                 </div>
                                 <div>
                                     <h4 className="font-semibold">Location</h4>
-                                    <p className="text-muted-foreground">Available Remote / Worldwide</p>
+                                    <p className="text-muted-foreground text-sm">Available Remote / Worldwide</p>
+                                </div>
+                            </div>
+
+                            <div className="flex items-center space-x-4">
+                                <div className="h-10 w-10 rounded-full bg-green-500/10 flex items-center justify-center text-green-600">
+                                    <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse mr-0.5" />
+                                    <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
+                                </div>
+                                <div>
+                                    <h4 className="font-semibold">Availability</h4>
+                                    <p className="text-muted-foreground text-sm">Open for new projects</p>
+                                </div>
+                            </div>
+
+                            <div className="pt-4 p-4 rounded-xl bg-card border border-border/50 shadow-sm">
+                                <h4 className="font-bold text-sm uppercase tracking-wider mb-2">Usual Working Hours</h4>
+                                <div className="grid grid-cols-2 gap-y-1 text-xs text-muted-foreground">
+                                    <span>Mon - Fri:</span>
+                                    <span className="text-right">9:00 AM - 6:00 PM</span>
+                                    <span>Saturday:</span>
+                                    <span className="text-right">10:00 AM - 2:00 PM</span>
+                                    <span>Sunday:</span>
+                                    <span className="text-right text-primary font-medium">Rest Day</span>
                                 </div>
                             </div>
                         </div>

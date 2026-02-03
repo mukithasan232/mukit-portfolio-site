@@ -9,7 +9,7 @@ import { DATA } from "@/lib/data";
 
 export function Blog() {
     return (
-        <section id="blog" className="py-20 bg-background border-t border-border/50">
+        <section id="blog" className="py-20 bg-background border-t border-border/50 scroll-mt-20">
             <div className="container px-4 md:px-6">
                 <div className="flex flex-col md:flex-row justify-between items-center mb-12">
                     <div className="text-center md:text-left mb-6 md:mb-0">
@@ -66,6 +66,35 @@ export function Blog() {
                         View All Posts <ArrowRight className="ml-2 h-4 w-4" />
                     </Link>
                 </div>
+
+                {/* Newsletter Signup */}
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.5 }}
+                    viewport={{ once: true }}
+                    className="mt-20 p-8 md:p-12 rounded-3xl bg-gradient-to-br from-primary/5 to-blue-500/5 border border-primary/10 relative overflow-hidden"
+                >
+                    <div className="relative z-10 max-w-2xl mx-auto text-center space-y-6">
+                        <h3 className="text-2xl md:text-3xl font-bold tracking-tight">Stay ahead of the curve.</h3>
+                        <p className="text-muted-foreground">Subscribe to my newsletter for the latest insights on web development, modern UI trends, and SEO strategies.</p>
+                        <form className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto" onSubmit={(e) => e.preventDefault()}>
+                            <input
+                                type="email"
+                                placeholder="Enter your email"
+                                className="flex-1 h-12 rounded-full border border-border bg-background px-6 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20"
+                                required
+                            />
+                            <button className="h-12 px-8 rounded-full bg-primary text-primary-foreground font-bold hover:scale-105 transition-transform">
+                                Subscribe
+                            </button>
+                        </form>
+                        <p className="text-[10px] text-muted-foreground uppercase tracking-widest">No spam. Only high-quality dev content.</p>
+                    </div>
+                    {/* Decorative Background Elements */}
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+                    <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
+                </motion.div>
             </div>
         </section>
     );

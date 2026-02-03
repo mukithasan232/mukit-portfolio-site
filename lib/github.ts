@@ -3,7 +3,7 @@ export async function fetchGitHubData(username: string) {
         const [userRes, reposRes, contributionsRes] = await Promise.all([
             fetch(`https://api.github.com/users/${username}`),
             fetch(`https://api.github.com/users/${username}/repos?per_page=100&sort=updated`),
-            fetch(`https://github-contributions-api.jogruber.de/v4/${username}?y=last`)
+            fetch(`https://github-contributions-api.jogruber.de/v4/${username}`)
         ]);
 
         if (!userRes.ok || !reposRes.ok || !contributionsRes.ok) {

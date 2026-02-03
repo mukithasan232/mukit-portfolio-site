@@ -169,7 +169,7 @@ const ProjectCard = ({ project, index }: { project: any, index: number }) => {
 
 export function Projects() {
     return (
-        <section id="projects" className="py-20 bg-background">
+        <section id="projects" className="py-20 bg-background scroll-mt-20">
             <div className="container px-4 md:px-6">
                 <div className="text-center mb-16">
                     <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-primary">Featured Projects</h2>
