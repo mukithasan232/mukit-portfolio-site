@@ -2,6 +2,7 @@ import { Github, Linkedin, Mail, Search, Twitter, User } from "lucide-react";
 
 export const DATA = {
     name: "MD Mukit Hasan",
+    profilePicture: "/me.png",
     role: "Modern Web Developer",
     headline: "Modern Web Developer Building Fast, SEO-Optimized & Scalable Websites",
     subheading: "I help startups, small businesses, and founders grow online with clean code, modern UI, and performance-driven web applications using React, Next.js, and Firebase.",
