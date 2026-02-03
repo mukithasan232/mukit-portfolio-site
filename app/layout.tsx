@@ -7,6 +7,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 
 import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { ParticlesBackground } from "@/components/ParticlesBackground";
 import { MukitAI } from "@/components/MukitAI";
 import { JsonLd } from "@/components/JsonLd";
@@ -64,6 +65,7 @@ export default function RootLayout({
           {children}
           <Footer />
           <Analytics />
+          <SpeedInsights />
           <ParticlesBackground />
           <MukitAI />
           <JsonLd />
