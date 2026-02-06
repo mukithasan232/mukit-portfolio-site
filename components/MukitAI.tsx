@@ -37,6 +37,7 @@ interface Message {
     id: string;
     type: MessageType;
     content: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     data?: any;
     action?: Action; // Keeping backward compatibility if single action
     actions?: Action[]; // New: Multiple actions
@@ -113,6 +114,9 @@ const GrowthChart = () => (
     </div>
 );
 
+// --- Helpers ---
+const generateId = () => Date.now().toString();
+
 // --- Main Component ---
 
 export function MukitAI() {
@@ -153,7 +157,7 @@ export function MukitAI() {
         if (!text.trim()) return;
 
         // Add user message
-        const userMsg: Message = { id: Date.now().toString(), type: "user", content: text };
+        const userMsg: Message = { id: generateId(), type: "user", content: text };
         setMessages((prev) => [...prev, userMsg]);
         setInput("");
         setIsTyping(true);
@@ -169,7 +173,7 @@ export function MukitAI() {
     const generateResponse = (text: string): Message[] => {
         const lowerText = text.toLowerCase();
         const responses: Message[] = [];
-        const timestamp = Date.now().toString();
+        const timestamp = generateId();
 
         // 0. INTERVIEW MODE DETECTION
         if (["interview", "questions", "technical round", "frontend questions", "mock interview"].some(k => lowerText.includes(k))) {
@@ -539,6 +543,7 @@ export function MukitAI() {
                                         {msg.actions && (
                                             <div className="mt-3 flex flex-wrap gap-2">
                                                 {msg.actions.map((action, idx) => (
+                                                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                                                     <button
                                                         key={idx}
                                                         onClick={() => handleAction(action)}
@@ -552,6 +557,7 @@ export function MukitAI() {
 
                                         {/* Backward compatibility for single action */}
                                         {msg.action && !msg.actions && (
+                                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
                                             <button
                                                 onClick={() => handleAction(msg.action!)}
                                                 className="mt-3 flex items-center gap-1 text-xs font-semibold text-blue-500 hover:text-blue-600 transition-colors"

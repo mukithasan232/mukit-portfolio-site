@@ -3,6 +3,37 @@
 import { useEffect, useRef } from "react";
 import { useTheme } from "next-themes";
 
+class Particle {
+    x: number;
+    y: number;
+    vx: number;
+    vy: number;
+    size: number;
+
+    constructor(w: number, h: number) {
+        this.x = Math.random() * w;
+        this.y = Math.random() * h;
+        this.vx = Math.random() * 0.5 - 0.25; // Slower velocity
+        this.vy = Math.random() * 0.5 - 0.25;
+        this.size = Math.random() * 2 + 1;
+    }
+
+    update(w: number, h: number) {
+        this.x += this.vx;
+        this.y += this.vy;
+
+        if (this.x < 0 || this.x > w) this.vx *= -1;
+        if (this.y < 0 || this.y > h) this.vy *= -1;
+    }
+
+    draw(ctx: CanvasRenderingContext2D, resolvedTheme: string | undefined) {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.2)" : "rgba(0, 0, 0, 0.1)";
+        ctx.fill();
+    }
+}
+
 export function ParticlesBackground() {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const { resolvedTheme } = useTheme();
@@ -25,41 +56,9 @@ export function ParticlesBackground() {
             h = canvas.height = window.innerHeight;
         };
 
-        class Particle {
-            x: number;
-            y: number;
-            vx: number;
-            vy: number;
-            size: number;
-
-            constructor() {
-                this.x = Math.random() * w;
-                this.y = Math.random() * h;
-                this.vx = Math.random() * 0.5 - 0.25; // Slower velocity
-                this.vy = Math.random() * 0.5 - 0.25;
-                this.size = Math.random() * 2 + 1;
-            }
-
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-
-                if (this.x < 0 || this.x > w) this.vx *= -1;
-                if (this.y < 0 || this.y > h) this.vy *= -1;
-            }
-
-            draw() {
-                if (!ctx) return;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fillStyle = resolvedTheme === "dark" ? "rgba(255, 255, 255, 0.2)" : "rgba(0, 0, 0, 0.1)";
-                ctx.fill();
-            }
-        }
-
         const init = () => {
             for (let i = 0; i < particleCount; i++) {
-                particles.push(new Particle());
+                particles.push(new Particle(w, h));
             }
         };
 
@@ -68,8 +67,8 @@ export function ParticlesBackground() {
             ctx.clearRect(0, 0, w, h);
 
             particles.forEach((particle) => {
-                particle.update();
-                particle.draw();
+                particle.update(w, h);
+                particle.draw(ctx, resolvedTheme);
             });
 
             // Draw connections

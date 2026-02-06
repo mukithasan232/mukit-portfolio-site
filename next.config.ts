@@ -2,6 +2,10 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   /* config options here */
+  experimental: {
+    // @ts-expect-error - allowedDevOrigins is a valid config in Next.js 15+ but might not be in the current types
+    allowedDevOrigins: ["192.168.0.188"],
+  },
   async headers() {
     return [
       {

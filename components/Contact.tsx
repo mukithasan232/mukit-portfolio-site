@@ -29,7 +29,7 @@ export function Contact() {
                         className="space-y-8"
                     >
                         <div>
-                            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl mb-4">Let's build something great together 🚀</h2>
+                            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl mb-4">Let&apos;s build something great together 🚀</h2>
                             <p className="text-muted-foreground text-lg">
                                 Have a project or idea? I’m always open to new opportunities.
                             </p>

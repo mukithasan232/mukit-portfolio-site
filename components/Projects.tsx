@@ -73,13 +73,13 @@ const ProjectCard = ({ project, index }: { project: any, index: number }) => {
 
                     <div className="space-y-3 mb-6 flex-1 text-sm">
                         <div>
-                            <span className="font-semibold text-foreground">Problem:</span> <span className="text-muted-foreground">{/* @ts-ignore */}{project.problem}</span>
+                            <span className="font-semibold text-foreground">Problem:</span> <span className="text-muted-foreground">{project.problem}</span>
                         </div>
                         <div>
-                            <span className="font-semibold text-foreground">Solution:</span> <span className="text-muted-foreground">{/* @ts-ignore */}{project.solution}</span>
+                            <span className="font-semibold text-foreground">Solution:</span> <span className="text-muted-foreground">{project.solution}</span>
                         </div>
                         <div>
-                            <span className="font-semibold text-foreground">Result:</span> <span className="text-muted-foreground">{/* @ts-ignore */}{project.result}</span>
+                            <span className="font-semibold text-foreground">Result:</span> <span className="text-muted-foreground">{project.result}</span>
                         </div>
                     </div>
 
