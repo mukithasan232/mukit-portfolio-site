@@ -5,8 +5,8 @@ import { DATA } from "@/lib/data";
 
 export function Skills() {
     return (
-        <section id="skills" className="py-20 bg-secondary/10 scroll-mt-20">
-            <div className="container px-4 md:px-6">
+        <section id="skills" className="section-padding bg-secondary/10 scroll-mt-20">
+            <div className="container-standard">
                 <div className="text-center mb-16">
                     <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">Technical Mastery</h2>
                     <p className="mt-4 text-muted-foreground text-lg max-w-2xl mx-auto">
@@ -14,7 +14,7 @@ export function Skills() {
                     </p>
                 </div>
 
-                <div className="grid gap-8 lg:grid-cols-3 max-w-6xl mx-auto">
+                <div className="grid gap-8 lg:grid-cols-3">
                     {/* Frontend & UI */}
                     <div className="space-y-8 p-6 rounded-2xl bg-card border border-border/50 shadow-sm">
                         <h3 className="text-xl font-bold flex items-center gap-2">

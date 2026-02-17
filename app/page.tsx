@@ -12,18 +12,20 @@ import { Contact } from "@/components/Contact";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col w-full pt-20">
+    <main className="flex min-h-screen flex-col w-full pt-16 overflow-x-hidden">
       <Hero />
-      <SocialProof />
-      <About />
-      <Skills />
-      <Projects />
-      <GitHubInsights />
-      <Services />
-      <Experience />
-      <Blog />
-      <Testimonials />
-      <Contact />
+      <div className="space-y-0">
+        <SocialProof />
+        <About />
+        <Skills />
+        <Projects />
+        <GitHubInsights />
+        <Services />
+        <Experience />
+        <Blog />
+        <Testimonials />
+        <Contact />
+      </div>
     </main>
   );
 }

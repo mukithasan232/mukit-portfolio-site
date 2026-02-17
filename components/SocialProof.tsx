@@ -6,7 +6,7 @@ import { DATA } from "@/lib/data";
 export function SocialProof() {
     return (
         <section className="py-16 md:py-24 relative overflow-hidden">
-            <div className="container px-4 md:px-6">
+            <div className="container-standard">
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 md:gap-12 lg:gap-24">
                     {DATA.stats.map((stat, index) => (
                         <motion.div

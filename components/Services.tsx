@@ -8,8 +8,8 @@ const icons = [Code, Layout, Smartphone, Zap];
 
 export function Services() {
     return (
-        <section id="services" className="py-20 bg-secondary/10 scroll-mt-20">
-            <div className="container px-4 md:px-6">
+        <section id="services" className="section-padding bg-secondary/10 scroll-mt-20">
+            <div className="container-standard">
                 <div className="text-center mb-16">
                     <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">Expert Services</h2>
                     <p className="mt-4 text-muted-foreground text-lg max-w-2xl mx-auto leading-relaxed">

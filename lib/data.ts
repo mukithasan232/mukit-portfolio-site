@@ -17,21 +17,30 @@ export const DATA = {
             icon: Github,
         },
         {
+            name: "Business Email",
+            url: "mailto:codernestwebsolution@gmail.com",
+            icon: Mail,
+        },
+        {
+            name: "Personal Email",
+            url: "mailto:mdmukithasan689@gmail.com",
+            icon: Mail,
+        },
+        {
             name: "LinkedIn",
             url: "https://www.linkedin.com/in/md-mukit-hasan-bd",
             icon: Linkedin,
         },
         {
-            name: "Email",
-            url: "mailto:mdmukithasan689@gmail.com",
-            icon: Mail,
-        },
-        {
             name: "Upwork",
-            url: "https://www.upwork.com/freelancers/~01467066421f1d7887?mp_source=share", // User to add
-            icon: Search, // Using Search icon as placeholder for Upwork if specific icon not available, or just generic User
+            url: "https://www.upwork.com/freelancers/~01467066421f1d7887?mp_source=share",
+            icon: Search,
         }
     ],
+    contact: {
+        email: "codernestwebsolution@gmail.com",
+        personalEmail: "mdmukithasan689@gmail.com",
+    },
     stats: [
         { label: "Projects Completed", value: "10+" },
         { label: "Technologies Mastered", value: "8+" },
@@ -108,6 +117,20 @@ export const DATA = {
                 "/project3-screenshot3.png",
             ],
         },
+        {
+            title: "AffiliatePro - Amazon Affiliate Platform",
+            problem: "Amazon affiliate marketers often struggle with slow, unoptimized websites that are hard to manage and lack real-time product data syncing.",
+            solution: "Built a premium Affiliate Marketing platform that automates product discovery and management. Features high-performance SSR for SEO and a robust admin dashboard.",
+            tech: ["Next.js", "Tailwind CSS", "Neon DB", "PostgreSQL", "Redis"],
+            result: "A scalable, SEO-friendly platform that helps founders launch affiliate sites quickly with minimal maintenance.",
+            live: "https://simple-affilliate-site.vercel.app/", // Placeholder based on common naming
+            github: "https://github.com/mukithasan232/affiliatepro", // Placeholder
+            images: [
+                "/project4-screenshot1.png",
+                "/project4-screenshot2.png",
+                "/project4-screenshot3.png ",
+            ],
+        },
     ],
     services: [
         {
@@ -182,5 +205,6 @@ export const DATA = {
             category: "SEO",
             image: "/blog-seo.png"
         }
-    ]
+    ],
+    mapUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3596.73352!2d88.7767625!3d25.6473352!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39fb55eb718e02d9%3A0x32fd0be634d9111c!2sCoderNest!5e0!3m2!1sen!2sbd!4v1710000000000!5m2!1sen!2sbd"
 };

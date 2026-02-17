@@ -21,6 +21,8 @@ export function GitHubInsights() {
     const [hoveredDay, setHoveredDay] = useState<number | null>(null);
     const [selectedYear, setSelectedYear] = useState<string>("2026");
     const [loading, setLoading] = useState(true);
+    const [aiInsight, setAiInsight] = useState("");
+
     const [stats, setStats] = useState({
         totalContributions: 0,
         followers: 0,
@@ -32,6 +34,23 @@ export function GitHubInsights() {
         allContributions: [] as ContributionDay[],
         years: [] as string[],
     });
+
+    useEffect(() => {
+        if (!stats.totalContributions) return;
+
+        const insights = [
+            `Mukit's activity shows consistent contributions. ${stats.topLanguages[0] ? `Strong focus on ${stats.topLanguages[0].name}.` : ""} The contribution graph indicates a steady commitment to coding.`,
+            `With ${stats.totalContributions} total contributions, Mukit shows a high level of technical engagement. The repository growth is impressive.`,
+            `Data indicates a proficiency in ${stats.topLanguages.slice(0, 2).map(l => l.name).join(' and ')}. A highly active developer profile.`,
+            `The contribution heatmap for ${selectedYear} demonstrates focus and consistent project delivery. Mukit is a reliable builder.`,
+            `Consistency is key: Mukit's workflow is characterized by frequent, incremental updates and strong version control habits.`,
+            `Analyzing ${stats.totalStars} stars and ${stats.followers} followers highlights community recognition. This developer is deeply engaged in the ecosystem.`
+        ];
+
+        // Pick a random insight on mount or when stats change
+        const randomInsight = insights[Math.floor(Math.random() * insights.length)];
+        setAiInsight(randomInsight);
+    }, [stats.totalContributions, stats.topLanguages, stats.totalStars, stats.followers, selectedYear]);
 
     useEffect(() => {
         async function loadData() {
@@ -148,12 +167,12 @@ export function GitHubInsights() {
     }
 
     return (
-        <section id="activity" className="py-20 bg-muted/20 border-y border-border/50 scroll-mt-20">
-            <div className="container px-4 md:px-6">
-                <div className="flex flex-col md:flex-row gap-12 items-start">
+        <section id="activity" className="section-padding bg-muted/20 border-y border-border/50 scroll-mt-20">
+            <div className="container-standard">
+                <div className="flex flex-col lg:flex-row gap-12 items-start">
 
                     {/* Left: Main Stats & Headline */}
-                    <div className="flex-1 space-y-8">
+                    <div className="flex-1 space-y-8 w-full">
                         <div>
                             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 text-blue-600 text-xs font-semibold mb-4 border border-blue-500/20">
                                 <GitCommit size={14} /> Open Source Activity
@@ -166,47 +185,47 @@ export function GitHubInsights() {
                             </p>
                         </div>
 
-                        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
-                            <div className="p-3 md:p-4 rounded-xl bg-card border border-border shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
-                                <div className="absolute top-2 right-2 text-muted-foreground/10 group-hover:text-blue-500/20 transition-colors">
-                                    <GitCommit size={48} />
+                        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-2 2xl:grid-cols-4 gap-4 md:gap-6">
+                            <div className="p-4 rounded-xl bg-card border border-border shadow-sm hover:shadow-md transition-shadow relative group h-full flex flex-col justify-center min-w-0">
+                                <div className="absolute top-2 right-2 text-muted-foreground/10 group-hover:text-blue-500/20 transition-colors pointer-events-none">
+                                    <GitCommit size={32} />
                                 </div>
-                                <div className="text-2xl md:text-3xl font-bold text-foreground relative z-10">{stats.totalContributions}</div>
-                                <div className="text-[10px] md:text-xs text-muted-foreground uppercase tracking-wide mt-1 relative z-10">All-Time Contributions</div>
+                                <div className="text-2xl md:text-3xl font-bold text-foreground relative z-10 truncate">{stats.totalContributions}</div>
+                                <div className="text-[10px] md:text-xs text-muted-foreground uppercase tracking-tight mt-1 relative z-10 font-bold truncate">Commits</div>
                             </div>
-                            <div className="p-4 rounded-xl bg-card border border-border shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
-                                <div className="absolute top-2 right-2 text-muted-foreground/10 group-hover:text-yellow-500/20 transition-colors">
-                                    <Star size={48} />
+                            <div className="p-4 rounded-xl bg-card border border-border shadow-sm hover:shadow-md transition-shadow relative group h-full flex flex-col justify-center min-w-0">
+                                <div className="absolute top-2 right-2 text-muted-foreground/10 group-hover:text-yellow-500/20 transition-colors pointer-events-none">
+                                    <Star size={32} />
                                 </div>
-                                <div className="text-2xl md:text-3xl font-bold text-foreground relative z-10">{stats.totalStars}</div>
-                                <div className="text-[10px] md:text-xs text-muted-foreground uppercase tracking-wide mt-1 relative z-10">Stars Earned</div>
+                                <div className="text-2xl md:text-3xl font-bold text-foreground relative z-10 truncate">{stats.totalStars}</div>
+                                <div className="text-[10px] md:text-xs text-muted-foreground uppercase tracking-tight mt-1 relative z-10 font-bold truncate">Stars</div>
                             </div>
-                            <div className="p-4 rounded-xl bg-card border border-border shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
-                                <div className="absolute top-2 right-2 text-muted-foreground/10 group-hover:text-purple-500/20 transition-colors">
-                                    <BookMarked size={48} />
+                            <div className="p-4 rounded-xl bg-card border border-border shadow-sm hover:shadow-md transition-shadow relative group h-full flex flex-col justify-center min-w-0">
+                                <div className="absolute top-2 right-2 text-muted-foreground/10 group-hover:text-purple-500/20 transition-colors pointer-events-none">
+                                    <BookMarked size={32} />
                                 </div>
-                                <div className="text-2xl md:text-3xl font-bold text-foreground relative z-10">{stats.publicRepos}</div>
-                                <div className="text-[10px] md:text-xs text-muted-foreground uppercase tracking-wide mt-1 relative z-10">Public Repos</div>
+                                <div className="text-2xl md:text-3xl font-bold text-foreground relative z-10 truncate">{stats.publicRepos}</div>
+                                <div className="text-[10px] md:text-xs text-muted-foreground uppercase tracking-tight mt-1 relative z-10 font-bold truncate">Repos</div>
                             </div>
-                            <div className="p-4 rounded-xl bg-card border border-border shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
-                                <div className="absolute top-2 right-2 text-muted-foreground/10 group-hover:text-green-500/20 transition-colors">
-                                    <Users size={48} />
+                            <div className="p-4 rounded-xl bg-card border border-border shadow-sm hover:shadow-md transition-shadow relative group h-full flex flex-col justify-center min-w-0">
+                                <div className="absolute top-2 right-2 text-muted-foreground/10 group-hover:text-green-500/20 transition-colors pointer-events-none">
+                                    <Users size={32} />
                                 </div>
-                                <div className="text-2xl md:text-3xl font-bold text-foreground relative z-10">{stats.followers}</div>
-                                <div className="text-[10px] md:text-xs text-muted-foreground uppercase tracking-wide mt-1 relative z-10">Followers</div>
+                                <div className="text-2xl md:text-3xl font-bold text-foreground relative z-10 truncate">{stats.followers}</div>
+                                <div className="text-[10px] md:text-xs text-muted-foreground uppercase tracking-tight mt-1 relative z-10 font-bold truncate">Followers</div>
                             </div>
                         </div>
 
                         {/* AI Insight Box */}
-                        <div className="relative p-6 rounded-2xl bg-gradient-to-br from-blue-600/5 to-purple-600/5 border border-blue-500/10">
+                        <div className="relative p-6 rounded-2xl bg-gradient-to-br from-blue-600/5 to-purple-600/5 border border-blue-500/10 min-h-[120px] flex flex-col justify-center">
                             <div className="absolute top-4 right-4 text-blue-500/20">
                                 <Sparkles size={40} />
                             </div>
-                            <h4 className="flex items-center gap-2 font-semibold text-blue-600 mb-2">
+                            <h4 className="flex items-center gap-2 font-black text-blue-600 mb-2 uppercase tracking-tighter text-sm">
                                 <BotIcon /> Mukit AI Analysis
                             </h4>
-                            <p className="text-sm text-muted-foreground italic">
-                                &quot;Mukit&apos;s activity shows consistent contributions. {stats.topLanguages[0] ? `Strong focus on ${stats.topLanguages[0].name}.` : ""} The contribution graph indicates a steady commitment to coding.&quot;
+                            <p className="text-sm text-muted-foreground italic leading-relaxed">
+                                &quot;{aiInsight || "Analyzing activity patterns..."}&quot;
                             </p>
                         </div>
                     </div>

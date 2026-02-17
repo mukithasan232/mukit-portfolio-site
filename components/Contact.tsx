@@ -17,8 +17,8 @@ export function Contact() {
     };
 
     return (
-        <section id="contact" className="py-20 bg-background scroll-mt-20">
-            <div className="container px-4 md:px-6 max-w-5xl mx-auto">
+        <section id="contact" className="section-padding bg-background scroll-mt-20">
+            <div className="container-standard">
                 <div className="grid lg:grid-cols-2 gap-12">
                     {/* Info */}
                     <motion.div

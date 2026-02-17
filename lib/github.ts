@@ -1,26 +1,38 @@
 export async function fetchGitHubData(username: string) {
+    const urls = {
+        user: `https://api.github.com/users/${username}`,
+        repos: `https://api.github.com/users/${username}/repos?per_page=100&sort=updated`,
+        contributions: `https://github-contributions-api.jogruber.de/v4/${username}`
+    };
+
     try {
-        const [userRes, reposRes, contributionsRes] = await Promise.all([
-            fetch(`https://api.github.com/users/${username}`),
-            fetch(`https://api.github.com/users/${username}/repos?per_page=100&sort=updated`),
-            fetch(`https://github-contributions-api.jogruber.de/v4/${username}`)
-        ]);
+        console.log(`[GitHub] Fetching data for: ${username}`);
 
-        if (!userRes.ok || !reposRes.ok || !contributionsRes.ok) {
-            throw new Error("Failed to fetch GitHub data");
-        }
+        const userPromise = fetch(urls.user)
+            .then(res => res.ok ? res.json() : null)
+            .catch(err => { console.error(`[GitHub] Failed to fetch User: ${urls.user}`, err); return null; });
 
-        const user = await userRes.json();
-        const repos = await reposRes.json();
-        const contributions = await contributionsRes.json();
+        const reposPromise = fetch(urls.repos)
+            .then(res => res.ok ? res.json() : [])
+            .catch(err => { console.error(`[GitHub] Failed to fetch Repos: ${urls.repos}`, err); return []; });
+
+        const contributionsPromise = fetch(urls.contributions)
+            .then(res => res.ok ? res.json() : null)
+            .catch(err => { console.error(`[GitHub] Failed to fetch Contributions: ${urls.contributions}`, err); return null; });
+
+        const [user, repos, contributions] = await Promise.all([userPromise, reposPromise, contributionsPromise]);
 
         return {
-            user,
-            repos,
-            contributions
+            user: user || { followers: 0, public_repos: 0 },
+            repos: repos || [],
+            contributions: contributions || { contributions: [], total: {} }
         };
     } catch (error) {
-        console.error("Error fetching GitHub data:", error);
-        return null;
+        console.error("[GitHub] Critical Fetch Failure:", error);
+        return {
+            user: { followers: 0, public_repos: 0 },
+            repos: [],
+            contributions: { contributions: [], total: {} }
+        };
     }
 }

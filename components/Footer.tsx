@@ -5,8 +5,8 @@ import Link from "next/link";
 
 export function Footer() {
     return (
-        <footer className="bg-background border-t border-border py-12">
-            <div className="container px-4 md:px-6">
+        <footer className="bg-background border-t border-border py-16 md:py-24">
+            <div className="container-standard">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
                     <div className="space-y-4">
                         <span className="font-bold text-2xl tracking-tighter text-primary">Mukit.</span>
@@ -41,14 +41,21 @@ export function Footer() {
                         <h3 className="font-bold text-sm uppercase tracking-widest mb-6 border-b border-border pb-2 inline-block">Contact Info</h3>
                         <div className="space-y-4 text-sm text-muted-foreground">
                             <p className="flex items-center gap-2 italic">Ready to start a new project? Let&apos;s build something amazing together.</p>
-                            <a href="mailto:mdmukithasan689@gmail.com" className="block hover:text-primary transition-colors underline underline-offset-4">mdmukithasan689@gmail.com</a>
+                            <div>
+                                <span className="block text-xs font-bold text-foreground uppercase tracking-wider mb-1">Business</span>
+                                <a href={`mailto:${DATA.contact.email}`} className="block hover:text-primary transition-colors underline underline-offset-4">{DATA.contact.email}</a>
+                            </div>
+                            <div>
+                                <span className="block text-xs font-bold text-foreground uppercase tracking-wider mb-1">Personal</span>
+                                <a href={`mailto:${DATA.contact.personalEmail}`} className="block hover:text-primary transition-colors underline underline-offset-4">{DATA.contact.personalEmail}</a>
+                            </div>
                         </div>
                     </div>
 
                     {/* Map Integration */}
                     <div className="lg:col-span-1 border border-border/50 rounded-xl overflow-hidden bg-card h-[200px] shadow-sm">
                         <iframe
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d116833.831878833!2d90.337288!3d23.7808875!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755b8b087053b87%3A0x1c81cb0c7414a38!2sDhaka!5e0!3m2!1sen!2sbd!4v1710000000000!5m2!1sen!2sbd"
+                            src={DATA.mapUrl}
                             width="100%"
                             height="100%"
                             style={{ border: 0 }}

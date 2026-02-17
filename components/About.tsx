@@ -9,8 +9,8 @@ import { DATA } from "@/lib/data";
 
 export function About() {
     return (
-        <section id="about" className="py-24 bg-background scroll-mt-20">
-            <div className="container px-4 md:px-6">
+        <section id="about" className="section-padding bg-background scroll-mt-20">
+            <div className="container-standard">
                 <div className="grid gap-12 lg:grid-cols-2 items-center">
                     <motion.div
                         initial={{ opacity: 0, x: -50 }}

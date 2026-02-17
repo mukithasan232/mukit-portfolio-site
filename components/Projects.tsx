@@ -169,10 +169,10 @@ const ProjectCard = ({ project, index }: { project: any, index: number }) => {
 
 export function Projects() {
     return (
-        <section id="projects" className="py-20 bg-background scroll-mt-20">
-            <div className="container px-4 md:px-6">
+        <section id="projects" className="section-padding bg-background scroll-mt-20">
+            <div className="container-standard">
                 <div className="text-center mb-16">
-                    <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-primary">Featured Projects</h2>
+                    <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-primary uppercase font-black tracking-tight">Featured Projects</h2>
                     <p className="mt-4 text-muted-foreground text-lg max-w-2xl mx-auto">
                         A selection of projects that demonstrate my ability to solve complex problems and deliver high-quality web applications.
                     </p>

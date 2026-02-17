@@ -6,8 +6,8 @@ import { cn } from "@/lib/utils";
 
 export function Experience() {
     return (
-        <section id="experience" className="py-20 bg-background scroll-mt-20">
-            <div className="container px-4 md:px-6">
+        <section id="experience" className="section-padding bg-background scroll-mt-20">
+            <div className="container-standard">
                 <div className="text-center mb-16">
                     <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-foreground">
                         Career Journey

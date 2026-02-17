@@ -9,8 +9,8 @@ import { DATA } from "@/lib/data";
 
 export function Blog() {
     return (
-        <section id="blog" className="py-20 bg-background border-t border-border/50 scroll-mt-20">
-            <div className="container px-4 md:px-6">
+        <section id="blog" className="section-padding bg-background border-t border-border/50 scroll-mt-20">
+            <div className="container-standard">
                 <div className="flex flex-col md:flex-row justify-between items-center mb-12">
                     <div className="text-center md:text-left mb-6 md:mb-0">
                         <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">Latest Articles</h2>

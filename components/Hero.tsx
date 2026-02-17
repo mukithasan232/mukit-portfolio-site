@@ -7,7 +7,7 @@ import { DATA } from "@/lib/data";
 
 export function Hero() {
     return (
-        <section className="relative min-h-[70vh] flex flex-col items-center justify-center text-center px-4 overflow-hidden">
+        <section className="relative min-h-[85vh] flex flex-col items-center justify-center text-center px-4 overflow-hidden pt-12 md:pt-0">
             {/* Background Decorative Gradient */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-4xl -z-10 bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
 

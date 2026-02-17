@@ -150,12 +150,25 @@
   }
 }
 
-/* Custom Utilities */
+/* Standardized Spacing & Containers */
+@layer components {
+  .section-padding {
+    @apply py-20 md:py-24;
+  }
+
+  .container-standard {
+    @apply container mx-auto px-4 md:px-6 lg:px-8 max-w-7xl;
+  }
+}
+
+/* Fix for fixed header offset on anchor links */
+:target {
+  scroll-margin-top: 5rem;
+}
+
 .scrollbar-hide {
   -ms-overflow-style: none;
-  /* IE and Edge */
   scrollbar-width: none;
-  /* Firefox */
 }
 
 .scrollbar-hide::-webkit-scrollbar {
