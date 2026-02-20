@@ -9,6 +9,8 @@ import { fetchGitHubData } from "@/lib/github";
 interface GitHubRepo {
     stargazers_count: number;
     language: string | null;
+    updated_at?: string;
+    pushed_at?: string;
 }
 
 interface ContributionDay {
@@ -68,16 +70,19 @@ export function GitHubInsights() {
                         const recentLanguageCounts: Record<string, number> = {};
                         let recentTotal = 0;
 
-                        data.repos.forEach((repo: any) => {
+                        data.repos.forEach((repo: GitHubRepo) => {
                             stars += repo.stargazers_count;
                             if (repo.language) {
                                 languageCounts[repo.language] = (languageCounts[repo.language] || 0) + 1;
                                 totalReposWithLang++;
 
-                                const updatedAt = new Date(repo.updated_at || repo.pushed_at);
-                                if (updatedAt > ninetyDaysAgo) {
-                                    recentLanguageCounts[repo.language] = (recentLanguageCounts[repo.language] || 0) + 1;
-                                    recentTotal++;
+                                const dateStr = repo.updated_at || repo.pushed_at;
+                                if (dateStr) {
+                                    const updatedAt = new Date(dateStr);
+                                    if (updatedAt > ninetyDaysAgo) {
+                                        recentLanguageCounts[repo.language] = (recentLanguageCounts[repo.language] || 0) + 1;
+                                        recentTotal++;
+                                    }
                                 }
                             }
                         });
@@ -115,7 +120,7 @@ export function GitHubInsights() {
                             totalStars: stars,
                             topLanguages: sortedLanguages,
                             recentLanguages: recentLanguages,
-                            contributionGraph: contributions.filter((d: any) => d.date.startsWith(currentYear)),
+                            contributionGraph: contributions.filter((d: ContributionDay) => d.date.startsWith(currentYear)),
                             allContributions: contributions,
                             years: years,
                         });

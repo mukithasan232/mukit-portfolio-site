@@ -90,7 +90,7 @@ export const DATA = {
             solution: "Developed a comprehensive Firebase-based management system for real-time tracking.",
             tech: ["React", "Firebase", "Firestore"],
             result: "Faster data access, improved organization, and reduced manual workload.",
-            live: "#",
+            live: "",
             github: "#",
             images: [
                 "/project2-screenshot1.png",
@@ -124,7 +124,7 @@ export const DATA = {
             tech: ["Next.js", "Tailwind CSS", "Neon DB", "PostgreSQL", "Redis"],
             result: "A scalable, SEO-friendly platform that helps founders launch affiliate sites quickly with minimal maintenance.",
             live: "https://simple-affilliate-site.vercel.app/", // Placeholder based on common naming
-            github: "https://github.com/mukithasan232/affiliatepro", // Placeholder
+            github: "https://mukithasan232.github.io/simple-affilliate-site/", // Placeholder
             images: [
                 "/project4-screenshot1.png",
                 "/project4-screenshot2.png",
@@ -138,7 +138,7 @@ export const DATA = {
     tech: ["Next.js", "Tailwind CSS", "Prisma ORM", "NextAuth.js", "PostgreSQL"],
     result: "A highly secure, responsive, and scalable portal that optimizes daily hospital workflows, enhances patient care tracking, and provides clear financial analytics.",
     live: "https://hospital-management-portal-nu.vercel.app/", 
-    github: "https://github.com/mukithasan232/hospital-management-portal", // Placeholder based on your username
+    github: "https://mukithasan232.github.io/hospital_management_portal/", // Placeholder based on your username
     images: [
         "/project5-screenshot1.png",
         "/project5-screenshot2.png",
@@ -153,7 +153,23 @@ export const DATA = {
         "/project5-screenshot11.png",
         "/project5-screenshot12.png",
     ],
-}
+    },
+    {
+    title: "SMM Elite - Automated Digital Service Marketplace",
+    problem: "Managing and reselling thousands of social media marketing services manually is inefficient, and connecting local users to global providers requires seamless API bridging and localized payment processing.",
+    solution: "Developed a premium, fully automated SMM Reseller Panel that integrates with the SMMGen API. The system handles automated service imports, instant background order routing, and localized payment verification for the local market.",
+    tech: ["Core PHP", "RESTful APIs", "MySQL", "JavaScript", "Payment Gateways (bKash, Nagad, Rocket)"],
+    result: "A highly scalable, dark-themed platform that bridges users to over 6,000 digital services. It features a custom algorithm for automated profit margins and ensures seamless asynchronous data handling.",
+    live: "https://smm-panel-liart.vercel.app/", // Based on the URL from your screenshot
+    github: "https://mukithasan232.github.io/smm_panel/", // Placeholder using your GitHub username
+    images: [
+        "/project6-screenshot1.png",
+        "/project6-screenshot2.png",
+        "/project6-screenshot3.png",
+        "/project6-screenshot4.png",
+        "/project6-screenshot5.png",
+    ]
+    },
     ],
     services: [
         {

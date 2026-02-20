@@ -7,7 +7,18 @@ import { useState } from "react";
 import { DATA } from "@/lib/data";
 // Inline Badge style for speed
 
-const ProjectCard = ({ project, index }: { project: any, index: number }) => {
+interface Project {
+    title: string;
+    problem: string;
+    solution: string;
+    result: string;
+    tech: string[];
+    live: string;
+    github: string;
+    images: string[];
+}
+
+const ProjectCard = ({ project, index }: { project: Project, index: number }) => {
     const [currentImage, setCurrentImage] = useState(0);
     const [isLightboxOpen, setIsLightboxOpen] = useState(false);
 
@@ -47,7 +58,7 @@ const ProjectCard = ({ project, index }: { project: any, index: number }) => {
                             />
                             {project.images.length > 1 && (
                                 <div className="absolute bottom-2 right-2 flex gap-1 z-10" onClick={(e) => e.stopPropagation()}>
-                                    {project.images.map((_: any, idx: number) => (
+                                    {project.images.map((_: string, idx: number) => (
                                         <button
                                             key={idx}
                                             onClick={(e) => { e.preventDefault(); setCurrentImage(idx); }}
