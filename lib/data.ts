@@ -131,6 +131,29 @@ export const DATA = {
                 "/project4-screenshot3.png ",
             ],
         },
+        {
+    title: "MedOS - Comprehensive Hospital Management System",
+    problem: "Healthcare facilities often struggle with fragmented, outdated systems that make scheduling, patient tracking, and billing inefficient and error-prone.",
+    solution: "Developed a modern, full-stack SaaS platform featuring secure role-based authentication, an intuitive real-time analytics dashboard, and seamless appointment and patient management.",
+    tech: ["Next.js", "Tailwind CSS", "Prisma ORM", "NextAuth.js", "PostgreSQL"],
+    result: "A highly secure, responsive, and scalable portal that optimizes daily hospital workflows, enhances patient care tracking, and provides clear financial analytics.",
+    live: "https://hospital-management-portal-nu.vercel.app/", 
+    github: "https://github.com/mukithasan232/hospital-management-portal", // Placeholder based on your username
+    images: [
+        "/project5-screenshot1.png",
+        "/project5-screenshot2.png",
+        "/project5-screenshot3.png",
+        "/project5-screenshot4.png",
+        "/project5-screenshot5.png",
+        "/project5-screenshot6.png",
+        "/project5-screenshot7.png",
+        "/project5-screenshot8.png",
+        "/project5-screenshot9.png",
+        "/project5-screenshot10.png",
+        "/project5-screenshot11.png",
+        "/project5-screenshot12.png",
+    ],
+}
     ],
     services: [
         {
