@@ -170,6 +170,25 @@ export const DATA = {
         "/project6-screenshot5.png",
     ]
     },
+    {
+    title: "Digital Orchard - Premium Mango Marketplace",
+    problem: "Local mango farmers in Bangladesh struggle to reach consumer markets directly, relying on middlemen, resulting in unfair pricing and restricted regional reach.",
+    solution: "Developed a robust full-stack e-commerce marketplace featuring a comprehensive admin dashboard, secure role-based login, and seamless storefront shopping.",
+    tech: ["Next.js", "Tailwind CSS", "React", "PostgreSQL", "Vercel Analytics"],
+    result: "A highly responsive, SEO-ready platform that connects farmers to a nationwide audience, equipped with real-time sales and order tracking for administrators.",
+    live: "https://digital-orchard.vercel.app/", 
+    github: "https://mukithasan232.github.io/digital_orchard/",
+    images: [
+        "/project7-screenshot1.png",
+        "/project7-screenshot2.png",
+        "/project7-screenshot3.png",
+        "/project7-screenshot4.png",
+        "/project7-screenshot5.png",
+        "/project7-screenshot6.png",
+        "/project7-screenshot7.png",
+        "/project7-screenshot8.png",
+    ]
+    },
     ],
     services: [
         {
