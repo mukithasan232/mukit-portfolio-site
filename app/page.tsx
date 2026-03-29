@@ -2,6 +2,7 @@ import { Hero } from "@/components/Hero";
 import { SocialProof } from "@/components/SocialProof";
 import { About } from "@/components/About";
 import { Skills } from "@/components/Skills";
+import { RecentProjectHighlight } from "@/components/RecentProjectHighlight";
 import { Projects } from "@/components/Projects";
 import { GitHubInsights } from "@/components/GitHubInsights";
 import { Services } from "@/components/Services";
@@ -18,6 +19,7 @@ export default function Home() {
         <SocialProof />
         <About />
         <Skills />
+        <RecentProjectHighlight />
         <Projects />
         <GitHubInsights />
         <Services />
