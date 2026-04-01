@@ -1,75 +1,85 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { DATA } from "@/lib/data";
-import { cn } from "@/lib/utils";
 
 export function Experience() {
     return (
-        <section id="experience" className="section-padding bg-background scroll-mt-20">
+        <section id="experience" className="section-padding font-sans scroll-mt-20" style={{ background: "#d4d0c8" }}>
             <div className="container-standard">
-                <div className="text-center mb-16">
-                    <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-foreground">
-                        Career Journey
-                    </h2>
-                    <p className="mt-4 text-muted-foreground text-lg max-w-2xl mx-auto">
-                        My evolution from an enthusiastic learner to a professional developer shipping real-world applications.
-                    </p>
-                </div>
+                <div className="win-panel font-sans" style={{ maxWidth: 860, margin: "0 auto" }}>
+                    <div className="win-titlebar font-sans">
+                        <span style={{ fontSize: 11, fontWeight: "bold" }}>📋 Notepad — career_journey.txt</span>
+                        <div style={{ display: "flex", gap: 2 }}>
+                            <button className="win-titlebar-btn" aria-label="Minimize">_</button>
+                            <button className="win-titlebar-btn" aria-label="Maximize">□</button>
+                            <button className="win-titlebar-btn" aria-label="Close">✕</button>
+                        </div>
+                    </div>
 
-                <div className="max-w-4xl mx-auto relative px-4 md:px-0">
-                    {/* Central Vertical Line */}
-                    <div className="absolute left-9 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-500/0 via-border to-blue-500/0 hidden md:block" />
-
-                    <div className="space-y-12">
-                        {DATA.experience.map((item, index) => (
-                            <motion.div
-                                key={index}
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.5, delay: index * 0.1 }}
-                                viewport={{ once: true }}
-                                className={cn(
-                                    "relative flex flex-col md:flex-row items-start md:items-center gap-8",
-                                    index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
-                                )}
-                            >
-                                {/* Year Marker for Desktop */}
-                                <div className={cn(
-                                    "flex-1 hidden md:flex items-center",
-                                    index % 2 === 0 ? "justify-end text-right" : "justify-start text-left"
-                                )}>
-                                    <div className="space-y-1">
-                                        <time className="text-sm font-bold text-primary tracking-widest uppercase">{item.year}</time>
-                                        <h4 className="text-muted-foreground text-xs font-medium uppercase tracking-tighter">{item.company}</h4>
-                                    </div>
-                                </div>
-
-                                {/* Icon / Node */}
-                                <div className="absolute md:relative left-0 md:left-auto w-10 h-10 rounded-full border border-border bg-card shadow-lg flex items-center justify-center z-10 shrink-0">
-                                    <div className="w-2.5 h-2.5 bg-primary rounded-full animate-pulse" />
-                                </div>
-
-                                {/* Content Card */}
-                                <div className="flex-1 w-full pl-14 md:pl-0">
-                                    <div className="p-6 rounded-2xl bg-card border border-border/50 shadow-sm hover:shadow-md transition-shadow relative group">
-                                        <div className="md:hidden mb-2">
-                                            <time className="text-[10px] font-bold text-primary tracking-widest uppercase">{item.year}</time>
-                                            <div className="text-xs text-muted-foreground">{item.company}</div>
-                                        </div>
-                                        <h3 className="font-bold text-lg mb-2 group-hover:text-primary transition-colors">{item.role}</h3>
-                                        <p className="text-sm text-muted-foreground leading-relaxed">
-                                            {item.description}
-                                        </p>
-
-                                        {/* Decorative Corner */}
-                                        <div className="absolute top-0 right-0 w-12 h-12 overflow-hidden rounded-tr-2xl">
-                                            <div className="absolute top-0 right-0 w-16 h-1 w-full bg-primary/5 rotate-45 transform origin-top-right" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </motion.div>
+                    <div className="win-menubar font-sans">
+                        {["File", "Edit", "Format", "View", "Help"].map((m) => (
+                            <span key={m} className="win-menubar-item">{m}</span>
                         ))}
+                    </div>
+
+                    <div style={{ padding: 0 }}>
+                        {/* Header inside */}
+                        <div style={{ background: "#d4d0c8", padding: "8px 12px", borderBottom: "1px solid #808080" }}>
+                            <p style={{ fontWeight: "bold", fontSize: 13 }}>Career Journey</p>
+                            <p style={{ fontSize: 11, color: "#444" }}>
+                                My evolution from an enthusiastic learner to a professional developer shipping real-world applications.
+                            </p>
+                        </div>
+
+                        {/* Timeline as a table */}
+                        <div
+                            className="win-inset font-sans"
+                            style={{ margin: 12, background: "#fff", minHeight: 200 }}
+                        >
+                            <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 11, fontFamily: "Courier New, monospace" }}>
+                                <thead>
+                                    <tr style={{ background: "#000080", color: "#fff" }}>
+                                        <th style={{ padding: "4px 8px", textAlign: "left", fontFamily: "Tahoma, Arial, sans-serif", fontSize: 11, fontWeight: "bold" }}>Year</th>
+                                        <th style={{ padding: "4px 8px", textAlign: "left", fontFamily: "Tahoma, Arial, sans-serif", fontSize: 11, fontWeight: "bold" }}>Company</th>
+                                        <th style={{ padding: "4px 8px", textAlign: "left", fontFamily: "Tahoma, Arial, sans-serif", fontSize: 11, fontWeight: "bold" }}>Role</th>
+                                        <th style={{ padding: "4px 8px", textAlign: "left", fontFamily: "Tahoma, Arial, sans-serif", fontSize: 11, fontWeight: "bold" }}>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {DATA.experience.map((item, index) => (
+                                        <tr
+                                            key={index}
+                                            style={{
+                                                background: index % 2 === 0 ? "#ffffff" : "#f0f0f0",
+                                                borderBottom: "1px solid #d4d0c8",
+                                            }}
+                                        >
+                                            <td style={{ padding: "5px 8px", verticalAlign: "top", whiteSpace: "nowrap", color: "#000080", fontWeight: "bold" }}>
+                                                {item.year}
+                                            </td>
+                                            <td style={{ padding: "5px 8px", verticalAlign: "top", whiteSpace: "nowrap" }}>
+                                                {item.company}
+                                            </td>
+                                            <td style={{ padding: "5px 8px", verticalAlign: "top", fontWeight: "bold" }}>
+                                                {item.role}
+                                            </td>
+                                            <td style={{ padding: "5px 8px", verticalAlign: "top", color: "#444", lineHeight: 1.5 }}>
+                                                {item.description}
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div className="win-statusbar font-sans">
+                        <div className="win-inset font-sans" style={{ padding: "1px 6px", fontSize: 10, flex: 1 }}>
+                            {DATA.experience.length} record(s) found
+                        </div>
+                        <div className="win-inset font-sans" style={{ padding: "1px 6px", fontSize: 10 }}>
+                            Ready
+                        </div>
                     </div>
                 </div>
             </div>

@@ -32,110 +32,103 @@
   --color-card: hsl(var(--card));
   --color-card-foreground: hsl(var(--card-foreground));
 
+  /* Win2K custom tokens */
+  --color-win-titlebar: hsl(var(--win-titlebar));
+  --color-win-titlebar-end: hsl(var(--win-titlebar-end));
+  --color-win-silver: hsl(var(--win-silver));
+  --color-win-highlight: hsl(var(--win-highlight));
+  --color-win-shadow: hsl(var(--win-shadow));
+
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
 
   --animate-accordion-down: accordion-down 0.2s ease-out;
   --animate-accordion-up: accordion-up 0.2s ease-out;
-  --animate-pulse-subtle: pulse-subtle 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  --animate-gradient-x: gradient-x 15s ease infinite;
-
-  @keyframes gradient-x {
-
-    0%,
-    100% {
-      background-size: 200% 200%;
-      background-position: left center;
-    }
-
-    50% {
-      background-size: 200% 200%;
-      background-position: right center;
-    }
-  }
+  --animate-blink: blink 1s step-end infinite;
+  --animate-marquee: marquee 18s linear infinite;
 
   @keyframes accordion-down {
-    from {
-      height: 0;
-    }
-
-    to {
-      height: var(--radix-accordion-content-height);
-    }
+    from { height: 0; }
+    to { height: var(--radix-accordion-content-height); }
   }
-
   @keyframes accordion-up {
-    from {
-      height: var(--radix-accordion-content-height);
-    }
-
-    to {
-      height: 0;
-    }
+    from { height: var(--radix-accordion-content-height); }
+    to { height: 0; }
   }
-
-  @keyframes pulse-subtle {
-
-    0%,
-    100% {
-      opacity: 1;
-    }
-
-    50% {
-      opacity: 0.85;
-      transform: scale(0.98);
-    }
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+  @keyframes marquee {
+    from { transform: translateX(100%); }
+    to { transform: translateX(-100%); }
   }
 }
 
+/* =============================================
+   WIN2K COLOR PALETTE
+   Silver: #c0c0c0  |  Dark navy title: #000080
+   Light face: #d4d0c8  |  Button highlight: #ffffff
+   Button shadow: #808080  |  Button dark shadow: #404040
+   ============================================= */
+
 :root {
-  --background: 0 0% 100%;
-  --foreground: 222.2 84% 4.9%;
-  --card: 0 0% 100%;
-  --card-foreground: 222.2 84% 4.9%;
-  --popover: 0 0% 100%;
-  --popover-foreground: 222.2 84% 4.9%;
-  --primary: 221.2 83.2% 53.3%;
-  --primary-foreground: 210 40% 98%;
-  --secondary: 210 40% 96.1%;
-  --secondary-foreground: 222.2 47.4% 11.2%;
-  --muted: 210 40% 96.1%;
-  --muted-foreground: 215.4 16.3% 46.9%;
-  --accent: 210 40% 96.1%;
-  --accent-foreground: 222.2 47.4% 11.2%;
-  --destructive: 0 84.2% 60.2%;
-  --destructive-foreground: 210 40% 98%;
-  --border: 214.3 31.8% 91.4%;
-  --input: 214.3 31.8% 91.4%;
-  --ring: 221.2 83.2% 53.3%;
-  --radius: 0.5rem;
+  /* Core palette - Win2K silver theme */
+  --background: 0 0% 0% / 0%; /* teal desktop */
+  --foreground: 0 0% 0%;
+  --card: 0 0% 83%;
+  --card-foreground: 0 0% 0%;
+  --popover: 0 0% 83%;
+  --popover-foreground: 0 0% 0%;
+  --primary: 240 100% 25%;        /* navy #000080 */
+  --primary-foreground: 0 0% 100%;
+  --secondary: 0 0% 83%;          /* silver #d4d0c8 */
+  --secondary-foreground: 0 0% 0%;
+  --muted: 0 0% 75%;
+  --muted-foreground: 0 0% 30%;
+  --accent: 240 100% 25%;
+  --accent-foreground: 0 0% 100%;
+  --destructive: 0 80% 50%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 0 0% 75%;
+  --input: 0 0% 100%;
+  --ring: 240 100% 25%;
+  --radius: 0rem;
+
+  /* Win2K special */
+  --win-titlebar: 240 100% 25%;
+  --win-titlebar-end: 209 70% 45%;
+  --win-silver: 0 0% 83%;
+  --win-highlight: 0 0% 100%;
+  --win-shadow: 0 0% 50%;
+
+  /* Desktop teal */
+  --desktop-bg: #008080;
 }
 
 .dark {
-  --background: 222.2 84% 4.9%;
-  --foreground: 210 40% 98%;
-  --card: 222.2 84% 4.9%;
-  --card-foreground: 210 40% 98%;
-  --popover: 222.2 84% 4.9%;
-  --popover-foreground: 210 40% 98%;
-  --primary: 217.2 91.2% 59.8%;
-  --primary-foreground: 222.2 47.4% 11.2%;
-  --secondary: 217.2 32.6% 17.5%;
-  --secondary-foreground: 210 40% 98%;
-  --muted: 217.2 32.6% 17.5%;
-  --muted-foreground: 215 20.2% 65.1%;
-  --accent: 217.2 32.6% 17.5%;
-  --accent-foreground: 210 40% 98%;
-  --destructive: 0 62.8% 30.6%;
-  --destructive-foreground: 210 40% 98%;
-  --border: 217.2 32.6% 17.5%;
-  --input: 217.2 32.6% 17.5%;
-  --ring: 224.3 76.3% 48%;
+  --background: 0 0% 0%;
+  --foreground: 0 0% 100%;
+  --card: 0 0% 83%;
+  --card-foreground: 0 0% 0%;
+  --popover: 0 0% 83%;
+  --popover-foreground: 0 0% 0%;
+  --primary: 240 100% 25%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 0 0% 83%;
+  --secondary-foreground: 0 0% 0%;
+  --muted: 0 0% 75%;
+  --muted-foreground: 0 0% 30%;
+  --accent: 240 100% 25%;
+  --accent-foreground: 0 0% 100%;
+  --destructive: 0 80% 50%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 0 0% 75%;
+  --input: 0 0% 100%;
+  --ring: 240 100% 25%;
 }
 
-
-/* Utilities */
 @layer base {
   * {
     @apply border-border;
@@ -146,19 +139,266 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    background-color: #008080;
+    color: #000000;
+    font-family: 'Tahoma', 'Arial', sans-serif;
+    font-size: 11px;
   }
 }
 
-/* Standardized Spacing & Containers */
-@layer components {
-  .section-padding {
-    @apply py-20 md:py-24;
-  }
+/* =============================================
+   WIN2K COMPONENT UTILITY CLASSES
+   ============================================= */
 
-  .container-standard {
-    @apply container mx-auto px-4 md:px-6 lg:px-8 max-w-7xl;
-  }
+/* Classic raised button bevel */
+.win-btn {
+  background: #d4d0c8;
+  border-top: 2px solid #ffffff;
+  border-left: 2px solid #ffffff;
+  border-right: 2px solid #404040;
+  border-bottom: 2px solid #404040;
+  box-shadow: inset 1px 1px 0 #808080;
+  cursor: pointer;
+  padding: 3px 10px;
+  font-family: 'Tahoma', 'Arial', sans-serif;
+  font-size: 11px;
+  color: #000000;
+  min-width: 75px;
+  text-align: center;
+  user-select: none;
+}
+.win-btn:active {
+  border-top: 2px solid #404040;
+  border-left: 2px solid #404040;
+  border-right: 2px solid #ffffff;
+  border-bottom: 2px solid #ffffff;
+  box-shadow: inset 1px 1px 0 #808080;
+  padding: 4px 9px 2px 11px;
+}
+.win-btn:focus {
+  outline: 1px dotted #000000;
+  outline-offset: -4px;
+}
+
+/* Primary / default button (navy) */
+.win-btn-primary {
+  background: #000080;
+  color: #ffffff;
+  border-top: 2px solid #8080ff;
+  border-left: 2px solid #8080ff;
+  border-right: 2px solid #000040;
+  border-bottom: 2px solid #000040;
+  font-family: 'Tahoma', 'Arial', sans-serif;
+  font-size: 11px;
+  cursor: pointer;
+  padding: 3px 10px;
+}
+
+/* Raised panel / window surface */
+.win-panel {
+  background: #d4d0c8;
+  border-top: 2px solid #ffffff;
+  border-left: 2px solid #ffffff;
+  border-right: 2px solid #404040;
+  border-bottom: 2px solid #404040;
+  box-shadow: inset -1px -1px 0 #808080, inset 1px 1px 0 #e8e4d8;
+}
+
+/* Inset / sunken panel */
+.win-inset {
+  background: #ffffff;
+  border-top: 2px solid #808080;
+  border-left: 2px solid #808080;
+  border-right: 2px solid #ffffff;
+  border-bottom: 2px solid #ffffff;
+  box-shadow: inset 1px 1px 0 #404040;
+}
+
+/* Window title bar */
+.win-titlebar {
+  background: linear-gradient(to right, #000080, #1084d0);
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 12px;
+  padding: 3px 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  user-select: none;
+}
+
+/* Window title bar buttons (close/min/max) */
+.win-titlebar-btn {
+  width: 16px;
+  height: 14px;
+  background: #d4d0c8;
+  border-top: 1px solid #ffffff;
+  border-left: 1px solid #ffffff;
+  border-right: 1px solid #404040;
+  border-bottom: 1px solid #404040;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #000;
+  line-height: 1;
+}
+
+/* Menu bar inside window */
+.win-menubar {
+  background: #d4d0c8;
+  border-bottom: 1px solid #808080;
+  display: flex;
+  align-items: center;
+  padding: 2px 4px;
+  gap: 0;
+  font-size: 11px;
+}
+
+.win-menubar-item {
+  padding: 2px 8px;
+  cursor: pointer;
+  color: #000;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.win-menubar-item:hover,
+.win-menubar-item:focus {
+  background: #000080;
+  color: #ffffff;
+  outline: none;
+}
+
+/* Text input */
+.win-input {
+  background: #ffffff;
+  border-top: 2px solid #808080;
+  border-left: 2px solid #808080;
+  border-right: 2px solid #ffffff;
+  border-bottom: 2px solid #ffffff;
+  box-shadow: inset 1px 1px 0 #404040;
+  padding: 3px 5px;
+  font-family: 'Tahoma', 'Arial', sans-serif;
+  font-size: 11px;
+  color: #000;
+  outline: none;
+  width: 100%;
+}
+.win-input:focus {
+  box-shadow: inset 1px 1px 0 #404040;
+}
+
+/* Scrollbar styling */
+.win-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #c0c0c0 #d4d0c8;
+}
+
+/* Section/group box label */
+.win-groupbox {
+  border: 2px solid #808080;
+  border-top: 2px solid #808080;
+  padding: 16px 12px 12px;
+  position: relative;
+  margin-top: 8px;
+}
+
+.win-groupbox-label {
+  position: absolute;
+  top: -9px;
+  left: 8px;
+  background: #d4d0c8;
+  padding: 0 4px;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+/* Statusbar */
+.win-statusbar {
+  background: #d4d0c8;
+  border-top: 2px solid #808080;
+  display: flex;
+  align-items: center;
+  padding: 2px 6px;
+  font-size: 11px;
+  gap: 4px;
+}
+
+/* Taskbar */
+.win-taskbar {
+  background: #d4d0c8;
+  border-top: 2px solid #ffffff;
+  box-shadow: inset 0 1px 0 #e8e4d8;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  z-index: 1000;
+  padding: 2px 4px;
+}
+
+/* Start button */
+.win-start-btn {
+  background: #d4d0c8;
+  border-top: 2px solid #ffffff;
+  border-left: 2px solid #ffffff;
+  border-right: 2px solid #404040;
+  border-bottom: 2px solid #404040;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  font-weight: bold;
+  font-size: 11px;
+  cursor: pointer;
+  height: 22px;
+  min-width: 60px;
+}
+
+/* Tooltip */
+.win-tooltip {
+  background: #ffffe1;
+  border: 1px solid #000;
+  padding: 2px 6px;
+  font-size: 11px;
+  pointer-events: none;
+}
+
+/* Section headings in Win2K style */
+.win-section-heading {
+  font-size: 13px;
+  font-weight: bold;
+  color: #000;
+  margin-bottom: 8px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #808080;
+}
+
+/* Tab strip */
+.win-tab {
+  background: #d4d0c8;
+  border-top: 2px solid #ffffff;
+  border-left: 2px solid #ffffff;
+  border-right: 2px solid #808080;
+  border-bottom: none;
+  padding: 3px 12px;
+  font-size: 11px;
+  cursor: pointer;
+  position: relative;
+  top: 1px;
+  z-index: 1;
+}
+
+.win-tab.active {
+  background: #d4d0c8;
+  z-index: 2;
+  font-weight: bold;
 }
 
 /* Fix for fixed header offset on anchor links */
@@ -166,11 +406,13 @@
   scroll-margin-top: 5rem;
 }
 
-.scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
+/* Standardized Spacing */
+@layer components {
+  .section-padding {
+    @apply py-8 md:py-12;
+  }
 
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
+  .container-standard {
+    @apply mx-auto px-4 max-w-5xl;
+  }
 }

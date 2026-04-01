@@ -2,98 +2,109 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { motion } from "framer-motion";
-import { CheckCircle2 } from "lucide-react";
-
 import { DATA } from "@/lib/data";
 
 export function About() {
     return (
-        <section id="about" className="section-padding bg-background scroll-mt-20">
+        <section id="about" className="section-padding font-sans scroll-mt-20" style={{ background: "#d4d0c8" }}>
             <div className="container-standard">
-                <div className="grid gap-12 lg:grid-cols-2 items-center">
-                    <motion.div
-                        initial={{ opacity: 0, x: -50 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.5 }}
-                        viewport={{ once: true }}
-                        className="space-y-6"
-                    >
-                        <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-                            {DATA.about.title}
-                        </h2>
-                        <p className="text-muted-foreground text-lg leading-relaxed whitespace-pre-wrap">
-                            {DATA.about.description}
-                        </p>
+                {/* Win2K window */}
+                <div className="win-panel font-sans" style={{ maxWidth: 860, margin: "0 auto" }}>
+                    <div className="win-titlebar font-sans">
+                        <span style={{ fontSize: 11, fontWeight: "bold" }}>📁 About Me — File Properties</span>
+                        <div style={{ display: "flex", gap: 2 }}>
+                            <button className="win-titlebar-btn" aria-label="Minimize">_</button>
+                            <button className="win-titlebar-btn" aria-label="Maximize">□</button>
+                            <button className="win-titlebar-btn" aria-label="Close">✕</button>
+                        </div>
+                    </div>
 
-                        <div className="grid grid-cols-2 gap-4 pt-4">
-                            {[
-                                { title: "SEO-First", desc: "Search Engine Optimization" },
-                                { title: "Mobile-First", desc: "Fully Responsive" },
-                                { title: "Scalable", desc: "Clean Architecture" },
-                                { title: "Optimized", desc: "Fast Performance" }
-                            ].map((item, index) => (
-                                <div key={index} className="flex flex-col p-3 rounded-lg bg-card border border-border shadow-sm">
-                                    <div className="flex items-center space-x-2 text-primary mb-1">
-                                        <CheckCircle2 className="h-4 w-4" />
-                                        <span className="font-bold text-sm tracking-tight">{item.title}</span>
-                                    </div>
-                                    <span className="text-[10px] text-muted-foreground uppercase">{item.desc}</span>
+                    {/* Tabs */}
+                    <div style={{ display: "flex", paddingTop: 6, paddingLeft: 8, borderBottom: "2px solid #808080", background: "#d4d0c8" }}>
+                        {["General", "Details", "Summary"].map((tab, i) => (
+                            <div key={tab} className={`win-tab font-sans${i === 0 ? " active" : ""}`}>
+                                {tab}
+                            </div>
+                        ))}
+                    </div>
+
+                    <div style={{ padding: "16px 16px 12px", background: "#d4d0c8" }}>
+                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+                            {/* Left: info */}
+                            <div>
+                                <div className="win-groupbox font-sans">
+                                    <span className="win-groupbox-label">About</span>
+                                    <p style={{ fontSize: 11, lineHeight: 1.7, color: "#000" }}>
+                                        {DATA.about.description}
+                                    </p>
                                 </div>
-                            ))}
-                        </div>
 
-                        <div className="pt-6">
-                            <p className="text-sm font-medium text-muted-foreground mb-4">Want to discuss a project?</p>
-                            <Link
-                                href="#contact"
-                                className="inline-flex items-center justify-center px-6 py-3 rounded-full bg-primary text-primary-foreground font-bold hover:scale-105 transition-transform"
-                            >
-                                Let&apos;s Talk
-                            </Link>
-                        </div>
-                    </motion.div>
+                                <div style={{ marginTop: 12, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+                                    {[
+                                        { title: "SEO-First", desc: "Search Engine Optimization" },
+                                        { title: "Mobile-First", desc: "Fully Responsive" },
+                                        { title: "Scalable", desc: "Clean Architecture" },
+                                        { title: "Optimized", desc: "Fast Performance" },
+                                    ].map((item, index) => (
+                                        <div key={index} className="win-inset font-sans" style={{ padding: "6px 8px" }}>
+                                            <div style={{ fontWeight: "bold", fontSize: 11, color: "#000080" }}>{item.title}</div>
+                                            <div style={{ fontSize: 10, color: "#444" }}>{item.desc}</div>
+                                        </div>
+                                    ))}
+                                </div>
 
-                    {/* Visual: Nature & Pixel Perfect Card */}
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.7, delay: 0.2, type: "spring" }}
-                        viewport={{ once: true }}
-                        className="relative flex justify-center lg:justify-end"
-                    >
-                        <div className="relative group w-full max-w-[420px] aspect-[4/5] sm:aspect-square">
-                            {/* Refined Glow Effect */}
-                            <div className="absolute -inset-1 bg-gradient-to-r from-primary/30 to-blue-500/30 rounded-3xl blur-xl opacity-70" />
-
-                            {/* Main Card Container */}
-                            <div className="relative h-full w-full rounded-2xl overflow-hidden border-2 border-border/50 shadow-2xl bg-card z-10 transition-all duration-500 group-hover:border-primary/50">
-                                <Image
-                                    src={DATA.profilePicture}
-                                    alt={DATA.name}
-                                    fill
-                                    className="object-cover transition-transform duration-700 ease-in-out group-hover:scale-105"
-                                    unoptimized
-                                    priority
-                                />
-
-                                {/* Subtle vignette for depth without tinting the person */}
-                                <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/50 to-transparent z-20" />
-
-                                <div className="absolute bottom-6 left-6 z-30">
-                                    <div className="backdrop-blur-md bg-black/40 px-4 py-2 rounded-xl border border-white/10 shadow-lg">
-                                        <p className="text-white text-xs font-semibold tracking-wide uppercase">
-                                            Creative Developer
-                                        </p>
-                                    </div>
+                                <div style={{ marginTop: 12 }}>
+                                    <p style={{ fontSize: 11, color: "#444", marginBottom: 6 }}>
+                                        Want to discuss a project?
+                                    </p>
+                                    <Link href="#contact" className="win-btn-primary font-sans" style={{ textDecoration: "none", padding: "4px 14px", fontSize: 11, display: "inline-block" }}>
+                                        Let&apos;s Talk
+                                    </Link>
                                 </div>
                             </div>
 
-                            {/* Decorative Background Elements */}
-                            <div className="absolute -z-0 -top-8 -left-8 w-32 h-32 bg-primary/10 rounded-full blur-[60px] animate-pulse" />
-                            <div className="absolute -z-0 -bottom-8 -right-8 w-32 h-32 bg-blue-500/10 rounded-full blur-[60px] animate-pulse delay-700" />
+                            {/* Right: photo */}
+                            <div>
+                                <div className="win-inset font-sans" style={{ padding: 4, display: "inline-block", width: "100%" }}>
+                                    <div style={{ position: "relative", width: "100%", aspectRatio: "1", background: "#808080", overflow: "hidden" }}>
+                                        <Image
+                                            src={DATA.profilePicture}
+                                            alt={DATA.name}
+                                            fill
+                                            className="object-cover"
+                                            unoptimized
+                                            priority
+                                        />
+                                    </div>
+                                </div>
+                                <div style={{ marginTop: 8 }}>
+                                    <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 11 }}>
+                                        <tbody>
+                                            {[
+                                                { label: "Name:", value: DATA.name },
+                                                { label: "Role:", value: DATA.role },
+                                                { label: "Status:", value: "Available" },
+                                            ].map(({ label, value }) => (
+                                                <tr key={label}>
+                                                    <td style={{ paddingRight: 8, fontWeight: "bold", whiteSpace: "nowrap", paddingBottom: 4 }}>{label}</td>
+                                                    <td style={{ paddingBottom: 4 }}>{value}</td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
-                    </motion.div>
+                    </div>
+
+                    {/* Dialog footer */}
+                    <div style={{ borderTop: "1px solid #808080", padding: "8px 12px", display: "flex", justifyContent: "flex-end", gap: 8, background: "#d4d0c8" }}>
+                        <Link href="#contact" className="win-btn-primary font-sans" style={{ textDecoration: "none", padding: "4px 14px", fontSize: 11 }}>
+                            OK
+                        </Link>
+                        <button className="win-btn font-sans">Cancel</button>
+                        <button className="win-btn font-sans">Apply</button>
+                    </div>
                 </div>
             </div>
         </section>

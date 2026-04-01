@@ -1,60 +1,90 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { DATA } from "@/lib/data";
-import { Quote } from "lucide-react";
 
 export function Testimonials() {
     return (
-        <section id="testimonials" className="section-padding bg-secondary/10 scroll-mt-20">
+        <section id="testimonials" className="section-padding font-sans scroll-mt-20" style={{ background: "#c0c0c0" }}>
             <div className="container-standard">
-                <div className="text-center mb-16">
-                    <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-foreground">
-                        Kind Words from Clients
-                    </h2>
-                    <p className="mt-4 text-muted-foreground text-lg max-w-2xl mx-auto">
-                        Trusted by founders and companies for delivering high-quality, professional-grade web solutions.
-                    </p>
-                </div>
+                <div className="win-panel font-sans" style={{ maxWidth: 860, margin: "0 auto" }}>
+                    <div className="win-titlebar font-sans">
+                        <span style={{ fontSize: 11, fontWeight: "bold" }}>💬 WordPad — Client Testimonials</span>
+                        <div style={{ display: "flex", gap: 2 }}>
+                            <button className="win-titlebar-btn" aria-label="Minimize">_</button>
+                            <button className="win-titlebar-btn" aria-label="Maximize">□</button>
+                            <button className="win-titlebar-btn" aria-label="Close">✕</button>
+                        </div>
+                    </div>
+                    <div className="win-menubar font-sans">
+                        {["File", "Edit", "View", "Insert", "Format", "Help"].map((m) => (
+                            <span key={m} className="win-menubar-item">{m}</span>
+                        ))}
+                    </div>
 
-                <div className="grid gap-8 md:grid-cols-2 lg:max-w-5xl lg:mx-auto">
-                    {DATA.testimonials.map((testimonial, index) => (
-                        <motion.div
-                            key={index}
-                            initial={{ opacity: 0, scale: 0.95 }}
-                            whileInView={{ opacity: 1, scale: 1 }}
-                            transition={{ duration: 0.5, delay: index * 0.1 }}
-                            viewport={{ once: true }}
-                            className="bg-card border border-border p-8 rounded-2xl relative shadow-sm hover:shadow-md transition-shadow group"
-                        >
-                            <div className="flex items-center gap-1 mb-4">
-                                {[...Array(5)].map((_, i) => (
-                                    <svg key={i} className="w-4 h-4 text-yellow-500 fill-current" viewBox="0 0 20 20">
-                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                    </svg>
-                                ))}
-                            </div>
-                            <Quote className="absolute top-6 right-8 h-12 w-12 text-primary/5 group-hover:text-primary/10 transition-colors" />
-                            <p className="text-lg text-muted-foreground italic mb-8 relative z-10 leading-relaxed">
-                                &quot;{testimonial.content}&quot;
-                            </p>
-                            <div className="flex items-center gap-3">
-                                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center font-bold text-primary text-sm uppercase">
-                                    {testimonial.name.split(' ').map(n => n[0]).join('')}
-                                </div>
-                                <div>
-                                    <div className="font-bold text-sm tracking-tight flex items-center gap-2">
-                                        {testimonial.name}
-                                        <span className="flex items-center gap-1 bg-green-500/10 text-green-600 text-[10px] font-bold px-1.5 py-0.5 rounded-full uppercase">
-                                            <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" /></svg>
-                                            Verified
-                                        </span>
+                    <div style={{ padding: 16, background: "#d4d0c8" }}>
+                        <p style={{ fontWeight: "bold", fontSize: 13, marginBottom: 4 }}>Kind Words from Clients</p>
+                        <p style={{ fontSize: 11, color: "#444", marginBottom: 12 }}>
+                            Trusted by founders and companies for delivering high-quality, professional-grade web solutions.
+                        </p>
+
+                        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: 10 }}>
+                            {DATA.testimonials.map((testimonial, index) => (
+                                <div
+                                    key={index}
+                                    className="win-inset font-sans"
+                                    style={{ padding: 12, background: "#fff", position: "relative" }}
+                                >
+                                    {/* Stars */}
+                                    <div style={{ display: "flex", gap: 2, marginBottom: 6 }}>
+                                        {[...Array(5)].map((_, i) => (
+                                            <span key={i} style={{ color: "#ffc000", fontSize: 12 }}>★</span>
+                                        ))}
                                     </div>
-                                    <div className="text-xs text-muted-foreground uppercase">{testimonial.role}</div>
+
+                                    {/* Quote */}
+                                    <p style={{ fontSize: 11, lineHeight: 1.6, fontStyle: "italic", color: "#222", marginBottom: 10, fontFamily: "Times New Roman, serif" }}>
+                                        &quot;{testimonial.content}&quot;
+                                    </p>
+
+                                    {/* Author */}
+                                    <div style={{ borderTop: "1px solid #d4d0c8", paddingTop: 8, display: "flex", alignItems: "center", gap: 8 }}>
+                                        <div
+                                            style={{
+                                                width: 28,
+                                                height: 28,
+                                                background: "#000080",
+                                                color: "#fff",
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "center",
+                                                fontWeight: "bold",
+                                                fontSize: 11,
+                                                flexShrink: 0,
+                                                fontFamily: "Tahoma, Arial, sans-serif",
+                                            }}
+                                        >
+                                            {testimonial.name.split(" ").map((n: string) => n[0]).join("")}
+                                        </div>
+                                        <div>
+                                            <div style={{ fontWeight: "bold", fontSize: 11, display: "flex", alignItems: "center", gap: 5 }}>
+                                                {testimonial.name}
+                                                <span style={{ fontSize: 9, background: "#008000", color: "#fff", padding: "1px 4px" }}>Verified</span>
+                                            </div>
+                                            <div style={{ fontSize: 10, color: "#444", textTransform: "uppercase", letterSpacing: 0.5 }}>
+                                                {testimonial.role}
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </motion.div>
-                    ))}
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className="win-statusbar font-sans">
+                        <div className="win-inset font-sans" style={{ flex: 1, padding: "1px 6px", fontSize: 10 }}>
+                            {DATA.testimonials.length} testimonial(s)
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>

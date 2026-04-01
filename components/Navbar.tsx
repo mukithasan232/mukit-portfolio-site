@@ -2,10 +2,6 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Menu, X, Code2 } from "lucide-react";
-import { ModeToggle } from "@/components/mode-toggle";
-import { cn } from "@/lib/utils";
-import { motion, AnimatePresence } from "framer-motion";
 
 const navItems = [
     { name: "About", href: "#about" },
@@ -20,85 +16,144 @@ const navItems = [
 
 export function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
-    const [scrolled, setScrolled] = useState(false);
+    const [time, setTime] = useState("");
+    const [activeMenu, setActiveMenu] = useState<string | null>(null);
 
     useEffect(() => {
-        const handleScroll = () => {
-            setScrolled(window.scrollY > 50);
+        const tick = () => {
+            const now = new Date();
+            setTime(
+                now.toLocaleTimeString("en-US", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    hour12: true,
+                })
+            );
         };
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
+        tick();
+        const id = setInterval(tick, 1000);
+        return () => clearInterval(id);
     }, []);
 
     return (
-        <nav
-            className={cn(
-                "fixed top-0 w-full z-50 transition-all duration-300 border-b border-transparent",
-                scrolled
-                    ? "bg-background/80 backdrop-blur-md border-border shadow-sm"
-                    : "bg-transparent"
-            )}
-        >
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex items-center justify-between h-16">
-                    <div className="flex-shrink-0 flex items-center">
-                        <Link href="/" className="flex items-center space-x-2">
-                            <Code2 className="h-8 w-8 text-primary" />
-                            <span className="font-bold text-xl tracking-tight">Mukit</span>
-                        </Link>
-                    </div>
+        <>
+            {/* Taskbar pinned to bottom */}
+            <div className="win-taskbar font-sans" style={{ zIndex: 9999 }}>
+                {/* Start button */}
+                <button
+                    className="win-start-btn font-sans"
+                    onClick={() => setIsOpen(!isOpen)}
+                    aria-label="Start menu"
+                >
+                    <span
+                        style={{
+                            display: "inline-block",
+                            width: 14,
+                            height: 14,
+                            background: "linear-gradient(135deg, #ff0000 0%, #ffff00 25%, #00ff00 50%, #0000ff 75%)",
+                            borderRadius: 2,
+                            marginRight: 3,
+                        }}
+                    />
+                    <strong>Start</strong>
+                </button>
 
-                    <div className="hidden md:block">
-                        <div className="ml-10 flex items-baseline space-x-8">
-                            {navItems.map((item) => (
-                                <Link
-                                    key={item.name}
-                                    href={item.href}
-                                    className="text-muted-foreground hover:text-primary transition-colors px-3 py-2 rounded-md text-sm font-medium"
-                                >
-                                    {item.name}
-                                </Link>
-                            ))}
-                            <ModeToggle />
-                        </div>
-                    </div>
+                {/* Separator */}
+                <div style={{ width: 2, height: 22, background: "#808080", borderRight: "1px solid #fff", margin: "0 4px" }} />
 
-                    <div className="md:hidden flex items-center space-x-4">
-                        <ModeToggle />
-                        <button
-                            onClick={() => setIsOpen(!isOpen)}
-                            className="text-foreground hover:text-primary p-2"
-                            aria-label="Toggle menu"
-                        >
-                            {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-                        </button>
-                    </div>
+                {/* Active window pill */}
+                <button
+                    className="win-btn font-sans"
+                    style={{ height: 22, minWidth: 140, textAlign: "left", fontSize: 11 }}
+                >
+                    <span style={{ marginRight: 4 }}>🖥</span>
+                    Mukit Hasan — Portfolio
+                </button>
+
+                {/* Spacer */}
+                <div style={{ flex: 1 }} />
+
+                {/* System tray */}
+                <div
+                    className="win-inset font-sans"
+                    style={{
+                        height: 22,
+                        display: "flex",
+                        alignItems: "center",
+                        padding: "0 8px",
+                        gap: 6,
+                        fontSize: 11,
+                        minWidth: 70,
+                        justifyContent: "center",
+                    }}
+                >
+                    <span title="Network connected" style={{ fontSize: 10 }}>🌐</span>
+                    <span title="Volume" style={{ fontSize: 10 }}>🔊</span>
+                    <span style={{ fontSize: 11 }}>{time}</span>
                 </div>
             </div>
 
-            <AnimatePresence>
-                {isOpen && (
-                    <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: "auto" }}
-                        exit={{ opacity: 0, height: 0 }}
-                        className="md:hidden bg-background border-b border-border"
+            {/* Start Menu popup */}
+            {isOpen && (
+                <div
+                    className="win-panel font-sans"
+                    style={{
+                        position: "fixed",
+                        bottom: 32,
+                        left: 0,
+                        width: 200,
+                        zIndex: 9998,
+                        fontSize: 11,
+                    }}
+                >
+                    {/* Header strip */}
+                    <div
+                        style={{
+                            background: "linear-gradient(to bottom, #1c3e7e, #000080)",
+                            color: "#fff",
+                            padding: "8px 10px",
+                            fontWeight: "bold",
+                            fontSize: 13,
+                            letterSpacing: 0.5,
+                        }}
                     >
-                        <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                            {navItems.map((item) => (
-                                <Link
-                                    key={item.name}
-                                    href={item.href}
-                                    className="text-foreground hover:text-primary block px-3 py-2 rounded-md text-base font-medium"
-                                    onClick={() => setIsOpen(false)}
-                                >
-                                    {item.name}
-                                </Link>
-                            ))}
-                        </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
-        </nav>
+                        Mukit Hasan
+                    </div>
+
+                    <div style={{ borderBottom: "1px solid #808080", margin: "2px 0" }} />
+
+                    {navItems.map((item) => (
+                        <Link
+                            key={item.name}
+                            href={item.href}
+                            className="win-menubar-item font-sans"
+                            style={{ display: "block", padding: "5px 16px", width: "100%", fontSize: 11 }}
+                            onClick={() => setIsOpen(false)}
+                        >
+                            {item.name}
+                        </Link>
+                    ))}
+
+                    <div style={{ borderTop: "1px solid #808080", margin: "2px 0" }} />
+
+                    <button
+                        className="win-menubar-item font-sans"
+                        style={{ display: "block", padding: "5px 16px", width: "100%", textAlign: "left", fontSize: 11, background: "none", border: "none", cursor: "pointer" }}
+                        onClick={() => setIsOpen(false)}
+                    >
+                        Shut Down...
+                    </button>
+                </div>
+            )}
+
+            {/* Overlay to close start menu */}
+            {isOpen && (
+                <div
+                    style={{ position: "fixed", inset: 0, zIndex: 9997 }}
+                    onClick={() => setIsOpen(false)}
+                    aria-hidden
+                />
+            )}
+        </>
     );
 }

@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { Mail, MapPin, Send } from "lucide-react";
 import { useState } from "react";
 import { DATA } from "@/lib/data";
@@ -10,155 +9,182 @@ export function Contact() {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        // Start mailto link construction
         const subject = `Portfolio Contact from ${formData.name}`;
         const body = `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`;
-        window.location.href = `mailto:${DATA.socials.find(s => s.name === "Email")?.url.replace("mailto:", "")}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        window.location.href = `mailto:${DATA.socials.find((s) => s.name === "Email")?.url.replace("mailto:", "")}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     };
 
     return (
-        <section id="contact" className="section-padding bg-background scroll-mt-20">
+        <section id="contact" className="section-padding font-sans scroll-mt-20" style={{ background: "#c0c0c0" }}>
             <div className="container-standard">
-                <div className="grid lg:grid-cols-2 gap-12">
-                    {/* Info */}
-                    <motion.div
-                        initial={{ opacity: 0, x: -20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.5 }}
-                        viewport={{ once: true }}
-                        className="space-y-8"
-                    >
+                <div className="win-panel font-sans" style={{ maxWidth: 860, margin: "0 auto" }}>
+                    <div className="win-titlebar font-sans">
+                        <span style={{ fontSize: 11, fontWeight: "bold" }}>✉️ New Message — Outlook Express</span>
+                        <div style={{ display: "flex", gap: 2 }}>
+                            <button className="win-titlebar-btn" aria-label="Minimize">_</button>
+                            <button className="win-titlebar-btn" aria-label="Maximize">□</button>
+                            <button className="win-titlebar-btn" aria-label="Close">✕</button>
+                        </div>
+                    </div>
+
+                    <div className="win-menubar font-sans">
+                        {["File", "Edit", "View", "Insert", "Format", "Tools", "Message", "Help"].map((m) => (
+                            <span key={m} className="win-menubar-item">{m}</span>
+                        ))}
+                    </div>
+
+                    {/* Toolbar */}
+                    <div style={{ background: "#d4d0c8", padding: "4px 8px", borderBottom: "1px solid #808080", display: "flex", gap: 6 }}>
+                        <button type="button" className="win-btn font-sans" style={{ minWidth: 50, fontSize: 10 }}>
+                            Send
+                        </button>
+                        <button type="button" className="win-btn font-sans" style={{ minWidth: 50, fontSize: 10 }}>
+                            Save
+                        </button>
+                        <div style={{ width: 2, height: 22, background: "#808080", borderRight: "1px solid #fff" }} />
+                        <button type="button" className="win-btn font-sans" style={{ minWidth: 40, fontSize: 10 }}>
+                            Attach
+                        </button>
+                    </div>
+
+                    <div style={{ padding: 12, background: "#d4d0c8", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                        {/* Info side */}
+                        <div style={{ fontSize: 11 }}>
+                            <div className="win-groupbox font-sans" style={{ marginBottom: 10 }}>
+                                <span className="win-groupbox-label">Contact Info</span>
+                                <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                                    <div style={{ display: "flex", alignItems: "flex-start", gap: 8 }}>
+                                        <Mail size={14} style={{ marginTop: 1, color: "#000080", flexShrink: 0 }} />
+                                        <div>
+                                            <div style={{ fontWeight: "bold" }}>Email Me</div>
+                                            <a
+                                                href={DATA.socials.find((s) => s.name === "Email")?.url}
+                                                style={{ color: "#0000ff", textDecoration: "underline" }}
+                                            >
+                                                {DATA.socials.find((s) => s.name === "Email")?.url.replace("mailto:", "")}
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div style={{ display: "flex", alignItems: "flex-start", gap: 8 }}>
+                                        <MapPin size={14} style={{ marginTop: 1, color: "#000080", flexShrink: 0 }} />
+                                        <div>
+                                            <div style={{ fontWeight: "bold" }}>Location</div>
+                                            <div style={{ color: "#444" }}>Available Remote / Worldwide</div>
+                                        </div>
+                                    </div>
+                                    <div style={{ display: "flex", alignItems: "flex-start", gap: 8 }}>
+                                        <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#00aa00", marginTop: 2, flexShrink: 0 }} />
+                                        <div>
+                                            <div style={{ fontWeight: "bold" }}>Availability</div>
+                                            <div style={{ color: "#444" }}>Open for new projects</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="win-groupbox font-sans">
+                                <span className="win-groupbox-label">Working Hours</span>
+                                <table style={{ width: "100%", fontSize: 10, borderCollapse: "collapse" }}>
+                                    <tbody>
+                                        {[
+                                            { day: "Mon - Fri:", time: "9:00 AM - 6:00 PM" },
+                                            { day: "Saturday:", time: "10:00 AM - 2:00 PM" },
+                                            { day: "Sunday:", time: "Rest Day" },
+                                        ].map(({ day, time }) => (
+                                            <tr key={day}>
+                                                <td style={{ paddingRight: 8, paddingBottom: 3, fontWeight: "bold" }}>{day}</td>
+                                                <td style={{ paddingBottom: 3, color: day === "Sunday:" ? "#000080" : "#444", fontWeight: day === "Sunday:" ? "bold" : "normal" }}>{time}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div style={{ marginTop: 10 }}>
+                                <p style={{ fontWeight: "bold", marginBottom: 4 }}>Connect with me</p>
+                                <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+                                    {DATA.socials.map((social) => (
+                                        <a
+                                            key={social.name}
+                                            href={social.url}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="win-btn font-sans"
+                                            style={{ minWidth: 28, padding: "2px 6px", display: "flex", alignItems: "center", justifyContent: "center" }}
+                                            aria-label={social.name}
+                                        >
+                                            <social.icon size={12} />
+                                        </a>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Form side */}
                         <div>
-                            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl mb-4">Let&apos;s build something great together 🚀</h2>
-                            <p className="text-muted-foreground text-lg">
-                                Have a project or idea? I’m always open to new opportunities.
-                            </p>
-                        </div>
-
-                        <div className="space-y-6">
-                            <div className="flex items-center space-x-4">
-                                <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
-                                    <Mail className="h-5 w-5" />
-                                </div>
-                                <div>
-                                    <h4 className="font-semibold">Email Me</h4>
-                                    <a href={DATA.socials.find(s => s.name === "Email")?.url} className="text-muted-foreground hover:text-primary transition-colors">
-                                        {DATA.socials.find(s => s.name === "Email")?.url.replace("mailto:", "")}
-                                    </a>
-                                </div>
-                            </div>
-
-                            <div className="flex items-center space-x-4">
-                                <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
-                                    <MapPin className="h-5 w-5" />
-                                </div>
-                                <div>
-                                    <h4 className="font-semibold">Location</h4>
-                                    <p className="text-muted-foreground text-sm">Available Remote / Worldwide</p>
-                                </div>
-                            </div>
-
-                            <div className="flex items-center space-x-4">
-                                <div className="h-10 w-10 rounded-full bg-green-500/10 flex items-center justify-center text-green-600">
-                                    <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse mr-0.5" />
-                                    <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
-                                </div>
-                                <div>
-                                    <h4 className="font-semibold">Availability</h4>
-                                    <p className="text-muted-foreground text-sm">Open for new projects</p>
-                                </div>
-                            </div>
-
-                            <div className="pt-4 p-4 rounded-xl bg-card border border-border/50 shadow-sm">
-                                <h4 className="font-bold text-sm uppercase tracking-wider mb-2">Usual Working Hours</h4>
-                                <div className="grid grid-cols-2 gap-y-1 text-xs text-muted-foreground">
-                                    <span>Mon - Fri:</span>
-                                    <span className="text-right">9:00 AM - 6:00 PM</span>
-                                    <span>Saturday:</span>
-                                    <span className="text-right">10:00 AM - 2:00 PM</span>
-                                    <span>Sunday:</span>
-                                    <span className="text-right text-primary font-medium">Rest Day</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="pt-8">
-                            <h4 className="font-semibold mb-4">Connect with me</h4>
-                            <div className="flex space-x-4">
-                                {DATA.socials.map((social) => (
-                                    <a
-                                        key={social.name}
-                                        href={social.url}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="h-10 w-10 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-all hover:-translate-y-1"
-                                        aria-label={social.name}
+                            <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                                {/* To / From fields like email client */}
+                                <div style={{ display: "flex", alignItems: "center", gap: 6, borderBottom: "1px solid #808080", paddingBottom: 4 }}>
+                                    <span style={{ fontSize: 11, fontWeight: "bold", width: 50, flexShrink: 0 }}>To:</span>
+                                    <div
+                                        className="win-inset font-sans"
+                                        style={{ flex: 1, padding: "2px 5px", fontSize: 11, background: "#fff" }}
                                     >
-                                        <social.icon className="h-5 w-5" />
-                                    </a>
-                                ))}
-                            </div>
-                        </div>
-                    </motion.div>
-
-                    {/* Form */}
-                    <motion.div
-                        initial={{ opacity: 0, x: 20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.5, delay: 0.2 }}
-                        viewport={{ once: true }}
-                        className="bg-card border border-border rounded-xl p-8 shadow-sm"
-                    >
-                        <form onSubmit={handleSubmit} className="space-y-6">
-                            <div className="space-y-2">
-                                <label htmlFor="name" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                                    Name
-                                </label>
-                                <input
-                                    id="name"
-                                    required
-                                    placeholder="John Doe"
-                                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                                    value={formData.name}
-                                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <label htmlFor="email" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                                    Email
-                                </label>
-                                <input
-                                    id="email"
-                                    type="email"
-                                    required
-                                    placeholder="john@example.com"
-                                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                                    value={formData.email}
-                                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <label htmlFor="message" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                                    Message
-                                </label>
+                                        {DATA.contact.email}
+                                    </div>
+                                </div>
+                                <div style={{ display: "flex", alignItems: "center", gap: 6, borderBottom: "1px solid #808080", paddingBottom: 4 }}>
+                                    <span style={{ fontSize: 11, fontWeight: "bold", width: 50, flexShrink: 0 }}>From:</span>
+                                    <input
+                                        type="email"
+                                        required
+                                        placeholder="your@email.com"
+                                        className="win-input font-sans"
+                                        value={formData.email}
+                                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                                    />
+                                </div>
+                                <div style={{ display: "flex", alignItems: "center", gap: 6, borderBottom: "1px solid #808080", paddingBottom: 4 }}>
+                                    <span style={{ fontSize: 11, fontWeight: "bold", width: 50, flexShrink: 0 }}>Name:</span>
+                                    <input
+                                        type="text"
+                                        required
+                                        placeholder="Your name"
+                                        className="win-input font-sans"
+                                        value={formData.name}
+                                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                    />
+                                </div>
+                                {/* Message body */}
                                 <textarea
-                                    id="message"
                                     required
                                     placeholder="Tell me about your project..."
-                                    className="flex min-h-[120px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                                    className="win-input font-sans"
+                                    style={{ minHeight: 120, resize: "vertical" }}
                                     value={formData.message}
                                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                                 />
-                            </div>
-                            <button
-                                type="submit"
-                                className="inline-flex items-center justify-center w-full h-11 rounded-md bg-primary text-primary-foreground font-medium shadow hover:bg-primary/90 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                            >
-                                Send Message
-                                <Send className="ml-2 h-4 w-4" />
-                            </button>
-                        </form>
-                    </motion.div>
+                                <div style={{ display: "flex", gap: 6 }}>
+                                    <button type="submit" className="win-btn-primary font-sans" style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 11, padding: "4px 14px" }}>
+                                        <Send size={11} />
+                                        Send Message
+                                    </button>
+                                    <button type="button" className="win-btn font-sans" onClick={() => setFormData({ name: "", email: "", message: "" })}>
+                                        Clear
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div className="win-statusbar font-sans">
+                        <div className="win-inset font-sans" style={{ flex: 1, padding: "1px 6px", fontSize: 10 }}>
+                            Ready
+                        </div>
+                        <div className="win-inset font-sans" style={{ padding: "1px 6px", fontSize: 10 }}>
+                            Outlook Express 6.0
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>

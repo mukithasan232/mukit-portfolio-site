@@ -46,20 +46,33 @@ interface Message {
 // --- Helper Components ---
 
 const ChatButton = ({ onClick, isOpen }: { onClick: () => void; isOpen: boolean }) => (
-    <motion.button
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
+    <button
         onClick={onClick}
-        className={cn(
-            "fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full shadow-2xl transition-all duration-300",
-            isOpen
-                ? "bg-red-500 text-white rotate-90"
-                : "bg-gradient-to-r from-blue-600 to-indigo-600 text-white animate-pulse-subtle"
-        )}
+        className="win-btn font-sans"
+        style={{
+            position: "fixed",
+            bottom: 38,
+            right: 8,
+            zIndex: 9999,
+            display: "flex",
+            alignItems: "center",
+            gap: 4,
+            fontSize: 11,
+            padding: "3px 10px",
+            height: 22,
+            minWidth: 80,
+            background: isOpen ? "#000080" : "#d4d0c8",
+            color: isOpen ? "#fff" : "#000",
+            borderTop: isOpen ? "2px solid #000040" : "2px solid #fff",
+            borderLeft: isOpen ? "2px solid #000040" : "2px solid #fff",
+            borderRight: isOpen ? "2px solid #8080ff" : "2px solid #404040",
+            borderBottom: isOpen ? "2px solid #8080ff" : "2px solid #404040",
+        }}
         aria-label={isOpen ? "Close Chat" : "Open Mukit AI"}
     >
-        {isOpen ? <X size={24} /> : <Bot size={28} />}
-    </motion.button>
+        <Bot size={12} />
+        {isOpen ? "Close" : "Mukit AI"}
+    </button>
 );
 
 const SkillChart = ({ data }: { data: typeof SKILL_DATA }) => (
@@ -473,55 +486,32 @@ export function MukitAI() {
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 20, scale: 0.95 }}
                         transition={{ duration: 0.2 }}
-                        className="fixed bottom-24 right-6 z-50 w-[90vw] max-w-[380px] overflow-hidden rounded-2xl border border-border/50 bg-background/80 shadow-2xl backdrop-blur-xl flex flex-col h-[600px] max-h-[80vh]"
+                        className="fixed bottom-36 right-4 z-50 w-[90vw] max-w-[380px] overflow-hidden flex flex-col h-[500px] max-h-[70vh]"
+                        style={{
+                            background: "#d4d0c8",
+                            borderTop: "2px solid #fff",
+                            borderLeft: "2px solid #fff",
+                            borderRight: "2px solid #404040",
+                            borderBottom: "2px solid #404040",
+                            boxShadow: "inset -1px -1px 0 #808080, inset 1px 1px 0 #e8e4d8",
+                        }}
                     >
-                        {/* Header */}
-                        <div className={cn("flex items-center justify-between border-b border-border/50 p-4 backdrop-blur-md transition-colors",
-                            mode === 'recruiter' ? "bg-purple-500/10" :
-                                mode === 'client' ? "bg-green-500/10" :
-                                    mode === 'interview' ? "bg-orange-500/10" :
-                                        "bg-muted/40"
-                        )}>
-                            <div className="flex items-center gap-3">
-                                <div className="relative">
-                                    <div className={cn("flex h-10 w-10 items-center justify-center rounded-full shadow-lg transition-colors",
-                                        mode === 'recruiter' ? "bg-gradient-to-tr from-purple-500 to-indigo-600" :
-                                            mode === 'client' ? "bg-gradient-to-tr from-green-500 to-teal-600" :
-                                                mode === 'interview' ? "bg-gradient-to-tr from-orange-500 to-red-600" :
-                                                    "bg-gradient-to-tr from-blue-500 to-purple-600"
-                                    )}>
-                                        {mode === 'recruiter' ? <Briefcase className="text-white" size={20} /> :
-                                            mode === 'client' ? <UserCheck className="text-white" size={20} /> :
-                                                mode === 'interview' ? <MessageSquare className="text-white" size={20} /> :
-                                                    <Bot className="text-white" size={20} />
-                                        }
-                                    </div>
-                                    <span className="absolute bottom-0 right-0 h-3 w-3 rounded-full bg-green-500 ring-2 ring-background"></span>
-                                </div>
-                                <div>
-                                    <h3 className="font-bold text-foreground">
-                                        {mode === 'recruiter' ? 'Mukit AI (Recruiter)' :
-                                            mode === 'client' ? 'Mukit AI (Sales)' :
-                                                mode === 'interview' ? 'Mukit AI (Interview)' :
-                                                    'Mukit AI'}
-                                    </h3>
-                                    <p className="text-xs text-muted-foreground flex items-center gap-1">
-                                        <span className="inline-block h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse"></span>
-                                        Online & Ready
-                                    </p>
-                                </div>
-                            </div>
+                        {/* Header / Title bar */}
+                        <div className="win-titlebar font-sans" style={{ flexShrink: 0 }}>
+                            <span style={{ fontSize: 11, fontWeight: "bold" }}>
+                                🤖 Mukit AI — Chat
+                            </span>
                             <button
                                 onClick={() => setIsOpen(false)}
-                                className="rounded-full p-2 text-muted-foreground hover:bg-muted transition-colors"
+                                className="win-titlebar-btn"
                                 aria-label="Close"
                             >
-                                <X size={18} />
+                                ✕
                             </button>
                         </div>
 
                         {/* Messages Area */}
-                        <div className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent">
+                        <div className="win-inset font-sans" style={{ flex: 1, overflowY: "auto", margin: "6px 6px 0", background: "#fff", padding: "6px 8px", fontSize: 11 }}>
                             {messages.map((msg) => (
                                 <motion.div
                                     key={msg.id}
@@ -530,11 +520,20 @@ export function MukitAI() {
                                     className={cn("flex w-full", msg.type === "user" ? "justify-end" : "justify-start")}
                                 >
                                     <div className={cn(
-                                        "relative max-w-[85%] rounded-2xl p-3 text-sm shadow-sm",
+                                        "relative max-w-[85%] p-2 text-xs",
                                         msg.type === "user"
-                                            ? "bg-blue-600 text-white rounded-br-none"
-                                            : "bg-muted/80 text-foreground rounded-bl-none border border-border/50"
-                                    )}>
+                                            ? "bg-primary text-primary-foreground"
+                                            : "bg-secondary text-secondary-foreground"
+                                    )}
+                                        style={{
+                                            border: msg.type === "user"
+                                                ? "2px solid #000040"
+                                                : "2px solid #808080",
+                                            fontFamily: "Tahoma, Arial, sans-serif",
+                                            fontSize: 11,
+                                            lineHeight: 1.5,
+                                        }}
+                                    >
                                         {msg.content && <p className="leading-relaxed whitespace-pre-wrap">{msg.content}</p>}
                                         {msg.type === "chart-skills" && msg.data && <SkillChart data={msg.data} />}
                                         {msg.type === "chart-growth" && <GrowthChart />}
@@ -600,7 +599,7 @@ export function MukitAI() {
                         )}
 
                         {/* Input Area */}
-                        <div className="border-t border-border/50 bg-muted/30 p-4 backdrop-blur-md">
+                        <div style={{ borderTop: "1px solid #808080", padding: "6px 8px", background: "#d4d0c8", display: "flex", gap: 4, margin: "0 0 0 0" }}>
                             <form
                                 onSubmit={(e) => {
                                     e.preventDefault();
@@ -612,17 +611,17 @@ export function MukitAI() {
                                     type="text"
                                     value={input}
                                     onChange={(e) => setInput(e.target.value)}
-                                    placeholder={mode === 'recruiter' ? "Ask about role fit..." :
-                                        mode === 'interview' ? "Ask an interview question..." :
-                                            "Ask me anything..."}
-                                    className="flex-1 rounded-full border border-border/50 bg-background/50 px-4 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-blue-500/50 placeholder:text-muted-foreground transition-all"
+                                    placeholder="Ask Mukit AI..."
+                                    className="win-input font-sans"
+                                    style={{ flex: 1 }}
                                 />
                                 <button
                                     type="submit"
                                     disabled={!input.trim()}
-                                    className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 text-white shadow-lg transition-transform hover:scale-105 disabled:opacity-50 disabled:hover:scale-100"
+                                    className="win-btn-primary font-sans"
+                                    style={{ display: "flex", alignItems: "center", gap: 3, fontSize: 11, padding: "3px 10px", opacity: !input.trim() ? 0.5 : 1 }}
                                 >
-                                    <Send size={18} />
+                                    <Send size={10} /> Send
                                 </button>
                             </form>
                         </div>
