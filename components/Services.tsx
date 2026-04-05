@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { DATA } from "@/lib/data";
 import { Code, Layout, Smartphone, Zap } from "lucide-react";
 
@@ -8,57 +7,80 @@ const icons = [Code, Layout, Smartphone, Zap];
 
 export function Services() {
     return (
-        <section id="services" className="section-padding bg-secondary/10 scroll-mt-20">
+        <section id="services" className="section-padding font-sans scroll-mt-20" style={{ background: "#c0c0c0" }}>
             <div className="container-standard">
-                <div className="text-center mb-16">
-                    <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">Expert Services</h2>
-                    <p className="mt-4 text-muted-foreground text-lg max-w-2xl mx-auto leading-relaxed">
-                        I specialize in building high-conversion, performance-driven web solutions tailored to your unique business needs.
-                    </p>
-                </div>
+                <div className="win-panel font-sans" style={{ maxWidth: 860, margin: "0 auto" }}>
+                    <div className="win-titlebar font-sans">
+                        <span style={{ fontSize: 11, fontWeight: "bold" }}>🔧 Control Panel — Expert Services</span>
+                        <div style={{ display: "flex", gap: 2 }}>
+                            <button className="win-titlebar-btn" aria-label="Minimize">_</button>
+                            <button className="win-titlebar-btn" aria-label="Maximize">□</button>
+                            <button className="win-titlebar-btn" aria-label="Close">✕</button>
+                        </div>
+                    </div>
 
-                <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 mb-20">
-                    {DATA.services.map((service, index) => {
-                        const Icon = icons[index % icons.length];
-                        return (
-                            <motion.div
-                                key={index}
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.5, delay: index * 0.1 }}
-                                viewport={{ once: true }}
-                                className="bg-card border border-border/50 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group"
-                            >
-                                <div className="h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
-                                    <Icon className="h-7 w-7 text-primary" />
-                                </div>
-                                <h3 className="text-xl font-bold mb-4 tracking-tight group-hover:text-primary transition-colors">{service.title}</h3>
-                                <p className="text-muted-foreground text-sm leading-relaxed">
-                                    {service.description}
-                                </p>
-                            </motion.div>
-                        );
-                    })}
-                </div>
+                    <div className="win-menubar font-sans">
+                        {["File", "View", "Help"].map((m) => (
+                            <span key={m} className="win-menubar-item">{m}</span>
+                        ))}
+                    </div>
 
-                {/* Development Process */}
-                <div className="pt-20 border-t border-border/50">
-                    <h3 className="text-2xl font-bold text-center mb-12">How I Work</h3>
-                    <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                        {[
-                            { step: "01", title: "Strategy", desc: "Understanding goals & planning the architecture." },
-                            { step: "02", title: "Design", desc: "Crafting pixel-perfect, modern UI/UX components." },
-                            { step: "03", title: "Develop", desc: "Building with clean code and high performance." },
-                            { step: "04", title: "Launch", desc: "Thorough testing and seamless deployment." }
-                        ].map((item, idx) => (
-                            <div key={idx} className="relative group">
-                                <span className="text-5xl font-black text-primary/5 absolute -top-4 -left-2 group-hover:text-primary/10 transition-colors uppercase italic">{item.step}</span>
-                                <div className="relative z-10">
-                                    <h4 className="font-bold text-lg mb-2">{item.title}</h4>
-                                    <p className="text-muted-foreground text-sm">{item.desc}</p>
+                    <div style={{ padding: 16, background: "#d4d0c8" }}>
+                        <p style={{ fontSize: 11, color: "#444", marginBottom: 12 }}>
+                            I specialize in building high-conversion, performance-driven web solutions tailored to your unique business needs.
+                        </p>
+
+                        {/* Service cards in icon view (like control panel applets) */}
+                        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))", gap: 8 }}>
+                            {DATA.services.map((service, index) => {
+                                const Icon = icons[index % icons.length];
+                                return (
+                                    <div
+                                        key={index}
+                                        className="win-panel font-sans"
+                                        style={{ padding: "10px 12px", cursor: "default" }}
+                                    >
+                                        <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
+                                            <div
+                                                className="win-inset font-sans"
+                                                style={{ width: 32, height: 32, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}
+                                            >
+                                                <Icon size={16} color="#000080" />
+                                            </div>
+                                            <span style={{ fontWeight: "bold", fontSize: 11 }}>{service.title}</span>
+                                        </div>
+                                        <p style={{ fontSize: 10, color: "#444", lineHeight: 1.5 }}>{service.description}</p>
+                                    </div>
+                                );
+                            })}
+                        </div>
+
+                        {/* How I work */}
+                        <div style={{ marginTop: 16 }}>
+                            <div className="win-groupbox font-sans">
+                                <span className="win-groupbox-label">How I Work</span>
+                                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))", gap: 8 }}>
+                                    {[
+                                        { step: "01", title: "Strategy", desc: "Understanding goals & planning the architecture." },
+                                        { step: "02", title: "Design", desc: "Crafting pixel-perfect, modern UI/UX components." },
+                                        { step: "03", title: "Develop", desc: "Building with clean code and high performance." },
+                                        { step: "04", title: "Launch", desc: "Thorough testing and seamless deployment." },
+                                    ].map((item, idx) => (
+                                        <div key={idx} style={{ fontSize: 11 }}>
+                                            <div style={{ fontWeight: "bold", color: "#000080", marginBottom: 2 }}>
+                                                Step {item.step}: {item.title}
+                                            </div>
+                                            <div style={{ color: "#444", fontSize: 10 }}>{item.desc}</div>
+                                        </div>
+                                    ))}
                                 </div>
                             </div>
-                        ))}
+                        </div>
+                    </div>
+
+                    <div style={{ borderTop: "1px solid #808080", padding: "8px 12px", display: "flex", justifyContent: "flex-end", gap: 8, background: "#d4d0c8" }}>
+                        <button className="win-btn-primary font-sans" style={{ padding: "4px 14px", fontSize: 11 }}>OK</button>
+                        <button className="win-btn font-sans">Close</button>
                     </div>
                 </div>
             </div>

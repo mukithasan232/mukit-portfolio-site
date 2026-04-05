@@ -5,68 +5,112 @@ import Link from "next/link";
 
 export function Footer() {
     return (
-        <footer className="bg-background border-t border-border py-16 md:py-24">
-            <div className="container-standard">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-                    <div className="space-y-4">
-                        <span className="font-bold text-2xl tracking-tighter text-primary">Mukit.</span>
-                        <p className="text-sm text-muted-foreground leading-relaxed max-w-xs">
-                            {DATA.subheading}
-                        </p>
-                        <div className="flex space-x-4 pt-2">
-                            {DATA.socials.map((social) => (
-                                <Link key={social.name} href={social.url} className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center text-muted-foreground hover:text-primary transition-colors border border-border/50">
-                                    <social.icon className="h-4 w-4" />
-                                    <span className="sr-only">{social.name}</span>
-                                </Link>
-                            ))}
+        <footer className="font-sans" style={{ background: "#d4d0c8", borderTop: "2px solid #808080", paddingBottom: 40 }}>
+            <div className="container-standard" style={{ paddingTop: 20 }}>
+                <div className="win-panel font-sans" style={{ maxWidth: 860, margin: "0 auto" }}>
+                    <div className="win-titlebar font-sans">
+                        <span style={{ fontSize: 11, fontWeight: "bold" }}>📌 Mukit Hasan — Site Map</span>
+                        <div style={{ display: "flex", gap: 2 }}>
+                            <button className="win-titlebar-btn" aria-label="Minimize">_</button>
+                            <button className="win-titlebar-btn" aria-label="Maximize">□</button>
+                            <button className="win-titlebar-btn" aria-label="Close">✕</button>
                         </div>
                     </div>
 
-                    <div className="md:pl-8">
-                        <h3 className="font-bold text-sm uppercase tracking-widest mb-6 border-b border-border pb-2 inline-block">Navigation</h3>
-                        <div className="grid grid-cols-2 gap-x-8 gap-y-3 text-sm text-muted-foreground">
-                            <Link href="#about" className="hover:text-primary transition-colors flex items-center gap-2">About</Link>
-                            <Link href="#skills" className="hover:text-primary transition-colors flex items-center gap-2">Skills</Link>
-                            <Link href="#projects" className="hover:text-primary transition-colors flex items-center gap-2">Projects</Link>
-                            <Link href="#services" className="hover:text-primary transition-colors flex items-center gap-2">Services</Link>
-                            <Link href="#experience" className="hover:text-primary transition-colors flex items-center gap-2">Experience</Link>
-                            <Link href="#blog" className="hover:text-primary transition-colors flex items-center gap-2">Articles</Link>
-                            <Link href="#testimonials" className="hover:text-primary transition-colors flex items-center gap-2">Testimonials</Link>
-                            <Link href="#contact" className="hover:text-primary transition-colors flex items-center gap-2 font-bold text-foreground">Hire Me</Link>
-                        </div>
-                    </div>
-
-                    <div>
-                        <h3 className="font-bold text-sm uppercase tracking-widest mb-6 border-b border-border pb-2 inline-block">Contact Info</h3>
-                        <div className="space-y-4 text-sm text-muted-foreground">
-                            <p className="flex items-center gap-2 italic">Ready to start a new project? Let&apos;s build something amazing together.</p>
-                            <div>
-                                <span className="block text-xs font-bold text-foreground uppercase tracking-wider mb-1">Business</span>
-                                <a href={`mailto:${DATA.contact.email}`} className="block hover:text-primary transition-colors underline underline-offset-4">{DATA.contact.email}</a>
-                            </div>
-                            <div>
-                                <span className="block text-xs font-bold text-foreground uppercase tracking-wider mb-1">Personal</span>
-                                <a href={`mailto:${DATA.contact.personalEmail}`} className="block hover:text-primary transition-colors underline underline-offset-4">{DATA.contact.personalEmail}</a>
+                    <div style={{ padding: 16, background: "#d4d0c8", display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))", gap: 16 }}>
+                        {/* Brand */}
+                        <div>
+                            <p style={{ fontWeight: "bold", fontSize: 16, color: "#000080", marginBottom: 6 }}>Mukit.</p>
+                            <p style={{ fontSize: 11, color: "#444", lineHeight: 1.6, marginBottom: 8 }}>
+                                {DATA.subheading}
+                            </p>
+                            <div style={{ display: "flex", gap: 5, flexWrap: "wrap" }}>
+                                {DATA.socials.map((social) => (
+                                    <Link
+                                        key={social.name}
+                                        href={social.url}
+                                        className="win-btn font-sans"
+                                        style={{ minWidth: 26, padding: "2px 5px", display: "flex", alignItems: "center", justifyContent: "center" }}
+                                        aria-label={social.name}
+                                    >
+                                        <social.icon size={12} />
+                                    </Link>
+                                ))}
                             </div>
                         </div>
+
+                        {/* Navigation */}
+                        <div>
+                            <p style={{ fontWeight: "bold", fontSize: 11, textTransform: "uppercase", letterSpacing: 1, marginBottom: 8, borderBottom: "1px solid #808080", paddingBottom: 4 }}>Navigation</p>
+                            <div style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: 11 }}>
+                                {[
+                                    { href: "#about", label: "About" },
+                                    { href: "#skills", label: "Skills" },
+                                    { href: "#projects", label: "Projects" },
+                                    { href: "#services", label: "Services" },
+                                    { href: "#experience", label: "Experience" },
+                                    { href: "#blog", label: "Articles" },
+                                    { href: "#contact", label: "Hire Me" },
+                                ].map(({ href, label }) => (
+                                    <Link key={href} href={href} style={{ color: "#0000ff", textDecoration: "underline", fontSize: 11 }}>
+                                        {label}
+                                    </Link>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Contact info */}
+                        <div>
+                            <p style={{ fontWeight: "bold", fontSize: 11, textTransform: "uppercase", letterSpacing: 1, marginBottom: 8, borderBottom: "1px solid #808080", paddingBottom: 4 }}>Contact Info</p>
+                            <div style={{ fontSize: 11, color: "#444", display: "flex", flexDirection: "column", gap: 6 }}>
+                                <p style={{ fontStyle: "italic" }}>Ready to start a new project? Let&apos;s build something amazing together.</p>
+                                <div>
+                                    <p style={{ fontWeight: "bold", fontSize: 10, textTransform: "uppercase" }}>Business</p>
+                                    <a href={`mailto:${DATA.contact.email}`} style={{ color: "#0000ff", textDecoration: "underline", fontSize: 11 }}>
+                                        {DATA.contact.email}
+                                    </a>
+                                </div>
+                                <div>
+                                    <p style={{ fontWeight: "bold", fontSize: 10, textTransform: "uppercase" }}>Personal</p>
+                                    <a href={`mailto:${DATA.contact.personalEmail}`} style={{ color: "#0000ff", textDecoration: "underline", fontSize: 11 }}>
+                                        {DATA.contact.personalEmail}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Map / iframe */}
+                        <div>
+                            <p style={{ fontWeight: "bold", fontSize: 11, textTransform: "uppercase", letterSpacing: 1, marginBottom: 8, borderBottom: "1px solid #808080", paddingBottom: 4 }}>Location</p>
+                            <div className="win-inset font-sans" style={{ height: 140, overflow: "hidden", padding: 2 }}>
+                                <iframe
+                                    src={DATA.mapUrl}
+                                    width="100%"
+                                    height="100%"
+                                    style={{ border: 0 }}
+                                    allowFullScreen
+                                    loading="lazy"
+                                    referrerPolicy="no-referrer-when-downgrade"
+                                    title="Location map"
+                                />
+                            </div>
+                        </div>
                     </div>
 
-                    {/* Map Integration */}
-                    <div className="lg:col-span-1 border border-border/50 rounded-xl overflow-hidden bg-card h-[200px] shadow-sm">
-                        <iframe
-                            src={DATA.mapUrl}
-                            width="100%"
-                            height="100%"
-                            style={{ border: 0 }}
-                            allowFullScreen
-                            loading="lazy"
-                            referrerPolicy="no-referrer-when-downgrade"
-                        />
+                    {/* Footer bar */}
+                    <div
+                        style={{
+                            borderTop: "1px solid #808080",
+                            padding: "6px 12px",
+                            textAlign: "center",
+                            fontSize: 10,
+                            color: "#444",
+                            background: "#d4d0c8",
+                        }}
+                    >
+                        &copy; {new Date().getFullYear()} {DATA.name}. All rights reserved.&nbsp;&nbsp;|&nbsp;&nbsp;
+                        Windows 2000 Theme
                     </div>
-                </div>
-                <div className="mt-8 pt-8 border-t border-border text-center text-sm text-muted-foreground">
-                    &copy; {new Date().getFullYear()} {DATA.name}. All rights reserved.
                 </div>
             </div>
         </footer>

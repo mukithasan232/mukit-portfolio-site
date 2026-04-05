@@ -1,45 +1,37 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { DATA } from "@/lib/data";
 
 export function SocialProof() {
     return (
-        <section className="py-16 md:py-24 relative overflow-hidden">
+        <section className="font-sans" style={{ background: "#d4d0c8", borderBottom: "2px solid #808080", padding: "16px 0" }}>
             <div className="container-standard">
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 md:gap-12 lg:gap-24">
-                    {DATA.stats.map((stat, index) => (
-                        <motion.div
-                            key={index}
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5, delay: index * 0.1 }}
-                            viewport={{ once: true }}
-                            className="relative group text-center"
-                        >
-                            <div className="flex flex-col items-center">
-                                <motion.span
-                                    className="text-5xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-b from-primary/80 to-primary/40 group-hover:from-primary transition-all duration-500"
-                                >
+                <div className="win-panel font-sans" style={{ maxWidth: 860, margin: "0 auto" }}>
+                    <div className="win-titlebar font-sans">
+                        <span style={{ fontSize: 11, fontWeight: "bold" }}>📊 System Monitor — Stats</span>
+                        <div style={{ display: "flex", gap: 2 }}>
+                            <button className="win-titlebar-btn" aria-label="Minimize">_</button>
+                            <button className="win-titlebar-btn" aria-label="Close">✕</button>
+                        </div>
+                    </div>
+                    <div style={{ padding: "12px 16px", display: "flex", justifyContent: "space-around", flexWrap: "wrap", gap: 12, background: "#d4d0c8" }}>
+                        {DATA.stats.map((stat, index) => (
+                            <div
+                                key={index}
+                                className="win-inset font-sans"
+                                style={{ textAlign: "center", padding: "10px 20px", minWidth: 100, background: "#fff" }}
+                            >
+                                <div style={{ fontWeight: "bold", fontSize: 28, color: "#000080", fontFamily: "Courier New, monospace" }}>
                                     {stat.value}
-                                </motion.span>
-                                <span className="mt-2 text-xs md:text-sm font-bold uppercase tracking-[0.2em] text-muted-foreground/60 transition-colors group-hover:text-primary/80">
+                                </div>
+                                <div style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: 1, color: "#444", marginTop: 2 }}>
                                     {stat.label}
-                                </span>
+                                </div>
                             </div>
-
-                            {/* Decorative line below on mobile */}
-                            {index < DATA.stats.length - 1 && (
-                                <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-12 h-px bg-border sm:hidden" />
-                            )}
-                        </motion.div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
             </div>
-
-            {/* Subtle background element */}
-            <div className="absolute inset-0 -z-10 bg-gradient-to-b from-transparent via-primary/5 to-transparent h-px w-full top-0" />
-            <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-border/50 to-transparent" />
         </section>
     );
 }

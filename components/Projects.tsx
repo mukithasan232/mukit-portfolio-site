@@ -1,11 +1,9 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { ExternalLink, Github } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { DATA } from "@/lib/data";
-// Inline Badge style for speed
 
 interface Project {
     title: string;
@@ -18,158 +16,133 @@ interface Project {
     images: string[];
 }
 
-const ProjectCard = ({ project, index }: { project: Project, index: number }) => {
+const ProjectCard = ({ project, index }: { project: Project; index: number }) => {
     const [currentImage, setCurrentImage] = useState(0);
     const [isLightboxOpen, setIsLightboxOpen] = useState(false);
-
-    const nextImage = (e?: React.MouseEvent) => {
-        e?.stopPropagation();
-        setCurrentImage((prev) => (prev + 1) % project.images.length);
-    };
-
-    const prevImage = (e?: React.MouseEvent) => {
-        e?.stopPropagation();
-        setCurrentImage((prev) => (prev - 1 + project.images.length) % project.images.length);
-    };
+    const [minimized, setMinimized] = useState(false);
 
     return (
         <>
-            <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="group rounded-xl border border-border bg-card shadow-sm transition-all hover:shadow-xl hover:-translate-y-1 overflow-hidden flex flex-col"
-            >
-                <div
-                    className="aspect-video w-full bg-muted/50 relative overflow-hidden flex items-center justify-center cursor-pointer"
-                    onClick={() => project.images && project.images.length > 0 && setIsLightboxOpen(true)}
-                >
-                    {project.images && project.images.length > 0 ? (
-                        <>
-                            <motion.img
-                                key={currentImage}
-                                src={project.images[currentImage]}
-                                alt={project.title}
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ duration: 0.5 }}
-                                className="absolute inset-0 w-full h-full object-cover"
-                            />
-                            {project.images.length > 1 && (
-                                <div className="absolute bottom-2 right-2 flex gap-1 z-10" onClick={(e) => e.stopPropagation()}>
+            <div className="win-panel font-sans" style={{ display: "flex", flexDirection: "column" }}>
+                {/* Title bar */}
+                <div className="win-titlebar font-sans">
+                    <span style={{ fontSize: 11, fontWeight: "bold" }}>📄 {project.title}</span>
+                    <div style={{ display: "flex", gap: 2 }}>
+                        <button className="win-titlebar-btn" onClick={() => setMinimized(!minimized)} aria-label="Minimize">_</button>
+                        <button className="win-titlebar-btn" aria-label="Maximize">□</button>
+                        <button className="win-titlebar-btn" aria-label="Close">✕</button>
+                    </div>
+                </div>
+
+                {!minimized && (
+                    <>
+                        {/* Image area */}
+                        <div
+                            className="win-inset font-sans"
+                            style={{ margin: "6px 6px 0", cursor: "pointer", height: 120, overflow: "hidden", position: "relative" }}
+                            onClick={() => project.images?.length > 0 && setIsLightboxOpen(true)}
+                        >
+                            {project.images?.length > 0 ? (
+                                <img
+                                    src={project.images[currentImage]}
+                                    alt={project.title}
+                                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                                />
+                            ) : (
+                                <div style={{ width: "100%", height: "100%", background: "#808080", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, color: "#fff" }}>
+                                    No Preview Available
+                                </div>
+                            )}
+                            {project.images?.length > 1 && (
+                                <div style={{ position: "absolute", bottom: 4, right: 4, display: "flex", gap: 3 }}>
                                     {project.images.map((_: string, idx: number) => (
                                         <button
                                             key={idx}
-                                            onClick={(e) => { e.preventDefault(); setCurrentImage(idx); }}
-                                            className={`h-2 w-2 rounded-full transition-all ${currentImage === idx ? "bg-primary w-4" : "bg-primary/30 hover:bg-primary/50"}`}
+                                            onClick={(e) => { e.stopPropagation(); setCurrentImage(idx); }}
+                                            style={{
+                                                width: 8,
+                                                height: 8,
+                                                background: idx === currentImage ? "#000080" : "#c0c0c0",
+                                                border: "1px solid #000",
+                                                padding: 0,
+                                                cursor: "pointer",
+                                            }}
+                                            aria-label={`Image ${idx + 1}`}
                                         />
                                     ))}
                                 </div>
                             )}
-                            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
-                                <span className="bg-background/80 text-foreground text-xs px-2 py-1 rounded backdrop-blur-sm">Click to View</span>
+                        </div>
+
+                        {/* Details */}
+                        <div style={{ padding: "8px 8px 6px", fontSize: 11, flex: 1, display: "flex", flexDirection: "column", gap: 4 }}>
+                            <div>
+                                <span style={{ fontWeight: "bold" }}>Problem: </span>
+                                <span style={{ color: "#444" }}>{project.problem}</span>
                             </div>
-                        </>
-                    ) : (
-                        <>
-                            <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-blue-500/10 group-hover:scale-105 transition-transform duration-500" />
-                            <span className="z-10 text-muted-foreground font-semibold px-4 text-center">{project.title} Preview</span>
-                        </>
-                    )}
-                </div>
+                            <div>
+                                <span style={{ fontWeight: "bold" }}>Solution: </span>
+                                <span style={{ color: "#444" }}>{project.solution}</span>
+                            </div>
+                            <div>
+                                <span style={{ fontWeight: "bold" }}>Result: </span>
+                                <span style={{ color: "#444" }}>{project.result}</span>
+                            </div>
 
-                <div className="p-6 flex flex-col flex-1">
-                    <h3 className="text-xl font-bold mb-4 group-hover:text-primary transition-colors">{project.title}</h3>
-
-                    <div className="space-y-3 mb-6 flex-1 text-sm">
-                        <div>
-                            <span className="font-semibold text-foreground">Problem:</span> <span className="text-muted-foreground">{project.problem}</span>
+                            {/* Tech tags */}
+                            <div style={{ display: "flex", flexWrap: "wrap", gap: 3, marginTop: 4 }}>
+                                {project.tech.map((t: string) => (
+                                    <span
+                                        key={t}
+                                        className="win-inset font-sans"
+                                        style={{ fontSize: 10, padding: "1px 5px", background: "#fff" }}
+                                    >
+                                        {t}
+                                    </span>
+                                ))}
+                            </div>
                         </div>
-                        <div>
-                            <span className="font-semibold text-foreground">Solution:</span> <span className="text-muted-foreground">{project.solution}</span>
+
+                        {/* Buttons */}
+                        <div style={{ borderTop: "1px solid #808080", padding: "6px 8px", display: "flex", gap: 6 }}>
+                            <Link
+                                href={project.live}
+                                target="_blank"
+                                className="win-btn-primary font-sans"
+                                style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: 3, fontSize: 11, padding: "3px 10px" }}
+                            >
+                                <ExternalLink size={10} /> Live Demo
+                            </Link>
+                            <Link
+                                href={project.github}
+                                target="_blank"
+                                className="win-btn font-sans"
+                                style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: 3, fontSize: 11, padding: "3px 10px" }}
+                            >
+                                <Github size={10} /> GitHub
+                            </Link>
                         </div>
-                        <div>
-                            <span className="font-semibold text-foreground">Result:</span> <span className="text-muted-foreground">{project.result}</span>
-                        </div>
-                    </div>
+                    </>
+                )}
+            </div>
 
-                    <div className="flex flex-wrap gap-2 mb-6">
-                        {project.tech.map((t: string) => (
-                            <span key={t} className="inline-flex items-center rounded-md border border-transparent bg-secondary px-2.5 py-0.5 text-xs font-semibold text-secondary-foreground transition-colors hover:bg-secondary/80">
-                                {t}
-                            </span>
-                        ))}
-                    </div>
-
-                    <div className="flex gap-4 mt-auto">
-                        <Link
-                            href={project.live}
-                            target="_blank"
-                            className="flex-1 inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow hover:bg-primary/90 transition-colors"
-                        >
-                            <ExternalLink className="mr-2 h-4 w-4" />
-                            Live Demo
-                        </Link>
-                        <Link
-                            href={project.github}
-                            target="_blank"
-                            className="flex-1 inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium shadow-sm hover:bg-accent hover:text-accent-foreground transition-colors"
-                        >
-                            <Github className="mr-2 h-4 w-4" />
-                            GitHub
-                        </Link>
-                    </div>
-                </div>
-            </motion.div>
-
-            {/* Lightbox / Modal */}
+            {/* Lightbox */}
             {isLightboxOpen && (
                 <div
-                    className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-sm p-4"
+                    style={{ position: "fixed", inset: 0, zIndex: 1000, background: "rgba(0,0,0,0.85)", display: "flex", alignItems: "center", justifyContent: "center" }}
                     onClick={() => setIsLightboxOpen(false)}
                 >
-                    <button
-                        className="absolute top-4 right-4 text-white/70 hover:text-white p-2"
-                        onClick={() => setIsLightboxOpen(false)}
-                    >
-                        <ExternalLink className="h-8 w-8 rotate-45" /> {/* Using rotate-45 ExternalLink as a makeshift X or I should import X */}
-                    </button>
-
-                    <div
-                        className="relative max-w-5xl w-full max-h-[90vh] flex items-center justify-center"
-                        onClick={(e) => e.stopPropagation()}
-                    >
-                        {project.images.length > 1 && (
-                            <button
-                                className="absolute left-2 md:-left-12 text-white/70 hover:text-white bg-black/50 p-2 rounded-full md:bg-transparent"
-                                onClick={prevImage}
-                            >
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6" /></svg>
-                            </button>
-                        )}
-
-                        <motion.img
-                            key={currentImage}
-                            src={project.images[currentImage]}
-                            alt={project.title}
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ duration: 0.3 }}
-                            className="max-w-full max-h-[85vh] object-contain rounded-md"
-                        />
-
-                        {project.images.length > 1 && (
-                            <button
-                                className="absolute right-2 md:-right-12 text-white/70 hover:text-white bg-black/50 p-2 rounded-full md:bg-transparent"
-                                onClick={nextImage}
-                            >
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6" /></svg>
-                            </button>
-                        )}
-
-                        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/50 px-3 py-1 rounded-full text-white text-sm">
-                            {currentImage + 1} / {project.images.length}
+                    <div className="win-panel font-sans" style={{ maxWidth: "90vw", maxHeight: "90vh" }} onClick={(e) => e.stopPropagation()}>
+                        <div className="win-titlebar font-sans">
+                            <span style={{ fontSize: 11, fontWeight: "bold" }}>🖼 {project.title} — Image Viewer</span>
+                            <button className="win-titlebar-btn" onClick={() => setIsLightboxOpen(false)} aria-label="Close">✕</button>
+                        </div>
+                        <div style={{ padding: 8 }}>
+                            <img
+                                src={project.images[currentImage]}
+                                alt={project.title}
+                                style={{ maxWidth: "80vw", maxHeight: "70vh", display: "block" }}
+                            />
                         </div>
                     </div>
                 </div>
@@ -180,24 +153,46 @@ const ProjectCard = ({ project, index }: { project: Project, index: number }) =>
 
 export function Projects() {
     return (
-        <section id="projects" className="section-padding bg-background scroll-mt-20">
+        <section id="projects" className="section-padding font-sans scroll-mt-20" style={{ background: "#d4d0c8" }}>
             <div className="container-standard">
-                <div className="text-center mb-16">
-                    <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-primary uppercase font-black tracking-tight">More Projects</h2>
-                    <p className="mt-4 text-muted-foreground text-lg max-w-2xl mx-auto">
-                        Explore my complete portfolio of web applications showcasing various technologies and problem-solving skills.
-                    </p>
+                {/* Section header window */}
+                <div className="win-panel font-sans" style={{ marginBottom: 16 }}>
+                    <div className="win-titlebar font-sans">
+                        <span style={{ fontSize: 11, fontWeight: "bold" }}>💼 My Portfolio — Windows Explorer</span>
+                        <div style={{ display: "flex", gap: 2 }}>
+                            <button className="win-titlebar-btn" aria-label="Minimize">_</button>
+                            <button className="win-titlebar-btn" aria-label="Maximize">□</button>
+                            <button className="win-titlebar-btn" aria-label="Close">✕</button>
+                        </div>
+                    </div>
+                    <div className="win-menubar font-sans">
+                        {["File", "Edit", "View", "Favorites", "Tools", "Help"].map((m) => (
+                            <span key={m} className="win-menubar-item">{m}</span>
+                        ))}
+                    </div>
+                    <div style={{ padding: "8px 12px", fontSize: 11 }}>
+                        <p style={{ fontWeight: "bold", marginBottom: 2 }}>More Projects</p>
+                        <p style={{ color: "#444" }}>
+                            Explore my complete portfolio of web applications showcasing various technologies and problem-solving skills.
+                        </p>
+                    </div>
                 </div>
 
-                <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                {/* Project cards grid */}
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 12 }}>
                     {DATA.projects.map((project, index) => (
                         <ProjectCard key={index} project={project} index={index} />
                     ))}
                 </div>
 
-                <div className="mt-12 text-center">
-                    <Link href="https://github.com/mukithasan232" className="text-primary hover:underline font-medium inline-flex items-center">
-                        View more projects on GitHub <ExternalLink className="ml-1 h-3 w-3" />
+                <div style={{ marginTop: 12, display: "flex", justifyContent: "center" }}>
+                    <Link
+                        href="https://github.com/mukithasan232"
+                        className="win-btn font-sans"
+                        style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 11, textDecoration: "none" }}
+                    >
+                        <Github size={12} />
+                        View more on GitHub
                     </Link>
                 </div>
             </div>

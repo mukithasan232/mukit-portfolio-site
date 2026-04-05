@@ -13,7 +13,7 @@ import { Contact } from "@/components/Contact";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col w-full pt-16 overflow-x-hidden">
+    <main className="flex min-h-screen flex-col w-full overflow-x-hidden" style={{ paddingBottom: 32 }}>
       <Hero />
       <div className="space-y-0">
         <SocialProof />
