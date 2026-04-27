@@ -48,29 +48,36 @@ interface Message {
 const ChatButton = ({ onClick, isOpen }: { onClick: () => void; isOpen: boolean }) => (
     <button
         onClick={onClick}
-        className="win-btn font-sans"
         style={{
             position: "fixed",
-            bottom: 38,
-            right: 8,
+            bottom: 24,
+            right: 24,
             zIndex: 9999,
             display: "flex",
             alignItems: "center",
-            gap: 4,
-            fontSize: 11,
-            padding: "3px 10px",
-            height: 22,
-            minWidth: 80,
-            background: isOpen ? "#000080" : "#d4d0c8",
-            color: isOpen ? "#fff" : "#000",
-            borderTop: isOpen ? "2px solid #000040" : "2px solid #fff",
-            borderLeft: isOpen ? "2px solid #000040" : "2px solid #fff",
-            borderRight: isOpen ? "2px solid #8080ff" : "2px solid #404040",
-            borderBottom: isOpen ? "2px solid #8080ff" : "2px solid #404040",
+            gap: 8,
+            fontSize: 14,
+            fontWeight: 600,
+            padding: "12px 20px",
+            borderRadius: 50,
+            background: isOpen
+                ? "rgba(99,102,241,0.15)"
+                : "linear-gradient(135deg, #6366f1, #8b5cf6)",
+            color: "#fff",
+            border: isOpen
+                ? "1px solid rgba(99,102,241,0.4)"
+                : "none",
+            cursor: "pointer",
+            boxShadow: isOpen
+                ? "0 4px 20px rgba(99,102,241,0.2)"
+                : "0 8px 32px rgba(99,102,241,0.4)",
+            backdropFilter: "blur(12px)",
+            transition: "all 0.3s ease",
+            fontFamily: "'Inter', sans-serif",
         }}
         aria-label={isOpen ? "Close Chat" : "Open Mukit AI"}
     >
-        <Bot size={12} />
+        {isOpen ? <X size={18} /> : <Bot size={18} />}
         {isOpen ? "Close" : "Mukit AI"}
     </button>
 );
@@ -486,67 +493,118 @@ export function MukitAI() {
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 20, scale: 0.95 }}
                         transition={{ duration: 0.2 }}
-                        className="fixed bottom-36 right-4 z-50 w-[90vw] max-w-[380px] overflow-hidden flex flex-col h-[500px] max-h-[70vh]"
+                        className="fixed bottom-24 right-4 z-50 w-[90vw] max-w-[400px] overflow-hidden flex flex-col h-[520px] max-h-[75vh]"
                         style={{
-                            background: "#d4d0c8",
-                            borderTop: "2px solid #fff",
-                            borderLeft: "2px solid #fff",
-                            borderRight: "2px solid #404040",
-                            borderBottom: "2px solid #404040",
-                            boxShadow: "inset -1px -1px 0 #808080, inset 1px 1px 0 #e8e4d8",
+                            background: "rgba(8, 13, 26, 0.95)",
+                            backdropFilter: "blur(24px)",
+                            WebkitBackdropFilter: "blur(24px)",
+                            border: "1px solid rgba(99, 102, 241, 0.25)",
+                            borderRadius: 20,
+                            boxShadow: "0 24px 80px rgba(99, 102, 241, 0.2)",
                         }}
                     >
-                        {/* Header / Title bar */}
-                        <div className="win-titlebar font-sans" style={{ flexShrink: 0 }}>
-                            <span style={{ fontSize: 11, fontWeight: "bold" }}>
-                                🤖 Mukit AI — Chat
-                            </span>
+                        {/* Header */}
+                        <div
+                            style={{
+                                padding: "16px 20px",
+                                borderBottom: "1px solid rgba(99, 102, 241, 0.15)",
+                                flexShrink: 0,
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "space-between",
+                                background: "linear-gradient(90deg, rgba(99,102,241,0.1), transparent)",
+                            }}
+                        >
+                            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                                <div
+                                    style={{
+                                        width: 32,
+                                        height: 32,
+                                        borderRadius: "50%",
+                                        background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                    }}
+                                >
+                                    <Bot size={16} color="white" />
+                                </div>
+                                <div>
+                                    <div style={{ fontSize: 14, fontWeight: 700, color: "#f0f4ff" }}>Mukit AI</div>
+                                    <div style={{ fontSize: 11, color: "#10b981", display: "flex", alignItems: "center", gap: 4 }}>
+                                        <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#10b981", display: "inline-block", boxShadow: "0 0 6px #10b981" }} />
+                                        Online
+                                    </div>
+                                </div>
+                            </div>
                             <button
                                 onClick={() => setIsOpen(false)}
-                                className="win-titlebar-btn"
+                                style={{
+                                    background: "rgba(99,102,241,0.1)",
+                                    border: "1px solid rgba(99,102,241,0.2)",
+                                    borderRadius: 8,
+                                    padding: "4px 8px",
+                                    cursor: "pointer",
+                                    color: "#a5b4fc",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                }}
                                 aria-label="Close"
                             >
-                                ✕
+                                <X size={16} />
                             </button>
                         </div>
 
                         {/* Messages Area */}
-                        <div className="win-inset font-sans" style={{ flex: 1, overflowY: "auto", margin: "6px 6px 0", background: "#fff", padding: "6px 8px", fontSize: 11 }}>
+                        <div style={{ flex: 1, overflowY: "auto", padding: "12px 14px", fontSize: 13, display: "flex", flexDirection: "column", gap: 8 }}>
                             {messages.map((msg) => (
                                 <motion.div
                                     key={msg.id}
                                     initial={{ opacity: 0, y: 10 }}
                                     animate={{ opacity: 1, y: 0 }}
-                                    className={cn("flex w-full", msg.type === "user" ? "justify-end" : "justify-start")}
+                                    style={{ display: "flex", justifyContent: msg.type === "user" ? "flex-end" : "flex-start", width: "100%" }}
                                 >
-                                    <div className={cn(
-                                        "relative max-w-[85%] p-2 text-xs",
-                                        msg.type === "user"
-                                            ? "bg-primary text-primary-foreground"
-                                            : "bg-secondary text-secondary-foreground"
-                                    )}
+                                    <div
                                         style={{
+                                            maxWidth: "85%",
+                                            padding: "10px 14px",
+                                            borderRadius: msg.type === "user" ? "16px 16px 4px 16px" : "16px 16px 16px 4px",
+                                            background: msg.type === "user"
+                                                ? "linear-gradient(135deg, #6366f1, #8b5cf6)"
+                                                : "rgba(255,255,255,0.05)",
                                             border: msg.type === "user"
-                                                ? "2px solid #000040"
-                                                : "2px solid #808080",
-                                            fontFamily: "Tahoma, Arial, sans-serif",
-                                            fontSize: 11,
-                                            lineHeight: 1.5,
+                                                ? "none"
+                                                : "1px solid rgba(99,102,241,0.15)",
+                                            color: msg.type === "user" ? "#fff" : "#94a3b8",
+                                            fontSize: 13,
+                                            lineHeight: 1.6,
                                         }}
                                     >
-                                        {msg.content && <p className="leading-relaxed whitespace-pre-wrap">{msg.content}</p>}
+                                        {msg.content && <p style={{ margin: 0, whiteSpace: "pre-wrap" }}>{msg.content}</p>}
                                         {msg.type === "chart-skills" && msg.data && <SkillChart data={msg.data} />}
                                         {msg.type === "chart-growth" && <GrowthChart />}
 
                                         {/* Support multiple actions */}
                                         {msg.actions && (
-                                            <div className="mt-3 flex flex-wrap gap-2">
+                                            <div style={{ marginTop: 10, display: "flex", flexWrap: "wrap", gap: 6 }}>
                                                 {msg.actions.map((action, idx) => (
-                                                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                                                     <button
                                                         key={idx}
                                                         onClick={() => handleAction(action)}
-                                                        className="flex items-center gap-1 text-xs font-semibold text-blue-500 hover:text-blue-600 transition-colors bg-blue-50/50 dark:bg-blue-950/20 px-2 py-1 rounded-md border border-blue-100 dark:border-blue-900"
+                                                        style={{
+                                                            display: "flex",
+                                                            alignItems: "center",
+                                                            gap: 4,
+                                                            fontSize: 12,
+                                                            fontWeight: 600,
+                                                            color: "#a5b4fc",
+                                                            background: "rgba(99,102,241,0.1)",
+                                                            border: "1px solid rgba(99,102,241,0.25)",
+                                                            borderRadius: 8,
+                                                            padding: "5px 10px",
+                                                            cursor: "pointer",
+                                                        }}
                                                     >
                                                         {action.label} <ChevronRight size={12} />
                                                     </button>
@@ -556,12 +614,22 @@ export function MukitAI() {
 
                                         {/* Backward compatibility for single action */}
                                         {msg.action && !msg.actions && (
-                                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
                                             <button
                                                 onClick={() => handleAction(msg.action!)}
-                                                className="mt-3 flex items-center gap-1 text-xs font-semibold text-blue-500 hover:text-blue-600 transition-colors"
+                                                style={{
+                                                    marginTop: 8,
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    gap: 4,
+                                                    fontSize: 12,
+                                                    fontWeight: 600,
+                                                    color: "#a5b4fc",
+                                                    background: "transparent",
+                                                    border: "none",
+                                                    cursor: "pointer",
+                                                }}
                                             >
-                                                {msg.action.label} <ChevronRight size={14} />
+                                                {msg.action.label} <ChevronRight size={12} />
                                             </button>
                                         )}
                                     </div>
@@ -569,11 +637,31 @@ export function MukitAI() {
                             ))}
 
                             {isTyping && (
-                                <div className="flex justify-start">
-                                    <div className="bg-muted/80 text-foreground rounded-2xl rounded-bl-none border border-border/50 p-4 flex gap-1">
-                                        <span className="w-2 h-2 bg-foreground/60 rounded-full animate-bounce [animation-delay:-0.3s]"></span>
-                                        <span className="w-2 h-2 bg-foreground/60 rounded-full animate-bounce [animation-delay:-0.15s]"></span>
-                                        <span className="w-2 h-2 bg-foreground/60 rounded-full animate-bounce"></span>
+                                <div style={{ display: "flex", justifyContent: "flex-start" }}>
+                                    <div
+                                        style={{
+                                            background: "rgba(255,255,255,0.05)",
+                                            border: "1px solid rgba(99,102,241,0.15)",
+                                            borderRadius: "16px 16px 16px 4px",
+                                            padding: "12px 16px",
+                                            display: "flex",
+                                            gap: 5,
+                                            alignItems: "center",
+                                        }}
+                                    >
+                                        {[0, 1, 2].map((i) => (
+                                            <span
+                                                key={i}
+                                                style={{
+                                                    width: 6,
+                                                    height: 6,
+                                                    borderRadius: "50%",
+                                                    background: "#6366f1",
+                                                    display: "inline-block",
+                                                    animation: `bounce 1s ease-in-out ${i * 0.15}s infinite`,
+                                                }}
+                                            />
+                                        ))}
                                     </div>
                                 </div>
                             )}
@@ -582,14 +670,24 @@ export function MukitAI() {
 
                         {/* Suggestions */}
                         {messages.length < 3 && !isTyping && (
-                            <div className="px-4 pb-2">
-                                <p className="mb-2 text-xs font-medium text-muted-foreground ml-1">Suggested:</p>
-                                <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+                            <div style={{ padding: "8px 14px", borderTop: "1px solid rgba(99,102,241,0.1)" }}>
+                                <p style={{ fontSize: 11, color: "#475569", marginBottom: 8, fontWeight: 600 }}>Suggested:</p>
+                                <div style={{ display: "flex", gap: 6, overflowX: "auto", paddingBottom: 4 }}>
                                     {getSuggestions().map((q, i) => (
                                         <button
                                             key={i}
                                             onClick={() => handleSendMessage(q)}
-                                            className="whitespace-nowrap rounded-full border border-primary/20 bg-primary/5 px-3 py-1.5 text-xs text-primary hover:bg-primary/10 transition-colors"
+                                            style={{
+                                                whiteSpace: "nowrap",
+                                                borderRadius: 20,
+                                                border: "1px solid rgba(99,102,241,0.25)",
+                                                background: "rgba(99,102,241,0.06)",
+                                                padding: "5px 12px",
+                                                fontSize: 12,
+                                                color: "#a5b4fc",
+                                                cursor: "pointer",
+                                                fontWeight: 500,
+                                            }}
                                         >
                                             {q}
                                         </button>
@@ -599,29 +697,50 @@ export function MukitAI() {
                         )}
 
                         {/* Input Area */}
-                        <div style={{ borderTop: "1px solid #808080", padding: "6px 8px", background: "#d4d0c8", display: "flex", gap: 4, margin: "0 0 0 0" }}>
+                        <div
+                            style={{
+                                borderTop: "1px solid rgba(99,102,241,0.15)",
+                                padding: "12px 14px",
+                                background: "rgba(8,13,26,0.5)",
+                            }}
+                        >
                             <form
                                 onSubmit={(e) => {
                                     e.preventDefault();
                                     handleSendMessage(input);
                                 }}
-                                className="flex items-center gap-2"
+                                style={{ display: "flex", gap: 8, alignItems: "center" }}
                             >
                                 <input
                                     type="text"
                                     value={input}
                                     onChange={(e) => setInput(e.target.value)}
                                     placeholder="Ask Mukit AI..."
-                                    className="win-input font-sans"
-                                    style={{ flex: 1 }}
+                                    className="form-input"
+                                    style={{ flex: 1, padding: "10px 14px", fontSize: 13 }}
                                 />
                                 <button
                                     type="submit"
                                     disabled={!input.trim()}
-                                    className="win-btn-primary font-sans"
-                                    style={{ display: "flex", alignItems: "center", gap: 3, fontSize: 11, padding: "3px 10px", opacity: !input.trim() ? 0.5 : 1 }}
+                                    style={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        width: 40,
+                                        height: 40,
+                                        borderRadius: 10,
+                                        background: !input.trim()
+                                            ? "rgba(99,102,241,0.1)"
+                                            : "linear-gradient(135deg, #6366f1, #8b5cf6)",
+                                        border: "none",
+                                        cursor: !input.trim() ? "not-allowed" : "pointer",
+                                        color: "#fff",
+                                        opacity: !input.trim() ? 0.4 : 1,
+                                        flexShrink: 0,
+                                        transition: "all 0.2s ease",
+                                    }}
                                 >
-                                    <Send size={10} /> Send
+                                    <Send size={16} />
                                 </button>
                             </form>
                         </div>

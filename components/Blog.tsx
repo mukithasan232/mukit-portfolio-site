@@ -1,103 +1,169 @@
 "use client";
 
-import { ArrowRight } from "lucide-react";
-import Link from "next/link";
-import Image from "next/image";
 import { DATA } from "@/lib/data";
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight, Calendar } from "lucide-react";
 
 export function Blog() {
     return (
-        <section id="blog" className="section-padding font-sans scroll-mt-20" style={{ background: "#d4d0c8" }}>
-            <div className="container-standard">
-                <div className="win-panel font-sans" style={{ maxWidth: 860, margin: "0 auto" }}>
-                    <div className="win-titlebar font-sans">
-                        <span style={{ fontSize: 11, fontWeight: "bold" }}>📰 Internet Explorer — Latest Articles</span>
-                        <div style={{ display: "flex", gap: 2 }}>
-                            <button className="win-titlebar-btn" aria-label="Minimize">_</button>
-                            <button className="win-titlebar-btn" aria-label="Maximize">□</button>
-                            <button className="win-titlebar-btn" aria-label="Close">✕</button>
-                        </div>
-                    </div>
-                    <div className="win-menubar font-sans">
-                        {["File", "Edit", "View", "Favorites", "Tools", "Help"].map((m) => (
-                            <span key={m} className="win-menubar-item">{m}</span>
-                        ))}
-                    </div>
+        <section
+            id="blog"
+            className="section-padding"
+            style={{
+                background: "linear-gradient(180deg, #0a0f1e 0%, #080d1a 100%)",
+                position: "relative",
+                overflow: "hidden",
+            }}
+        >
+            {/* Ambient glow */}
+            <div
+                className="glow-blob glow-blob-violet"
+                style={{ width: 400, height: 400, left: 0, bottom: 0, opacity: 0.08 }}
+            />
 
-                    <div style={{ padding: 16, background: "#d4d0c8" }}>
-                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
-                            <div>
-                                <p style={{ fontWeight: "bold", fontSize: 13 }}>Latest Articles</p>
-                                <p style={{ fontSize: 11, color: "#444" }}>Insights on development, design, and growth.</p>
+            <div className="container-standard" style={{ position: "relative", zIndex: 1 }}>
+                {/* Section header */}
+                <div style={{ textAlign: "center", marginBottom: 64 }}>
+                    <span className="section-label">Insights & Writing</span>
+                    <h2 className="section-title" style={{ margin: "0 auto 16px" }}>
+                        Latest{" "}
+                        <span
+                            style={{
+                                background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
+                                WebkitBackgroundClip: "text",
+                                WebkitTextFillColor: "transparent",
+                                backgroundClip: "text",
+                            }}
+                        >
+                            Articles
+                        </span>
+                    </h2>
+                    <p className="section-subtitle" style={{ margin: "0 auto" }}>
+                        Thoughts on full-stack development, AI integration, and building products that matter.
+                    </p>
+                </div>
+
+                {/* Blog grid */}
+                <div
+                    style={{
+                        display: "grid",
+                        gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
+                        gap: 20,
+                    }}
+                    className="blog-grid"
+                >
+                    {DATA.blog.map((post, i) => (
+                        <article
+                            key={i}
+                            style={{
+                                background: "rgba(15, 23, 42, 0.7)",
+                                backdropFilter: "blur(16px)",
+                                border: "1px solid rgba(99, 102, 241, 0.15)",
+                                borderRadius: 16,
+                                overflow: "hidden",
+                                transition: "all 0.3s ease",
+                                cursor: "pointer",
+                            }}
+                            onMouseEnter={(e) => {
+                                (e.currentTarget as HTMLElement).style.borderColor = "rgba(99, 102, 241, 0.4)";
+                                (e.currentTarget as HTMLElement).style.transform = "translateY(-4px)";
+                                (e.currentTarget as HTMLElement).style.boxShadow = "0 16px 40px rgba(99, 102, 241, 0.12)";
+                            }}
+                            onMouseLeave={(e) => {
+                                (e.currentTarget as HTMLElement).style.borderColor = "rgba(99, 102, 241, 0.15)";
+                                (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
+                                (e.currentTarget as HTMLElement).style.boxShadow = "none";
+                            }}
+                        >
+                            {/* Image */}
+                            <div style={{ height: 180, overflow: "hidden", position: "relative" }}>
+                                <Image
+                                    src={post.image}
+                                    alt={post.title}
+                                    fill
+                                    className="object-cover"
+                                    unoptimized
+                                    style={{ transition: "transform 0.5s ease" }}
+                                />
+                                <div
+                                    style={{
+                                        position: "absolute",
+                                        inset: 0,
+                                        background: "linear-gradient(180deg, transparent 50%, rgba(15,23,42,0.7) 100%)",
+                                    }}
+                                />
+                                {/* Category badge */}
+                                <span
+                                    className="badge-ai"
+                                    style={{
+                                        position: "absolute",
+                                        top: 12,
+                                        left: 12,
+                                        background: "rgba(99,102,241,0.2)",
+                                        borderColor: "rgba(99,102,241,0.4)",
+                                        color: "#a5b4fc",
+                                    }}
+                                >
+                                    {post.category}
+                                </span>
                             </div>
-                            <Link href="#" className="win-btn font-sans" style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 11, textDecoration: "none" }}>
-                                View All <ArrowRight size={10} />
-                            </Link>
-                        </div>
 
-                        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: 10 }}>
-                            {DATA.blog.map((post, index) => (
-                                <div key={index} className="win-panel font-sans" style={{ cursor: "pointer" }}>
-                                    <div className="win-inset font-sans" style={{ height: 90, overflow: "hidden", margin: 6 }}>
-                                        {post.image ? (
-                                            <Image
-                                                src={post.image}
-                                                alt={post.title}
-                                                width={300}
-                                                height={90}
-                                                style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                                            />
-                                        ) : (
-                                            <div style={{ width: "100%", height: "100%", background: "#808080", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10, color: "#fff" }}>
-                                                No Image
-                                            </div>
-                                        )}
-                                    </div>
-                                    <div style={{ padding: "4px 8px 8px", fontSize: 11 }}>
-                                        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 2 }}>
-                                            <span style={{ fontSize: 9, background: "#000080", color: "#fff", padding: "1px 5px", textTransform: "uppercase" }}>{post.category}</span>
-                                            <span style={{ fontSize: 9, color: "#808080" }}>{post.date}</span>
-                                        </div>
-                                        <p style={{ fontWeight: "bold", marginBottom: 3, lineHeight: 1.3 }}>{post.title}</p>
-                                        <p style={{ fontSize: 10, color: "#444", lineHeight: 1.5, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
-                                            {post.excerpt}
-                                        </p>
-                                        <div style={{ marginTop: 5, color: "#0000ff", textDecoration: "underline", fontSize: 10, display: "flex", alignItems: "center", gap: 2, cursor: "pointer" }}>
-                                            Read Article <ArrowRight size={8} />
-                                        </div>
-                                    </div>
+                            {/* Content */}
+                            <div style={{ padding: "20px 22px" }}>
+                                <div
+                                    style={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        gap: 6,
+                                        color: "#475569",
+                                        fontSize: 12,
+                                        marginBottom: 10,
+                                    }}
+                                >
+                                    <Calendar size={12} />
+                                    {post.date}
                                 </div>
-                            ))}
-                        </div>
-
-                        {/* Newsletter */}
-                        <div className="win-groupbox font-sans" style={{ marginTop: 16 }}>
-                            <span className="win-groupbox-label">Newsletter — Stay in the Loop</span>
-                            <p style={{ fontSize: 11, color: "#444", marginBottom: 8 }}>
-                                Subscribe for the latest insights on web development, modern UI trends, and SEO strategies.
-                            </p>
-                            <form style={{ display: "flex", gap: 6 }} onSubmit={(e) => e.preventDefault()}>
-                                <input type="email" placeholder="Enter your email" className="win-input font-sans" style={{ maxWidth: 220 }} required />
-                                <button type="submit" className="win-btn-primary font-sans" style={{ fontSize: 11, padding: "3px 14px" }}>
-                                    Subscribe
-                                </button>
-                            </form>
-                            <p style={{ fontSize: 9, color: "#808080", marginTop: 4, textTransform: "uppercase", letterSpacing: 1 }}>
-                                No spam. Only high-quality dev content.
-                            </p>
-                        </div>
-                    </div>
-
-                    <div className="win-statusbar font-sans">
-                        <div className="win-inset font-sans" style={{ flex: 1, padding: "1px 6px", fontSize: 10 }}>
-                            {DATA.blog.length} article(s)
-                        </div>
-                        <div className="win-inset font-sans" style={{ padding: "1px 6px", fontSize: 10 }}>
-                            Done
-                        </div>
-                    </div>
+                                <h3
+                                    style={{
+                                        fontSize: 16,
+                                        fontWeight: 700,
+                                        color: "#f0f4ff",
+                                        marginBottom: 8,
+                                        lineHeight: 1.4,
+                                        fontFamily: "'Outfit', sans-serif",
+                                    }}
+                                >
+                                    {post.title}
+                                </h3>
+                                <p style={{ fontSize: 13, color: "#64748b", lineHeight: 1.6, marginBottom: 16 }}>
+                                    {post.excerpt}
+                                </p>
+                                <div
+                                    style={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        gap: 4,
+                                        fontSize: 13,
+                                        fontWeight: 600,
+                                        color: "#6366f1",
+                                    }}
+                                >
+                                    Read more <ArrowRight size={13} />
+                                </div>
+                            </div>
+                        </article>
+                    ))}
                 </div>
             </div>
+
+            <style jsx global>{`
+                @media (max-width: 640px) {
+                    .blog-grid {
+                        grid-template-columns: 1fr !important;
+                    }
+                }
+            `}</style>
         </section>
     );
 }

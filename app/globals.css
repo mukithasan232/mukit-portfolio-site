@@ -32,13 +32,6 @@
   --color-card: hsl(var(--card));
   --color-card-foreground: hsl(var(--card-foreground));
 
-  /* Win2K custom tokens */
-  --color-win-titlebar: hsl(var(--win-titlebar));
-  --color-win-titlebar-end: hsl(var(--win-titlebar-end));
-  --color-win-silver: hsl(var(--win-silver));
-  --color-win-highlight: hsl(var(--win-highlight));
-  --color-win-shadow: hsl(var(--win-shadow));
-
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
@@ -46,7 +39,10 @@
   --animate-accordion-down: accordion-down 0.2s ease-out;
   --animate-accordion-up: accordion-up 0.2s ease-out;
   --animate-blink: blink 1s step-end infinite;
-  --animate-marquee: marquee 18s linear infinite;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-glow-pulse: glow-pulse 3s ease-in-out infinite;
+  --animate-gradient-x: gradient-x 8s ease infinite;
+  --animate-slide-up: slide-up 0.6s ease-out forwards;
 
   @keyframes accordion-down {
     from { height: 0; }
@@ -60,78 +56,81 @@
     0%, 100% { opacity: 1; }
     50% { opacity: 0; }
   }
-  @keyframes marquee {
-    from { transform: translateX(100%); }
-    to { transform: translateX(-100%); }
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-18px); }
+  }
+  @keyframes spin-slow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  @keyframes glow-pulse {
+    0%, 100% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.3); }
+    50% { box-shadow: 0 0 40px rgba(99, 102, 241, 0.6), 0 0 80px rgba(139, 92, 246, 0.3); }
+  }
+  @keyframes gradient-x {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+  @keyframes slide-up {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes shimmer {
+    0% { background-position: -200% center; }
+    100% { background-position: 200% center; }
   }
 }
 
-/* =============================================
-   WIN2K COLOR PALETTE
-   Silver: #c0c0c0  |  Dark navy title: #000080
-   Light face: #d4d0c8  |  Button highlight: #ffffff
-   Button shadow: #808080  |  Button dark shadow: #404040
-   ============================================= */
-
 :root {
-  /* Core palette - Win2K silver theme */
-  --background: 0 0% 0% / 0%; /* teal desktop */
-  --foreground: 0 0% 0%;
-  --card: 0 0% 83%;
-  --card-foreground: 0 0% 0%;
-  --popover: 0 0% 83%;
-  --popover-foreground: 0 0% 0%;
-  --primary: 240 100% 25%;        /* navy #000080 */
-  --primary-foreground: 0 0% 100%;
-  --secondary: 0 0% 83%;          /* silver #d4d0c8 */
-  --secondary-foreground: 0 0% 0%;
-  --muted: 0 0% 75%;
-  --muted-foreground: 0 0% 30%;
-  --accent: 240 100% 25%;
-  --accent-foreground: 0 0% 100%;
-  --destructive: 0 80% 50%;
-  --destructive-foreground: 0 0% 100%;
-  --border: 0 0% 75%;
-  --input: 0 0% 100%;
-  --ring: 240 100% 25%;
-  --radius: 0rem;
-
-  /* Win2K special */
-  --win-titlebar: 240 100% 25%;
-  --win-titlebar-end: 209 70% 45%;
-  --win-silver: 0 0% 83%;
-  --win-highlight: 0 0% 100%;
-  --win-shadow: 0 0% 50%;
-
-  /* Desktop teal */
-  --desktop-bg: #008080;
+  --background: 222 47% 6%;
+  --foreground: 210 40% 98%;
+  --card: 222 47% 8%;
+  --card-foreground: 210 40% 98%;
+  --popover: 222 47% 8%;
+  --popover-foreground: 210 40% 98%;
+  --primary: 246 83% 66%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 217 32% 17%;
+  --secondary-foreground: 210 40% 98%;
+  --muted: 217 32% 12%;
+  --muted-foreground: 215 20% 55%;
+  --accent: 270 70% 60%;
+  --accent-foreground: 210 40% 98%;
+  --destructive: 0 63% 52%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 217 32% 17%;
+  --input: 217 32% 17%;
+  --ring: 246 83% 66%;
+  --radius: 0.75rem;
 }
 
 .dark {
-  --background: 0 0% 0%;
-  --foreground: 0 0% 100%;
-  --card: 0 0% 83%;
-  --card-foreground: 0 0% 0%;
-  --popover: 0 0% 83%;
-  --popover-foreground: 0 0% 0%;
-  --primary: 240 100% 25%;
-  --primary-foreground: 0 0% 100%;
-  --secondary: 0 0% 83%;
-  --secondary-foreground: 0 0% 0%;
-  --muted: 0 0% 75%;
-  --muted-foreground: 0 0% 30%;
-  --accent: 240 100% 25%;
-  --accent-foreground: 0 0% 100%;
-  --destructive: 0 80% 50%;
-  --destructive-foreground: 0 0% 100%;
-  --border: 0 0% 75%;
-  --input: 0 0% 100%;
-  --ring: 240 100% 25%;
+  --background: 222 47% 6%;
+  --foreground: 210 40% 98%;
+  --card: 222 47% 8%;
+  --card-foreground: 210 40% 98%;
+  --popover: 222 47% 8%;
+  --popover-foreground: 210 40% 98%;
+  --primary: 246 83% 66%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 217 32% 17%;
+  --secondary-foreground: 210 40% 98%;
+  --muted: 217 32% 12%;
+  --muted-foreground: 215 20% 55%;
+  --accent: 270 70% 60%;
+  --accent-foreground: 210 40% 98%;
+  --destructive: 0 63% 52%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 217 32% 17%;
+  --input: 217 32% 17%;
+  --ring: 246 83% 66%;
 }
 
 @layer base {
   * {
     @apply border-border;
+    box-sizing: border-box;
   }
 
   html {
@@ -139,280 +138,390 @@
   }
 
   body {
-    background-color: #008080;
-    color: #000000;
-    font-family: 'Tahoma', 'Arial', sans-serif;
-    font-size: 11px;
+    background-color: #080d1a;
+    color: #f0f4ff;
+    font-family: 'Inter', 'Outfit', system-ui, -apple-system, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Outfit', 'Inter', system-ui, sans-serif;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  ::selection {
+    background: rgba(99, 102, 241, 0.4);
+    color: #fff;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #080d1a;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #6366f1, #8b5cf6);
+    border-radius: 3px;
   }
 }
 
 /* =============================================
-   WIN2K COMPONENT UTILITY CLASSES
+   GLASSMORPHISM UTILITIES
    ============================================= */
 
-/* Classic raised button bevel */
-.win-btn {
-  background: #d4d0c8;
-  border-top: 2px solid #ffffff;
-  border-left: 2px solid #ffffff;
-  border-right: 2px solid #404040;
-  border-bottom: 2px solid #404040;
-  box-shadow: inset 1px 1px 0 #808080;
+.glass {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-strong {
+  background: rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.glass-card {
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(99, 102, 241, 0.15);
+  border-radius: 16px;
+  transition: all 0.3s ease;
+}
+
+.glass-card:hover {
+  background: rgba(15, 23, 42, 0.8);
+  border-color: rgba(99, 102, 241, 0.35);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 60px rgba(99, 102, 241, 0.15);
+}
+
+/* =============================================
+   GRADIENT UTILITIES
+   ============================================= */
+
+.gradient-blue-violet {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6, #a855f7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-cyan {
+  background: linear-gradient(135deg, #06b6d4, #6366f1, #8b5cf6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* =============================================
+   GLOW EFFECTS
+   ============================================= */
+
+.glow-blue {
+  box-shadow: 0 0 20px rgba(99, 102, 241, 0.4), 0 0 60px rgba(99, 102, 241, 0.1);
+}
+
+.glow-violet {
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.4), 0 0 60px rgba(139, 92, 246, 0.1);
+}
+
+.glow-text {
+  text-shadow: 0 0 30px rgba(99, 102, 241, 0.6);
+}
+
+/* =============================================
+   BUTTON STYLES
+   ============================================= */
+
+.btn-primary {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: white;
+  padding: 12px 28px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 15px;
+  border: none;
   cursor: pointer;
-  padding: 3px 10px;
-  font-family: 'Tahoma', 'Arial', sans-serif;
-  font-size: 11px;
-  color: #000000;
-  min-width: 75px;
-  text-align: center;
-  user-select: none;
-}
-.win-btn:active {
-  border-top: 2px solid #404040;
-  border-left: 2px solid #404040;
-  border-right: 2px solid #ffffff;
-  border-bottom: 2px solid #ffffff;
-  box-shadow: inset 1px 1px 0 #808080;
-  padding: 4px 9px 2px 11px;
-}
-.win-btn:focus {
-  outline: 1px dotted #000000;
-  outline-offset: -4px;
-}
-
-/* Primary / default button (navy) */
-.win-btn-primary {
-  background: #000080;
-  color: #ffffff;
-  border-top: 2px solid #8080ff;
-  border-left: 2px solid #8080ff;
-  border-right: 2px solid #000040;
-  border-bottom: 2px solid #000040;
-  font-family: 'Tahoma', 'Arial', sans-serif;
-  font-size: 11px;
-  cursor: pointer;
-  padding: 3px 10px;
-}
-
-/* Raised panel / window surface */
-.win-panel {
-  background: #d4d0c8;
-  border-top: 2px solid #ffffff;
-  border-left: 2px solid #ffffff;
-  border-right: 2px solid #404040;
-  border-bottom: 2px solid #404040;
-  box-shadow: inset -1px -1px 0 #808080, inset 1px 1px 0 #e8e4d8;
-}
-
-/* Inset / sunken panel */
-.win-inset {
-  background: #ffffff;
-  border-top: 2px solid #808080;
-  border-left: 2px solid #808080;
-  border-right: 2px solid #ffffff;
-  border-bottom: 2px solid #ffffff;
-  box-shadow: inset 1px 1px 0 #404040;
-}
-
-/* Window title bar */
-.win-titlebar {
-  background: linear-gradient(to right, #000080, #1084d0);
-  color: #ffffff;
-  font-weight: bold;
-  font-size: 12px;
-  padding: 3px 6px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  user-select: none;
-}
-
-/* Window title bar buttons (close/min/max) */
-.win-titlebar-btn {
-  width: 16px;
-  height: 14px;
-  background: #d4d0c8;
-  border-top: 1px solid #ffffff;
-  border-left: 1px solid #ffffff;
-  border-right: 1px solid #404040;
-  border-bottom: 1px solid #404040;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  text-decoration: none;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  font-size: 9px;
-  font-weight: bold;
-  cursor: pointer;
-  color: #000;
-  line-height: 1;
+  gap: 8px;
 }
 
-/* Menu bar inside window */
-.win-menubar {
-  background: #d4d0c8;
-  border-bottom: 1px solid #808080;
-  display: flex;
-  align-items: center;
-  padding: 2px 4px;
-  gap: 0;
-  font-size: 11px;
-}
-
-.win-menubar-item {
-  padding: 2px 8px;
-  cursor: pointer;
-  color: #000;
-  text-decoration: none;
-  display: inline-block;
-}
-
-.win-menubar-item:hover,
-.win-menubar-item:focus {
-  background: #000080;
-  color: #ffffff;
-  outline: none;
-}
-
-/* Text input */
-.win-input {
-  background: #ffffff;
-  border-top: 2px solid #808080;
-  border-left: 2px solid #808080;
-  border-right: 2px solid #ffffff;
-  border-bottom: 2px solid #ffffff;
-  box-shadow: inset 1px 1px 0 #404040;
-  padding: 3px 5px;
-  font-family: 'Tahoma', 'Arial', sans-serif;
-  font-size: 11px;
-  color: #000;
-  outline: none;
-  width: 100%;
-}
-.win-input:focus {
-  box-shadow: inset 1px 1px 0 #404040;
-}
-
-/* Scrollbar styling */
-.win-scrollbar {
-  scrollbar-width: thin;
-  scrollbar-color: #c0c0c0 #d4d0c8;
-}
-
-/* Section/group box label */
-.win-groupbox {
-  border: 2px solid #808080;
-  border-top: 2px solid #808080;
-  padding: 16px 12px 12px;
-  position: relative;
-  margin-top: 8px;
-}
-
-.win-groupbox-label {
+.btn-primary::before {
+  content: '';
   position: absolute;
-  top: -9px;
-  left: 8px;
-  background: #d4d0c8;
-  padding: 0 4px;
-  font-size: 11px;
-  font-weight: bold;
+  inset: 0;
+  background: linear-gradient(135deg, #818cf8, #a78bfa);
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
-/* Statusbar */
-.win-statusbar {
-  background: #d4d0c8;
-  border-top: 2px solid #808080;
-  display: flex;
-  align-items: center;
-  padding: 2px 6px;
-  font-size: 11px;
-  gap: 4px;
+.btn-primary:hover::before {
+  opacity: 1;
 }
 
-/* Taskbar */
-.win-taskbar {
-  background: #d4d0c8;
-  border-top: 2px solid #ffffff;
-  box-shadow: inset 0 1px 0 #e8e4d8;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 30px;
-  display: flex;
-  align-items: center;
-  z-index: 1000;
-  padding: 2px 4px;
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
 }
 
-/* Start button */
-.win-start-btn {
-  background: #d4d0c8;
-  border-top: 2px solid #ffffff;
-  border-left: 2px solid #ffffff;
-  border-right: 2px solid #404040;
-  border-bottom: 2px solid #404040;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  padding: 2px 8px;
-  font-weight: bold;
-  font-size: 11px;
-  cursor: pointer;
-  height: 22px;
-  min-width: 60px;
-}
-
-/* Tooltip */
-.win-tooltip {
-  background: #ffffe1;
-  border: 1px solid #000;
-  padding: 2px 6px;
-  font-size: 11px;
-  pointer-events: none;
-}
-
-/* Section headings in Win2K style */
-.win-section-heading {
-  font-size: 13px;
-  font-weight: bold;
-  color: #000;
-  margin-bottom: 8px;
-  padding-bottom: 4px;
-  border-bottom: 1px solid #808080;
-}
-
-/* Tab strip */
-.win-tab {
-  background: #d4d0c8;
-  border-top: 2px solid #ffffff;
-  border-left: 2px solid #ffffff;
-  border-right: 2px solid #808080;
-  border-bottom: none;
-  padding: 3px 12px;
-  font-size: 11px;
-  cursor: pointer;
+.btn-primary span {
   position: relative;
-  top: 1px;
   z-index: 1;
 }
 
-.win-tab.active {
-  background: #d4d0c8;
-  z-index: 2;
-  font-weight: bold;
+.btn-outline {
+  background: transparent;
+  color: #a5b4fc;
+  padding: 11px 27px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 15px;
+  border: 1.5px solid rgba(99, 102, 241, 0.5);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  line-height: 1;
+  white-space: nowrap;
 }
 
-/* Fix for fixed header offset on anchor links */
+.btn-outline:hover {
+  background: rgba(99, 102, 241, 0.1);
+  border-color: #6366f1;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(99, 102, 241, 0.2);
+}
+
+/* =============================================
+   BADGE
+   ============================================= */
+
+.badge-ai {
+  background: linear-gradient(135deg, rgba(99,102,241,0.2), rgba(139,92,246,0.2));
+  border: 1px solid rgba(139,92,246,0.4);
+  color: #c4b5fd;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.5px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.badge-tech {
+  background: rgba(99, 102, 241, 0.1);
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  color: #a5b4fc;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 12px;
+  border-radius: 20px;
+  transition: all 0.2s ease;
+}
+
+.badge-tech:hover {
+  background: rgba(99, 102, 241, 0.2);
+  border-color: rgba(99, 102, 241, 0.5);
+  color: #c7d2fe;
+}
+
+/* =============================================
+   SECTION LAYOUT
+   ============================================= */
+
+.section-padding {
+  padding: 100px 0;
+}
+
+.container-standard {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.section-label {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #6366f1;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.section-title {
+  font-size: clamp(32px, 5vw, 48px);
+  font-weight: 800;
+  color: #f0f4ff;
+  margin-bottom: 16px;
+  line-height: 1.15;
+}
+
+.section-subtitle {
+  font-size: 17px;
+  color: #94a3b8;
+  max-width: 560px;
+  line-height: 1.7;
+}
+
+/* =============================================
+   GRID DOTS BACKGROUND
+   ============================================= */
+
+.grid-bg {
+  background-image: radial-gradient(rgba(99, 102, 241, 0.08) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* =============================================
+   ORBIT GLOW BLOBS
+   ============================================= */
+
+.glow-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.glow-blob-blue {
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.25), transparent 70%);
+}
+
+.glow-blob-violet {
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.2), transparent 70%);
+}
+
+.glow-blob-cyan {
+  background: radial-gradient(circle, rgba(6, 182, 212, 0.15), transparent 70%);
+}
+
+/* =============================================
+   FORM INPUTS
+   ============================================= */
+
+.form-input {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: 10px;
+  padding: 14px 18px;
+  font-size: 15px;
+  color: #f0f4ff;
+  outline: none;
+  transition: all 0.3s ease;
+  font-family: inherit;
+}
+
+.form-input::placeholder {
+  color: #475569;
+}
+
+.form-input:focus {
+  border-color: rgba(99, 102, 241, 0.6);
+  background: rgba(99, 102, 241, 0.06);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+/* =============================================
+   SHIMMER LOADING ANIMATION
+   ============================================= */
+
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0) 0%,
+    rgba(255,255,255,0.06) 50%,
+    rgba(255,255,255,0) 100%
+  );
+  background-size: 200% auto;
+  animation: shimmer 2s linear infinite;
+}
+
+/* =============================================
+   SCROLLBAR + TARGET OFFSET
+   ============================================= */
+
 :target {
-  scroll-margin-top: 5rem;
+  scroll-margin-top: 80px;
 }
 
-/* Standardized Spacing */
-@layer components {
-  .section-padding {
-    @apply py-8 md:py-12;
-  }
+/* =============================================
+   TECH ICON TAGS
+   ============================================= */
 
-  .container-standard {
-    @apply mx-auto px-4 max-w-5xl;
-  }
+.tech-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  color: #94a3b8;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  cursor: default;
+}
+
+.tech-tag:hover {
+  border-color: rgba(99, 102, 241, 0.5);
+  color: #c7d2fe;
+  background: rgba(99, 102, 241, 0.08);
+  transform: translateY(-2px);
+}
+
+/* =============================================
+   SKILL PROGRESS BAR
+   ============================================= */
+
+.skill-bar-track {
+  height: 6px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.skill-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #6366f1, #8b5cf6);
+  border-radius: 3px;
+  transition: width 1.2s ease-out;
+}
+
+/* =============================================
+   DIVIDER
+   ============================================= */
+
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.3), transparent);
+  margin: 0;
 }

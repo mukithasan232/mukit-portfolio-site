@@ -44,7 +44,7 @@ export function GitHubInsights() {
             Go: "#00ADD8",
             Rust: "#dea584",
         };
-        return colors[lang] || "#808080";
+        return colors[lang] || "#6366f1";
     };
 
     useEffect(() => {
@@ -118,160 +118,288 @@ export function GitHubInsights() {
     };
 
     const levelColor = (level: number) => {
-        if (level === 0) return "#d4d0c8";
-        if (level === 1) return "#9be9a8";
-        if (level === 2) return "#40c463";
-        if (level === 3) return "#30a14e";
-        return "#216e39";
+        if (level === 0) return "rgba(99,102,241,0.08)";
+        if (level === 1) return "rgba(99,102,241,0.25)";
+        if (level === 2) return "rgba(99,102,241,0.45)";
+        if (level === 3) return "rgba(99,102,241,0.7)";
+        return "#6366f1";
     };
 
     return (
-        <section id="activity" className="section-padding font-sans scroll-mt-20" style={{ background: "#d4d0c8" }}>
-            <div className="container-standard">
-                <div className="win-panel font-sans" style={{ maxWidth: 860, margin: "0 auto" }}>
-                    <div className="win-titlebar font-sans">
-                        <span style={{ fontSize: 11, fontWeight: "bold" }}>
-                            <GitCommit size={11} style={{ display: "inline", marginRight: 4 }} />
-                            GitHub Activity Monitor
-                        </span>
-                        <div style={{ display: "flex", gap: 2 }}>
-                            <button className="win-titlebar-btn" aria-label="Minimize">_</button>
-                            <button className="win-titlebar-btn" aria-label="Maximize">□</button>
-                            <button className="win-titlebar-btn" aria-label="Close">✕</button>
-                        </div>
-                    </div>
-                    <div className="win-menubar font-sans">
-                        {["File", "View", "Tools", "Help"].map((m) => (
-                            <span key={m} className="win-menubar-item">{m}</span>
-                        ))}
-                    </div>
+        <section
+            id="activity"
+            className="section-padding"
+            style={{
+                background: "linear-gradient(180deg, #0a0f1e 0%, #080d1a 100%)",
+                position: "relative",
+                overflow: "hidden",
+            }}
+        >
+            {/* Ambient glow */}
+            <div
+                className="glow-blob glow-blob-blue"
+                style={{ width: 400, height: 400, left: "10%", top: "30%", opacity: 0.08 }}
+            />
 
-                    {loading ? (
-                        <div style={{ padding: 24, textAlign: "center", fontSize: 11, color: "#444", background: "#d4d0c8" }}>
-                            Loading GitHub data...
-                        </div>
-                    ) : (
-                        <div style={{ padding: 16, background: "#d4d0c8" }}>
-                            {/* Stats row */}
-                            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(130px, 1fr))", gap: 8, marginBottom: 16 }}>
-                                {[
-                                    { icon: <GitCommit size={14} />, value: stats.totalContributions, label: "Commits" },
-                                    { icon: <Star size={14} />, value: stats.totalStars, label: "Stars" },
-                                    { icon: <BookMarked size={14} />, value: stats.publicRepos, label: "Repos" },
-                                    { icon: <Users size={14} />, value: stats.followers, label: "Followers" },
-                                ].map(({ icon, value, label }) => (
-                                    <div key={label} className="win-inset font-sans" style={{ padding: "8px 10px", background: "#fff", textAlign: "center" }}>
-                                        <div style={{ display: "flex", justifyContent: "center", color: "#000080", marginBottom: 2 }}>{icon}</div>
-                                        <div style={{ fontWeight: "bold", fontSize: 20, fontFamily: "Courier New, monospace", color: "#000080" }}>{value}</div>
-                                        <div style={{ fontSize: 9, textTransform: "uppercase", letterSpacing: 1, color: "#808080" }}>{label}</div>
+            <div className="container-standard" style={{ position: "relative", zIndex: 1 }}>
+                {/* Section header */}
+                <div style={{ textAlign: "center", marginBottom: 64 }}>
+                    <span className="section-label">Open Source</span>
+                    <h2 className="section-title" style={{ margin: "0 auto 16px" }}>
+                        GitHub{" "}
+                        <span
+                            style={{
+                                background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
+                                WebkitBackgroundClip: "text",
+                                WebkitTextFillColor: "transparent",
+                                backgroundClip: "text",
+                            }}
+                        >
+                            Activity
+                        </span>
+                    </h2>
+                    <p className="section-subtitle" style={{ margin: "0 auto" }}>
+                        Real-time GitHub insights and contribution graph.
+                    </p>
+                </div>
+
+                {loading ? (
+                    <div
+                        style={{
+                            textAlign: "center",
+                            padding: 60,
+                            color: "#475569",
+                            fontSize: 15,
+                        }}
+                    >
+                        <div
+                            style={{
+                                width: 40,
+                                height: 40,
+                                borderRadius: "50%",
+                                border: "3px solid rgba(99,102,241,0.2)",
+                                borderTopColor: "#6366f1",
+                                animation: "spin 0.8s linear infinite",
+                                margin: "0 auto 16px",
+                            }}
+                        />
+                        Loading GitHub activity...
+                    </div>
+                ) : (
+                    <div
+                        style={{
+                            background: "rgba(15, 23, 42, 0.7)",
+                            backdropFilter: "blur(20px)",
+                            border: "1px solid rgba(99, 102, 241, 0.15)",
+                            borderRadius: 24,
+                            padding: "32px",
+                            maxWidth: 900,
+                            margin: "0 auto",
+                        }}
+                    >
+                        {/* Stats row */}
+                        <div
+                            style={{
+                                display: "grid",
+                                gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))",
+                                gap: 12,
+                                marginBottom: 32,
+                            }}
+                        >
+                            {[
+                                { icon: <GitCommit size={18} />, value: stats.totalContributions, label: "Commits" },
+                                { icon: <Star size={18} />, value: stats.totalStars, label: "Stars" },
+                                { icon: <BookMarked size={18} />, value: stats.publicRepos, label: "Repos" },
+                                { icon: <Users size={18} />, value: stats.followers, label: "Followers" },
+                            ].map(({ icon, value, label }) => (
+                                <div
+                                    key={label}
+                                    style={{
+                                        background: "rgba(99,102,241,0.06)",
+                                        border: "1px solid rgba(99,102,241,0.12)",
+                                        borderRadius: 14,
+                                        padding: "18px 16px",
+                                        textAlign: "center",
+                                        transition: "all 0.2s ease",
+                                    }}
+                                    onMouseEnter={(e) => {
+                                        (e.currentTarget as HTMLElement).style.borderColor = "rgba(99,102,241,0.35)";
+                                        (e.currentTarget as HTMLElement).style.background = "rgba(99,102,241,0.1)";
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        (e.currentTarget as HTMLElement).style.borderColor = "rgba(99,102,241,0.12)";
+                                        (e.currentTarget as HTMLElement).style.background = "rgba(99,102,241,0.06)";
+                                    }}
+                                >
+                                    <div style={{ color: "#6366f1", display: "flex", justifyContent: "center", marginBottom: 8 }}>
+                                        {icon}
                                     </div>
+                                    <div
+                                        style={{
+                                            fontWeight: 800,
+                                            fontSize: 28,
+                                            fontFamily: "'Outfit', sans-serif",
+                                            background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
+                                            WebkitBackgroundClip: "text",
+                                            WebkitTextFillColor: "transparent",
+                                            backgroundClip: "text",
+                                            lineHeight: 1,
+                                            marginBottom: 4,
+                                        }}
+                                    >
+                                        {value}
+                                    </div>
+                                    <div style={{ fontSize: 12, color: "#475569", fontWeight: 600, textTransform: "uppercase", letterSpacing: 1 }}>
+                                        {label}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* Contribution graph */}
+                        <div style={{ marginBottom: 28 }}>
+                            <div
+                                style={{
+                                    display: "flex",
+                                    gap: 8,
+                                    alignItems: "center",
+                                    marginBottom: 16,
+                                    flexWrap: "wrap",
+                                }}
+                            >
+                                <span style={{ fontSize: 14, fontWeight: 700, color: "#e2e8f0", flex: 1 }}>
+                                    Contribution Graph
+                                </span>
+                                {stats.years.map((year) => (
+                                    <button
+                                        key={year}
+                                        onClick={() => handleYearChange(year)}
+                                        style={{
+                                            fontSize: 12,
+                                            padding: "4px 12px",
+                                            borderRadius: 20,
+                                            cursor: "pointer",
+                                            transition: "all 0.2s ease",
+                                            border: selectedYear === year
+                                                ? "1px solid rgba(99,102,241,0.6)"
+                                                : "1px solid rgba(99,102,241,0.15)",
+                                            background: selectedYear === year
+                                                ? "rgba(99,102,241,0.15)"
+                                                : "transparent",
+                                            color: selectedYear === year ? "#a5b4fc" : "#475569",
+                                            fontWeight: 600,
+                                        }}
+                                    >
+                                        {year}
+                                    </button>
                                 ))}
+                                <a
+                                    href="https://github.com/mukithasan232"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    style={{
+                                        color: "#6366f1",
+                                        textDecoration: "none",
+                                        fontSize: 13,
+                                        display: "flex",
+                                        alignItems: "center",
+                                        gap: 4,
+                                        fontWeight: 500,
+                                    }}
+                                >
+                                    Profile <ExternalLink size={12} />
+                                </a>
                             </div>
 
-                            {/* Contribution graph */}
-                            <div className="win-groupbox font-sans" style={{ marginBottom: 12 }}>
-                                <span className="win-groupbox-label">Contribution Graph</span>
-                                <div style={{ display: "flex", gap: 8, alignItems: "center", marginBottom: 6 }}>
-                                    {stats.years.map((year) => (
-                                        <button
-                                            key={year}
-                                            className="win-btn font-sans"
-                                            onClick={() => handleYearChange(year)}
-                                            style={{
-                                                fontSize: 10,
-                                                padding: "1px 8px",
-                                                background: selectedYear === year ? "#000080" : "#d4d0c8",
-                                                color: selectedYear === year ? "#fff" : "#000",
-                                            }}
-                                        >
-                                            {year}
-                                        </button>
-                                    ))}
-                                    <a
-                                        href="https://github.com/mukithasan232"
-                                        target="_blank"
-                                        style={{ marginLeft: "auto", color: "#0000ff", textDecoration: "underline", fontSize: 10, display: "flex", alignItems: "center", gap: 3 }}
-                                    >
-                                        View Profile <ExternalLink size={9} />
-                                    </a>
-                                </div>
-
+                            <div style={{ overflowX: "auto", paddingBottom: 8 }}>
                                 <div
-                                    className="win-inset font-sans"
-                                    style={{ background: "#fff", padding: 8, overflowX: "auto" }}
+                                    style={{ display: "flex", gap: 3, minWidth: "max-content" }}
                                     onMouseLeave={() => setHoveredDay(null)}
                                 >
-                                    <div style={{ display: "flex", gap: 2, minWidth: "max-content" }}>
-                                        {Array.from({ length: Math.ceil(stats.contributionGraph.length / 7) }).map((_, weekIndex) => (
-                                            <div key={weekIndex} style={{ display: "flex", flexDirection: "column", gap: 2 }}>
-                                                {stats.contributionGraph.slice(weekIndex * 7, weekIndex * 7 + 7).map((day, dayIndex) => {
-                                                    const globalIndex = weekIndex * 7 + dayIndex;
-                                                    return (
-                                                        <div
-                                                            key={day.date}
-                                                            onMouseEnter={() => setHoveredDay(globalIndex)}
-                                                            title={`${day.count} contributions on ${day.date}`}
-                                                            style={{
-                                                                width: 10,
-                                                                height: 10,
-                                                                background: levelColor(day.level),
-                                                                border: hoveredDay === globalIndex ? "1px solid #000080" : "1px solid transparent",
-                                                                cursor: "default",
-                                                                flexShrink: 0,
-                                                            }}
-                                                        />
-                                                    );
-                                                })}
-                                            </div>
-                                        ))}
-                                    </div>
-                                    {/* Legend */}
-                                    <div style={{ marginTop: 6, display: "flex", alignItems: "center", gap: 4, fontSize: 9, color: "#808080" }}>
-                                        <span>Less</span>
-                                        {[0, 1, 2, 3, 4].map((l) => (
-                                            <div key={l} style={{ width: 10, height: 10, background: levelColor(l), border: "1px solid #808080" }} />
-                                        ))}
-                                        <span>More</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Languages */}
-                            {stats.topLanguages.length > 0 && (
-                                <div className="win-groupbox font-sans">
-                                    <span className="win-groupbox-label">Top Languages</span>
-                                    <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-                                        {stats.topLanguages.map((lang) => (
-                                            <div key={lang.name} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 11 }}>
-                                                <span style={{ width: 80, flexShrink: 0 }}>{lang.name}</span>
-                                                <div className="win-inset font-sans" style={{ flex: 1, height: 14, overflow: "hidden", padding: 0 }}>
+                                    {Array.from({ length: Math.ceil(stats.contributionGraph.length / 7) }).map((_, weekIndex) => (
+                                        <div key={weekIndex} style={{ display: "flex", flexDirection: "column", gap: 3 }}>
+                                            {stats.contributionGraph.slice(weekIndex * 7, weekIndex * 7 + 7).map((day, dayIndex) => {
+                                                const globalIndex = weekIndex * 7 + dayIndex;
+                                                return (
                                                     <div
+                                                        key={day.date}
+                                                        onMouseEnter={() => setHoveredDay(globalIndex)}
+                                                        title={`${day.count} contributions on ${day.date}`}
                                                         style={{
-                                                            width: `${lang.percentage}%`,
-                                                            height: "100%",
-                                                            background: getLanguageColor(lang.name),
+                                                            width: 12,
+                                                            height: 12,
+                                                            borderRadius: 3,
+                                                            background: levelColor(day.level),
+                                                            border: hoveredDay === globalIndex
+                                                                ? "1px solid rgba(99,102,241,0.8)"
+                                                                : "1px solid transparent",
+                                                            cursor: "default",
+                                                            flexShrink: 0,
+                                                            transition: "all 0.1s ease",
                                                         }}
                                                     />
-                                                </div>
-                                                <span style={{ width: 32, textAlign: "right", color: "#808080" }}>{lang.percentage}%</span>
-                                            </div>
-                                        ))}
-                                    </div>
+                                                );
+                                            })}
+                                        </div>
+                                    ))}
                                 </div>
-                            )}
+                                {/* Legend */}
+                                <div style={{ marginTop: 8, display: "flex", alignItems: "center", gap: 6, fontSize: 12, color: "#475569" }}>
+                                    <span>Less</span>
+                                    {[0, 1, 2, 3, 4].map((l) => (
+                                        <div
+                                            key={l}
+                                            style={{
+                                                width: 12,
+                                                height: 12,
+                                                borderRadius: 3,
+                                                background: levelColor(l),
+                                            }}
+                                        />
+                                    ))}
+                                    <span>More</span>
+                                </div>
+                            </div>
                         </div>
-                    )}
 
-                    <div className="win-statusbar font-sans">
-                        <div className="win-inset font-sans" style={{ flex: 1, padding: "1px 6px", fontSize: 10 }}>
-                            {loading ? "Loading..." : `${stats.totalContributions} total contributions`}
-                        </div>
-                        <div className="win-inset font-sans" style={{ padding: "1px 6px", fontSize: 10 }}>
-                            github.com/mukithasan232
-                        </div>
+                        {/* Languages */}
+                        {stats.topLanguages.length > 0 && (
+                            <div>
+                                <div style={{ fontSize: 14, fontWeight: 700, color: "#e2e8f0", marginBottom: 16 }}>
+                                    Top Languages
+                                </div>
+                                <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                                    {stats.topLanguages.map((lang) => (
+                                        <div key={lang.name} style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                                            <span style={{ width: 90, fontSize: 13, color: "#94a3b8", fontWeight: 500, flexShrink: 0 }}>
+                                                {lang.name}
+                                            </span>
+                                            <div className="skill-bar-track" style={{ flex: 1 }}>
+                                                <div
+                                                    className="skill-bar-fill"
+                                                    style={{
+                                                        width: `${lang.percentage}%`,
+                                                        background: getLanguageColor(lang.name),
+                                                    }}
+                                                />
+                                            </div>
+                                            <span style={{ fontSize: 13, color: "#6366f1", fontWeight: 600, width: 36, textAlign: "right" }}>
+                                                {lang.percentage}%
+                                            </span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
                     </div>
-                </div>
+                )}
             </div>
+
+            <style jsx global>{`
+                @keyframes spin {
+                    to { transform: rotate(360deg); }
+                }
+            `}</style>
         </section>
     );
 }

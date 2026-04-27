@@ -2,36 +2,106 @@
 
 import { DATA } from "@/lib/data";
 
+const brands = [
+    "Next.js", "Node.js", "React", "PostgreSQL", "Prisma", "Tailwind CSS",
+    "Gemini API", "TypeScript", "Firebase", "Vercel", "Docker",
+];
+
 export function SocialProof() {
     return (
-        <section className="font-sans" style={{ background: "#d4d0c8", borderBottom: "2px solid #808080", padding: "16px 0" }}>
-            <div className="container-standard">
-                <div className="win-panel font-sans" style={{ maxWidth: 860, margin: "0 auto" }}>
-                    <div className="win-titlebar font-sans">
-                        <span style={{ fontSize: 11, fontWeight: "bold" }}>📊 System Monitor — Stats</span>
-                        <div style={{ display: "flex", gap: 2 }}>
-                            <button className="win-titlebar-btn" aria-label="Minimize">_</button>
-                            <button className="win-titlebar-btn" aria-label="Close">✕</button>
+        <section
+            style={{
+                background: "#080d1a",
+                borderTop: "1px solid rgba(99, 102, 241, 0.08)",
+                borderBottom: "1px solid rgba(99, 102, 241, 0.08)",
+                padding: "28px 0",
+                overflow: "hidden",
+            }}
+        >
+            <div style={{ display: "flex", gap: 0, overflow: "hidden", position: "relative" }}>
+                {/* Left fade */}
+                <div
+                    style={{
+                        position: "absolute",
+                        left: 0,
+                        top: 0,
+                        bottom: 0,
+                        width: 120,
+                        background: "linear-gradient(90deg, #080d1a, transparent)",
+                        zIndex: 2,
+                        pointerEvents: "none",
+                    }}
+                />
+                {/* Right fade */}
+                <div
+                    style={{
+                        position: "absolute",
+                        right: 0,
+                        top: 0,
+                        bottom: 0,
+                        width: 120,
+                        background: "linear-gradient(270deg, #080d1a, transparent)",
+                        zIndex: 2,
+                        pointerEvents: "none",
+                    }}
+                />
+
+                {/* Scrolling content — doubled for seamless loop */}
+                <div
+                    style={{
+                        display: "flex",
+                        gap: 48,
+                        alignItems: "center",
+                        animation: "marquee-scroll 30s linear infinite",
+                        whiteSpace: "nowrap",
+                        paddingLeft: 48,
+                    }}
+                >
+                    {[...brands, ...brands].map((brand, i) => (
+                        <div
+                            key={i}
+                            style={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 8,
+                                padding: "6px 0",
+                                color: "#374151",
+                                fontSize: 14,
+                                fontWeight: 600,
+                                letterSpacing: "0.5px",
+                                whiteSpace: "nowrap",
+                                transition: "color 0.2s",
+                                cursor: "default",
+                            }}
+                            onMouseEnter={(e) => {
+                                (e.currentTarget as HTMLElement).style.color = "#6366f1";
+                            }}
+                            onMouseLeave={(e) => {
+                                (e.currentTarget as HTMLElement).style.color = "#374151";
+                            }}
+                        >
+                            <span
+                                style={{
+                                    width: 6,
+                                    height: 6,
+                                    borderRadius: "50%",
+                                    background: "rgba(99,102,241,0.4)",
+                                    display: "inline-block",
+                                    flexShrink: 0,
+                                }}
+                            />
+                            {brand}
                         </div>
-                    </div>
-                    <div style={{ padding: "12px 16px", display: "flex", justifyContent: "space-around", flexWrap: "wrap", gap: 12, background: "#d4d0c8" }}>
-                        {DATA.stats.map((stat, index) => (
-                            <div
-                                key={index}
-                                className="win-inset font-sans"
-                                style={{ textAlign: "center", padding: "10px 20px", minWidth: 100, background: "#fff" }}
-                            >
-                                <div style={{ fontWeight: "bold", fontSize: 28, color: "#000080", fontFamily: "Courier New, monospace" }}>
-                                    {stat.value}
-                                </div>
-                                <div style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: 1, color: "#444", marginTop: 2 }}>
-                                    {stat.label}
-                                </div>
-                            </div>
-                        ))}
-                    </div>
+                    ))}
                 </div>
             </div>
+
+            <style jsx global>{`
+                @keyframes marquee-scroll {
+                    from { transform: translateX(0); }
+                    to { transform: translateX(-50%); }
+                }
+            `}</style>
         </section>
     );
 }

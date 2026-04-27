@@ -13,20 +13,30 @@ import { JsonLd } from "@/components/JsonLd";
 import Script from "next/script";
 
 export const metadata: Metadata = {
-  title: "MD Mukit Hasan | Junior Web Developer (React, Next.js)",
-  description: "Modern, SEO-optimized, responsive websites using React, Next.js & Firebase. Hire a growth-focused junior developer.",
+  title: "MD Mukit Hasan | Full Stack Developer & AI Specialist",
+  description: "Founder @ CoderNest Digital Solutions. Full Stack Web Developer specializing in Next.js, Node.js, and AI Orchestration. Building high-performance SaaS, AI-powered apps, and scalable web solutions.",
   keywords: [
-    "Junior Web Developer",
-    "Frontend Web Developer",
-    "React Developer",
+    "Full Stack Web Developer",
+    "AI Specialist",
     "Next.js Developer",
-    "SEO Friendly Website",
-    "Responsive Web Design",
-    "Firebase Web App",
-    "Modern Web Development"
+    "Node.js Developer",
+    "SaaS Developer",
+    "AI Integration",
+    "CoderNest Digital Solutions",
+    "Mukit Hasan",
+    "Gemini API",
+    "PostgreSQL",
+    "Prisma",
+    "React Developer",
   ],
   verification: {
     google: "DHTqBavAyRLQpo3M-EgwQ6T5S3IrhjnBbdXp-A7x604",
+  },
+  openGraph: {
+    title: "MD Mukit Hasan | Full Stack Developer & AI Specialist",
+    description: "Engineering the Future with Code & AI. Founder @ CoderNest Digital Solutions.",
+    type: "website",
+    url: "https://www.codernest.cloud",
   },
 };
 
@@ -36,7 +46,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className="dark" suppressHydrationWarning>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+      </head>
       <body>
         <Script
           async
@@ -53,13 +68,12 @@ export default function RootLayout({
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-
             gtag('config', 'G-P1HC1JZXVT');
           `}
         </Script>
         <ThemeProvider
           attribute="class"
-          defaultTheme="light"
+          defaultTheme="dark"
           enableSystem={false}
           disableTransitionOnChange
         >

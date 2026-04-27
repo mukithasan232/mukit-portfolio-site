@@ -1,110 +1,218 @@
 "use client";
 
 import { DATA } from "@/lib/data";
-import { ExternalLink, Github, ArrowRight } from "lucide-react";
+import { ExternalLink, Github, ArrowRight, Sparkles } from "lucide-react";
 import Link from "next/link";
 
 export const RecentProjectHighlight = () => {
-    const recentProjects = [...DATA.projects].reverse().slice(0, 2);
+    const recentProjects = DATA.projects.filter((p) => p.featured).slice(0, 2);
 
     return (
-        <section className="section-padding font-sans" style={{ background: "#c0c0c0" }}>
-            <div className="container-standard">
-                <div className="win-panel font-sans" style={{ maxWidth: 860, margin: "0 auto" }}>
-                    <div className="win-titlebar font-sans">
-                        <span style={{ fontSize: 11, fontWeight: "bold" }}>🏆 Windows Explorer — Recent Highlights</span>
-                        <div style={{ display: "flex", gap: 2 }}>
-                            <button className="win-titlebar-btn" aria-label="Minimize">_</button>
-                            <button className="win-titlebar-btn" aria-label="Maximize">□</button>
-                            <button className="win-titlebar-btn" aria-label="Close">✕</button>
-                        </div>
-                    </div>
-                    <div className="win-menubar font-sans">
-                        {["File", "Edit", "View", "Favorites", "Tools", "Help"].map((m) => (
-                            <span key={m} className="win-menubar-item">{m}</span>
-                        ))}
-                    </div>
+        <section
+            style={{
+                background: "linear-gradient(180deg, #0a0f1e 0%, #080d1a 100%)",
+                padding: "80px 0",
+                position: "relative",
+                overflow: "hidden",
+            }}
+        >
+            {/* Ambient glow */}
+            <div
+                className="glow-blob glow-blob-blue"
+                style={{ width: 600, height: 600, right: 0, top: "50%", transform: "translateY(-50%)", opacity: 0.07 }}
+            />
 
-                    <div style={{ padding: 16, background: "#d4d0c8" }}>
-                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
-                            <div>
-                                <p style={{ fontSize: 10, fontWeight: "bold", color: "#000080", textTransform: "uppercase", letterSpacing: 1, marginBottom: 2 }}>Showcase</p>
-                                <p style={{ fontWeight: "bold", fontSize: 16 }}>Recent Highlights</p>
-                            </div>
-                            <Link href="#projects" className="win-btn font-sans" style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 11, textDecoration: "none" }}>
-                                View All <ArrowRight size={10} />
-                            </Link>
-                        </div>
+            <div className="container-standard" style={{ position: "relative", zIndex: 1 }}>
+                <div
+                    style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        marginBottom: 40,
+                        flexWrap: "wrap",
+                        gap: 12,
+                    }}
+                >
+                    <div>
+                        <span className="section-label">Showcase</span>
+                        <h2
+                            style={{
+                                fontSize: 32,
+                                fontWeight: 800,
+                                color: "#f0f4ff",
+                                fontFamily: "'Outfit', sans-serif",
+                                marginTop: 8,
+                            }}
+                        >
+                            Recent Highlights
+                        </h2>
+                    </div>
+                    <Link
+                        href="#projects"
+                        className="btn-outline"
+                        style={{ display: "inline-flex", fontSize: 13 }}
+                    >
+                        View All <ArrowRight size={14} />
+                    </Link>
+                </div>
 
-                        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-                            {recentProjects.map((project, index) => (
-                                <div
-                                    key={index}
-                                    className="win-inset font-sans"
-                                    style={{
-                                        display: "grid",
-                                        gridTemplateColumns: "200px 1fr",
-                                        background: "#fff",
-                                        minHeight: 140,
-                                    }}
-                                >
-                                    {/* Image */}
-                                    <div style={{ overflow: "hidden", height: "100%" }}>
-                                        {project.images?.length > 0 ? (
-                                            <img
-                                                src={project.images[0]}
-                                                alt={project.title}
-                                                style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top", display: "block" }}
-                                            />
-                                        ) : (
-                                            <div style={{ width: "100%", height: "100%", background: "#808080", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10, color: "#fff" }}>
-                                                No Preview
-                                            </div>
-                                        )}
+                <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+                    {recentProjects.map((project, index) => (
+                        <div
+                            key={index}
+                            style={{
+                                background: "rgba(15, 23, 42, 0.7)",
+                                backdropFilter: "blur(16px)",
+                                border: "1px solid rgba(99, 102, 241, 0.15)",
+                                borderRadius: 20,
+                                overflow: "hidden",
+                                display: "grid",
+                                gridTemplateColumns: "280px 1fr",
+                                transition: "all 0.3s ease",
+                            }}
+                            className="highlight-card"
+                            onMouseEnter={(e) => {
+                                (e.currentTarget as HTMLElement).style.borderColor = "rgba(99,102,241,0.4)";
+                                (e.currentTarget as HTMLElement).style.boxShadow = "0 16px 40px rgba(99,102,241,0.12)";
+                            }}
+                            onMouseLeave={(e) => {
+                                (e.currentTarget as HTMLElement).style.borderColor = "rgba(99,102,241,0.15)";
+                                (e.currentTarget as HTMLElement).style.boxShadow = "none";
+                            }}
+                        >
+                            {/* Image */}
+                            <div style={{ overflow: "hidden", position: "relative", height: 220 }}>
+                                {project.images?.length > 0 ? (
+                                    <img
+                                        src={project.images[0]}
+                                        alt={project.title}
+                                        style={{
+                                            width: "100%",
+                                            height: "100%",
+                                            objectFit: "cover",
+                                            objectPosition: "top",
+                                            display: "block",
+                                            transition: "transform 0.5s ease",
+                                        }}
+                                    />
+                                ) : (
+                                    <div
+                                        style={{
+                                            width: "100%",
+                                            height: "100%",
+                                            background: "linear-gradient(135deg, rgba(99,102,241,0.15), rgba(139,92,246,0.1))",
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "center",
+                                            fontSize: 48,
+                                        }}
+                                    >
+                                        🔷
                                     </div>
+                                )}
+                                <div
+                                    style={{
+                                        position: "absolute",
+                                        inset: 0,
+                                        background: "linear-gradient(90deg, transparent, rgba(15,23,42,0.3))",
+                                    }}
+                                />
+                            </div>
 
-                                    {/* Details */}
-                                    <div style={{ padding: "10px 12px", fontSize: 11 }}>
-                                        <div style={{ display: "flex", flexWrap: "wrap", gap: 4, marginBottom: 6 }}>
-                                            {project.tech.slice(0, 4).map((t: string) => (
-                                                <span
-                                                    key={t}
-                                                    className="win-inset font-sans"
-                                                    style={{ fontSize: 9, padding: "1px 5px", background: "#fff" }}
-                                                >
-                                                    {t}
-                                                </span>
-                                            ))}
-                                        </div>
-                                        <p style={{ fontWeight: "bold", fontSize: 13, marginBottom: 4 }}>
-                                            {project.title.split(" - ")[0]}
-                                        </p>
-                                        <p style={{ color: "#444", marginBottom: 8, lineHeight: 1.5 }}>{project.solution}</p>
-                                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6, marginBottom: 8 }}>
-                                            <div className="win-inset font-sans" style={{ padding: "5px 7px", background: "#fff" }}>
-                                                <p style={{ fontWeight: "bold", fontSize: 10, marginBottom: 2 }}>Challenge</p>
-                                                <p style={{ fontSize: 10, color: "#444", lineHeight: 1.4 }}>{project.problem.slice(0, 80)}...</p>
-                                            </div>
-                                            <div className="win-inset font-sans" style={{ padding: "5px 7px", background: "#fff" }}>
-                                                <p style={{ fontWeight: "bold", fontSize: 10, marginBottom: 2 }}>Result</p>
-                                                <p style={{ fontSize: 10, color: "#444", lineHeight: 1.4 }}>{project.result.slice(0, 80)}...</p>
-                                            </div>
-                                        </div>
-                                        <div style={{ display: "flex", gap: 6 }}>
-                                            <Link href={project.github} target="_blank" className="win-btn font-sans" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: 3, fontSize: 10, padding: "2px 8px" }}>
-                                                <Github size={10} /> Source
-                                            </Link>
-                                            <Link href={project.live} target="_blank" className="win-btn-primary font-sans" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: 3, fontSize: 10, padding: "2px 8px" }}>
-                                                <ExternalLink size={10} /> Live
-                                            </Link>
-                                        </div>
+                            {/* Details */}
+                            <div style={{ padding: "28px 28px", display: "flex", flexDirection: "column", gap: 14 }}>
+                                {/* Badges */}
+                                <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+                                    {project.aiPowered && (
+                                        <span className="badge-ai">
+                                            <Sparkles size={10} />
+                                            Built with AI
+                                        </span>
+                                    )}
+                                    <span
+                                        style={{
+                                            background: "rgba(16,185,129,0.1)",
+                                            border: "1px solid rgba(16,185,129,0.3)",
+                                            color: "#6ee7b7",
+                                            fontSize: 11,
+                                            fontWeight: 600,
+                                            padding: "3px 10px",
+                                            borderRadius: 20,
+                                        }}
+                                    >
+                                        ⭐ Featured
+                                    </span>
+                                </div>
+
+                                <div>
+                                    <h3
+                                        style={{
+                                            fontSize: 22,
+                                            fontWeight: 800,
+                                            color: "#f0f4ff",
+                                            fontFamily: "'Outfit', sans-serif",
+                                            marginBottom: 4,
+                                        }}
+                                    >
+                                        {project.title}
+                                    </h3>
+                                    <div style={{ fontSize: 13, color: "#6366f1", fontWeight: 600 }}>
+                                        {project.tagline}
                                     </div>
                                 </div>
-                            ))}
+
+                                <p style={{ fontSize: 14, color: "#64748b", lineHeight: 1.65 }}>
+                                    {project.solution}
+                                </p>
+
+                                {/* Tech tags */}
+                                <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+                                    {project.tech.slice(0, 5).map((t: string) => (
+                                        <span key={t} className="badge-tech">
+                                            {t}
+                                        </span>
+                                    ))}
+                                </div>
+
+                                {/* Buttons */}
+                                <div style={{ display: "flex", gap: 10, marginTop: 4 }}>
+                                    <Link
+                                        href={project.live || "#"}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="btn-primary"
+                                        style={{ padding: "10px 18px", fontSize: 13, textDecoration: "none" }}
+                                    >
+                                        <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                                            <ExternalLink size={13} /> Live Demo
+                                        </span>
+                                    </Link>
+                                    <Link
+                                        href={project.github || "#"}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="btn-outline"
+                                        style={{ padding: "10px 16px", fontSize: 13, textDecoration: "none" }}
+                                    >
+                                        <Github size={14} />
+                                    </Link>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    ))}
                 </div>
             </div>
+
+            <style jsx global>{`
+                @media (max-width: 768px) {
+                    .highlight-card {
+                        grid-template-columns: 1fr !important;
+                    }
+                    .highlight-card > div:first-child {
+                        height: 200px !important;
+                    }
+                }
+            `}</style>
         </section>
     );
 };
