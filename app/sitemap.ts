@@ -10,6 +10,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         "/about",
         "/services",
         "/projects",
+        "/blog",
         "/contact"
     ].map((route) => ({
         url: `${baseUrl}${route}`,
@@ -26,5 +27,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
         priority: 0.7,
     }));
 
-    return [...routes, ...projectRoutes];
+    // Dynamic blog routes
+    const blogRoutes = DATA.blog.map((post) => ({
+        url: `${baseUrl}/blog/${post.slug}`,
+        lastModified: new Date(),
+        changeFrequency: "weekly" as const,
+        priority: 0.7,
+    }));
+
+    return [...routes, ...projectRoutes, ...blogRoutes];
 }
