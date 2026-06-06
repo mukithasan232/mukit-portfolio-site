@@ -1,14 +1,7 @@
-"use client";
-
-import React, { useState, useEffect } from "react";
-import { GitCommit, Star, ExternalLink, Users, BookMarked } from "lucide-react";
+import React from "react";
+import { GitCommit, Star, Users, BookMarked } from "lucide-react";
 import { fetchGitHubData } from "@/lib/github";
-
-interface ContributionDay {
-    date: string;
-    count: number;
-    level: number;
-}
+import { GitHubActivityGraph } from "./GitHubInsightsClientElements";
 
 interface GitHubRepo {
     stargazers_count: number;
@@ -17,22 +10,13 @@ interface GitHubRepo {
     pushed_at?: string;
 }
 
-export function GitHubInsights() {
-    const [hoveredDay, setHoveredDay] = useState<number | null>(null);
-    const [selectedYear, setSelectedYear] = useState<string>("2026");
-    const [loading, setLoading] = useState(true);
+interface ContributionDay {
+    date: string;
+    count: number;
+    level: number;
+}
 
-    const [stats, setStats] = useState({
-        totalContributions: 0,
-        followers: 0,
-        publicRepos: 0,
-        totalStars: 0,
-        topLanguages: [] as { name: string; percentage: number }[],
-        contributionGraph: [] as ContributionDay[],
-        allContributions: [] as ContributionDay[],
-        years: [] as string[],
-    });
-
+export async function GitHubInsights() {
     const getLanguageColor = (lang: string) => {
         const colors: Record<string, string> = {
             TypeScript: "#3178c6",
@@ -47,359 +31,142 @@ export function GitHubInsights() {
         return colors[lang] || "#6366f1";
     };
 
-    useEffect(() => {
-        async function loadData() {
-            try {
-                const data = await fetchGitHubData("mukithasan232");
-                if (data) {
-                    const languageCounts: Record<string, number> = {};
-                    let stars = 0;
-                    let totalReposWithLang = 0;
+    let totalContributions = 0;
+    let followers = 0;
+    let publicRepos = 0;
+    let totalStars = 0;
+    let topLanguages: { name: string; percentage: number }[] = [];
+    let allContributions: ContributionDay[] = [];
+    let years: string[] = [];
 
-                    if (Array.isArray(data.repos)) {
-                        data.repos.forEach((repo: GitHubRepo) => {
-                            stars += repo.stargazers_count;
-                            if (repo.language) {
-                                languageCounts[repo.language] = (languageCounts[repo.language] || 0) + 1;
-                                totalReposWithLang++;
-                            }
-                        });
+    try {
+        const data = await fetchGitHubData("mukithasan232");
+        if (data) {
+            followers = data.user.followers || 0;
+            publicRepos = data.user.public_repos || 0;
 
-                        const sortedLanguages = Object.entries(languageCounts)
-                            .sort(([, a], [, b]) => b - a)
-                            .slice(0, 5)
-                            .map(([name, count]) => ({
-                                name,
-                                percentage: Math.round((count / totalReposWithLang) * 100),
-                            }));
+            const languageCounts: Record<string, number> = {};
+            let totalReposWithLang = 0;
 
-                        const contributions = data.contributions?.contributions || [];
-                        const years = data.contributions?.total
-                            ? Object.keys(data.contributions.total).sort((a, b) => b.localeCompare(a))
-                            : [];
-                        const currentYear = years[0] || "2026";
-                        setSelectedYear(currentYear);
-
-                        let allTimeContributions = 0;
-                        if (data.contributions?.total) {
-                            allTimeContributions = Object.values(data.contributions.total as Record<string, number>)
-                                .reduce((acc, curr) => acc + curr, 0);
-                        } else {
-                            allTimeContributions = contributions.reduce((acc: number, curr: ContributionDay) => acc + curr.count, 0);
-                        }
-
-                        setStats({
-                            totalContributions: allTimeContributions,
-                            followers: data.user.followers,
-                            publicRepos: data.user.public_repos,
-                            totalStars: stars,
-                            topLanguages: sortedLanguages,
-                            contributionGraph: contributions.filter((d: ContributionDay) => d.date.startsWith(currentYear)),
-                            allContributions: contributions,
-                            years,
-                        });
+            if (Array.isArray(data.repos)) {
+                data.repos.forEach((repo: GitHubRepo) => {
+                    totalStars += repo.stargazers_count || 0;
+                    if (repo.language) {
+                        languageCounts[repo.language] = (languageCounts[repo.language] || 0) + 1;
+                        totalReposWithLang++;
                     }
-                }
-            } catch (error) {
-                console.error("Failed to load GitHub stats", error);
-            } finally {
-                setLoading(false);
+                });
+
+                topLanguages = Object.entries(languageCounts)
+                    .sort(([, a], [, b]) => b - a)
+                    .slice(0, 5)
+                    .map(([name, count]) => ({
+                        name,
+                        percentage: Math.round((count / totalReposWithLang) * 100),
+                    }));
+            }
+
+            allContributions = data.contributions?.contributions || [];
+            years = data.contributions?.total
+                ? Object.keys(data.contributions.total).sort((a, b) => b.localeCompare(a))
+                : [];
+
+            if (data.contributions?.total) {
+                totalContributions = Object.values(data.contributions.total as Record<string, number>)
+                    .reduce((acc, curr) => acc + curr, 0);
+            } else {
+                totalContributions = allContributions.reduce((acc: number, curr: ContributionDay) => acc + curr.count, 0);
             }
         }
-        loadData();
-    }, []);
-
-    const handleYearChange = (year: string) => {
-        setSelectedYear(year);
-        setStats((prev) => ({
-            ...prev,
-            contributionGraph: prev.allContributions.filter((d) => d.date.startsWith(year)),
-        }));
-    };
-
-    const levelColor = (level: number) => {
-        if (level === 0) return "rgba(99,102,241,0.08)";
-        if (level === 1) return "rgba(99,102,241,0.25)";
-        if (level === 2) return "rgba(99,102,241,0.45)";
-        if (level === 3) return "rgba(99,102,241,0.7)";
-        return "#6366f1";
-    };
+    } catch (error) {
+        console.error("Failed to fetch GitHub stats on the server", error);
+    }
 
     return (
         <section
             id="activity"
-            className="section-padding"
-            style={{
-                background: "linear-gradient(180deg, #0a0f1e 0%, #080d1a 100%)",
-                position: "relative",
-                overflow: "hidden",
-            }}
+            className="section-padding w-full relative overflow-hidden bg-slate-50 dark:bg-gradient-to-b dark:from-[#0a0f1e] dark:to-[#080d1a] transition-colors duration-300"
         >
-            {/* Ambient glow */}
-            <div
-                className="glow-blob glow-blob-blue"
-                style={{ width: 400, height: 400, left: "10%", top: "30%", opacity: 0.08 }}
-            />
+            {/* Ambient glow - Only visible in dark mode */}
+            <div className="absolute left-[10%] top-[30%] w-[400px] h-[400px] rounded-full blur-[80px] pointer-events-none opacity-0 dark:opacity-[0.08] bg-indigo-500/30 transition-opacity duration-300" />
 
-            <div className="container-standard" style={{ position: "relative", zIndex: 1 }}>
+            <div className="container-standard relative z-10">
                 {/* Section header */}
-                <div style={{ textAlign: "center", marginBottom: 64 }}>
-                    <span className="section-label">Open Source</span>
-                    <h2 className="section-title" style={{ margin: "0 auto 16px" }}>
+                <div className="text-center mb-16">
+                    <span className="text-[13px] font-semibold tracking-[3px] uppercase text-indigo-600 dark:text-indigo-400 mb-3 block">
+                        Open Source
+                    </span>
+                    <h2 className="text-[clamp(32px,5vw,48px)] font-extrabold text-slate-900 dark:text-[#f0f4ff] mb-4 leading-[1.15] mx-auto">
                         GitHub{" "}
-                        <span
-                            style={{
-                                background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
-                                WebkitBackgroundClip: "text",
-                                WebkitTextFillColor: "transparent",
-                                backgroundClip: "text",
-                            }}
-                        >
+                        <span className="bg-clip-text text-transparent bg-gradient-to-br from-indigo-500 to-purple-500">
                             Activity
                         </span>
                     </h2>
-                    <p className="section-subtitle" style={{ margin: "0 auto" }}>
+                    <p className="text-[17px] text-slate-600 dark:text-[#94a3b8] max-w-[560px] leading-[1.7] mx-auto">
                         Real-time GitHub insights and contribution graph.
                     </p>
                 </div>
 
-                {loading ? (
-                    <div
-                        style={{
-                            textAlign: "center",
-                            padding: 60,
-                            color: "#475569",
-                            fontSize: 15,
-                        }}
-                    >
-                        <div
-                            style={{
-                                width: 40,
-                                height: 40,
-                                borderRadius: "50%",
-                                border: "3px solid rgba(99,102,241,0.2)",
-                                borderTopColor: "#6366f1",
-                                animation: "spin 0.8s linear infinite",
-                                margin: "0 auto 16px",
-                            }}
-                        />
-                        Loading GitHub activity...
-                    </div>
-                ) : (
-                    <div
-                        style={{
-                            background: "rgba(15, 23, 42, 0.7)",
-                            backdropFilter: "blur(20px)",
-                            border: "1px solid rgba(99, 102, 241, 0.15)",
-                            borderRadius: 24,
-                            padding: "32px",
-                            maxWidth: 900,
-                            margin: "0 auto",
-                        }}
-                    >
-                        {/* Stats row */}
-                        <div
-                            style={{
-                                display: "grid",
-                                gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))",
-                                gap: 12,
-                                marginBottom: 32,
-                            }}
-                        >
-                            {[
-                                { icon: <GitCommit size={18} />, value: stats.totalContributions, label: "Commits" },
-                                { icon: <Star size={18} />, value: stats.totalStars, label: "Stars" },
-                                { icon: <BookMarked size={18} />, value: stats.publicRepos, label: "Repos" },
-                                { icon: <Users size={18} />, value: stats.followers, label: "Followers" },
-                            ].map(({ icon, value, label }) => (
-                                <div
-                                    key={label}
-                                    style={{
-                                        background: "rgba(99,102,241,0.06)",
-                                        border: "1px solid rgba(99,102,241,0.12)",
-                                        borderRadius: 14,
-                                        padding: "18px 16px",
-                                        textAlign: "center",
-                                        transition: "all 0.2s ease",
-                                    }}
-                                    onMouseEnter={(e) => {
-                                        (e.currentTarget as HTMLElement).style.borderColor = "rgba(99,102,241,0.35)";
-                                        (e.currentTarget as HTMLElement).style.background = "rgba(99,102,241,0.1)";
-                                    }}
-                                    onMouseLeave={(e) => {
-                                        (e.currentTarget as HTMLElement).style.borderColor = "rgba(99,102,241,0.12)";
-                                        (e.currentTarget as HTMLElement).style.background = "rgba(99,102,241,0.06)";
-                                    }}
-                                >
-                                    <div style={{ color: "#6366f1", display: "flex", justifyContent: "center", marginBottom: 8 }}>
-                                        {icon}
-                                    </div>
-                                    <div
-                                        style={{
-                                            fontWeight: 800,
-                                            fontSize: 28,
-                                            fontFamily: "'Outfit', sans-serif",
-                                            background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
-                                            WebkitBackgroundClip: "text",
-                                            WebkitTextFillColor: "transparent",
-                                            backgroundClip: "text",
-                                            lineHeight: 1,
-                                            marginBottom: 4,
-                                        }}
-                                    >
-                                        {value}
-                                    </div>
-                                    <div style={{ fontSize: 12, color: "#475569", fontWeight: 600, textTransform: "uppercase", letterSpacing: 1 }}>
-                                        {label}
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-
-                        {/* Contribution graph */}
-                        <div style={{ marginBottom: 28 }}>
+                <div className="bg-white/80 dark:bg-slate-900/70 backdrop-blur-xl border border-slate-200 dark:border-indigo-500/15 rounded-3xl p-6 sm:p-8 max-w-[900px] mx-auto shadow-sm dark:shadow-none transition-colors duration-300">
+                    {/* Stats row */}
+                    <div className="grid grid-cols-[repeat(auto-fill,minmax(160px,1fr))] gap-3 mb-8">
+                        {[
+                            { icon: <GitCommit size={18} />, value: totalContributions, label: "Commits" },
+                            { icon: <Star size={18} />, value: totalStars, label: "Stars" },
+                            { icon: <BookMarked size={18} />, value: publicRepos, label: "Repos" },
+                            { icon: <Users size={18} />, value: followers, label: "Followers" },
+                        ].map(({ icon, value, label }) => (
                             <div
-                                style={{
-                                    display: "flex",
-                                    gap: 8,
-                                    alignItems: "center",
-                                    marginBottom: 16,
-                                    flexWrap: "wrap",
-                                }}
+                                key={label}
+                                className="group bg-indigo-50/50 dark:bg-indigo-500/5 border border-indigo-100 dark:border-indigo-500/10 rounded-2xl p-5 text-center transition-all duration-300 hover:bg-indigo-50 dark:hover:bg-indigo-500/10 hover:border-indigo-200 dark:hover:border-indigo-500/20"
                             >
-                                <span style={{ fontSize: 14, fontWeight: 700, color: "#e2e8f0", flex: 1 }}>
-                                    Contribution Graph
-                                </span>
-                                {stats.years.map((year) => (
-                                    <button
-                                        key={year}
-                                        onClick={() => handleYearChange(year)}
-                                        style={{
-                                            fontSize: 12,
-                                            padding: "4px 12px",
-                                            borderRadius: 20,
-                                            cursor: "pointer",
-                                            transition: "all 0.2s ease",
-                                            border: selectedYear === year
-                                                ? "1px solid rgba(99,102,241,0.6)"
-                                                : "1px solid rgba(99,102,241,0.15)",
-                                            background: selectedYear === year
-                                                ? "rgba(99,102,241,0.15)"
-                                                : "transparent",
-                                            color: selectedYear === year ? "#a5b4fc" : "#475569",
-                                            fontWeight: 600,
-                                        }}
-                                    >
-                                        {year}
-                                    </button>
-                                ))}
-                                <a
-                                    href="https://github.com/mukithasan232"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    style={{
-                                        color: "#6366f1",
-                                        textDecoration: "none",
-                                        fontSize: 13,
-                                        display: "flex",
-                                        alignItems: "center",
-                                        gap: 4,
-                                        fontWeight: 500,
-                                    }}
-                                >
-                                    Profile <ExternalLink size={12} />
-                                </a>
+                                <div className="text-indigo-600 dark:text-indigo-400 flex justify-center mb-2.5">
+                                    {icon}
+                                </div>
+                                <div className="font-extrabold text-[28px] font-outfit leading-none mb-1 bg-clip-text text-transparent bg-gradient-to-br from-indigo-500 to-purple-500">
+                                    {value}
+                                </div>
+                                <div className="text-[12px] text-slate-500 dark:text-[#475569] font-bold uppercase tracking-widest">
+                                    {label}
+                                </div>
                             </div>
+                        ))}
+                    </div>
 
-                            <div style={{ overflowX: "auto", paddingBottom: 8 }}>
-                                <div
-                                    style={{ display: "flex", gap: 3, minWidth: "max-content" }}
-                                    onMouseLeave={() => setHoveredDay(null)}
-                                >
-                                    {Array.from({ length: Math.ceil(stats.contributionGraph.length / 7) }).map((_, weekIndex) => (
-                                        <div key={weekIndex} style={{ display: "flex", flexDirection: "column", gap: 3 }}>
-                                            {stats.contributionGraph.slice(weekIndex * 7, weekIndex * 7 + 7).map((day, dayIndex) => {
-                                                const globalIndex = weekIndex * 7 + dayIndex;
-                                                return (
-                                                    <div
-                                                        key={day.date}
-                                                        onMouseEnter={() => setHoveredDay(globalIndex)}
-                                                        title={`${day.count} contributions on ${day.date}`}
-                                                        style={{
-                                                            width: 12,
-                                                            height: 12,
-                                                            borderRadius: 3,
-                                                            background: levelColor(day.level),
-                                                            border: hoveredDay === globalIndex
-                                                                ? "1px solid rgba(99,102,241,0.8)"
-                                                                : "1px solid transparent",
-                                                            cursor: "default",
-                                                            flexShrink: 0,
-                                                            transition: "all 0.1s ease",
-                                                        }}
-                                                    />
-                                                );
-                                            })}
+                    {/* Interactive Contribution Graph */}
+                    <GitHubActivityGraph years={years} allContributions={allContributions} />
+
+                    {/* Languages */}
+                    {topLanguages.length > 0 && (
+                        <div>
+                            <div className="text-[14px] font-bold text-slate-900 dark:text-[#e2e8f0] mb-4">
+                                Top Languages
+                            </div>
+                            <div className="flex flex-col gap-3">
+                                {topLanguages.map((lang) => (
+                                    <div key={lang.name} className="flex items-center gap-3">
+                                        <span className="w-[90px] text-[13px] text-slate-600 dark:text-[#94a3b8] font-medium shrink-0">
+                                            {lang.name}
+                                        </span>
+                                        <div className="h-1.5 rounded-full overflow-hidden bg-slate-200 dark:bg-white/5 flex-1">
+                                            <div
+                                                className="h-full rounded-full transition-all duration-1000 ease-out"
+                                                style={{
+                                                    width: `${lang.percentage}%`,
+                                                    background: getLanguageColor(lang.name),
+                                                }}
+                                            />
                                         </div>
-                                    ))}
-                                </div>
-                                {/* Legend */}
-                                <div style={{ marginTop: 8, display: "flex", alignItems: "center", gap: 6, fontSize: 12, color: "#475569" }}>
-                                    <span>Less</span>
-                                    {[0, 1, 2, 3, 4].map((l) => (
-                                        <div
-                                            key={l}
-                                            style={{
-                                                width: 12,
-                                                height: 12,
-                                                borderRadius: 3,
-                                                background: levelColor(l),
-                                            }}
-                                        />
-                                    ))}
-                                    <span>More</span>
-                                </div>
+                                        <span className="text-[13px] text-indigo-600 dark:text-indigo-400 font-bold w-[36px] text-right">
+                                            {lang.percentage}%
+                                        </span>
+                                    </div>
+                                ))}
                             </div>
                         </div>
-
-                        {/* Languages */}
-                        {stats.topLanguages.length > 0 && (
-                            <div>
-                                <div style={{ fontSize: 14, fontWeight: 700, color: "#e2e8f0", marginBottom: 16 }}>
-                                    Top Languages
-                                </div>
-                                <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                                    {stats.topLanguages.map((lang) => (
-                                        <div key={lang.name} style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                                            <span style={{ width: 90, fontSize: 13, color: "#94a3b8", fontWeight: 500, flexShrink: 0 }}>
-                                                {lang.name}
-                                            </span>
-                                            <div className="skill-bar-track" style={{ flex: 1 }}>
-                                                <div
-                                                    className="skill-bar-fill"
-                                                    style={{
-                                                        width: `${lang.percentage}%`,
-                                                        background: getLanguageColor(lang.name),
-                                                    }}
-                                                />
-                                            </div>
-                                            <span style={{ fontSize: 13, color: "#6366f1", fontWeight: 600, width: 36, textAlign: "right" }}>
-                                                {lang.percentage}%
-                                            </span>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                )}
+                    )}
+                </div>
             </div>
-
-            <style jsx global>{`
-                @keyframes spin {
-                    to { transform: rotate(360deg); }
-                }
-            `}</style>
         </section>
     );
 }

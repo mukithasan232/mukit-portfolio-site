@@ -6,99 +6,39 @@ export function Skills() {
     return (
         <section
             id="skills"
-            className="section-padding"
-            style={{
-                background: "linear-gradient(180deg, #0a0f1e 0%, #080d1a 100%)",
-                position: "relative",
-                overflow: "hidden",
-            }}
+            className="section-padding w-full relative overflow-hidden bg-slate-50 dark:bg-gradient-to-b dark:from-[#0a0f1e] dark:to-[#080d1a] transition-colors duration-300"
         >
-            {/* Background glow */}
-            <div
-                className="glow-blob glow-blob-blue"
-                style={{ width: 600, height: 600, left: "-200px", top: "50%", transform: "translateY(-50%)", opacity: 0.1 }}
-            />
+            {/* Background glow - Only visible in dark mode */}
+            <div className="absolute left-[-200px] top-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full blur-[80px] pointer-events-none opacity-0 dark:opacity-10 bg-indigo-500/30 transition-opacity duration-300" />
 
-            <div className="container-standard" style={{ position: "relative", zIndex: 1 }}>
+            <div className="container-standard relative z-10">
                 {/* Section header */}
-                <div style={{ textAlign: "center", marginBottom: 64 }}>
-                    <span className="section-label">What I Work With</span>
-                    <h2 className="section-title" style={{ margin: "0 auto 16px" }}>
+                <div className="text-center mb-16">
+                    <span className="text-[13px] font-semibold tracking-[3px] uppercase text-indigo-600 dark:text-indigo-400 mb-3 block">
+                        What I Work With
+                    </span>
+                    <h2 className="text-[clamp(32px,5vw,48px)] font-extrabold text-slate-900 dark:text-[#f0f4ff] mb-4 leading-[1.15] mx-auto">
                         Tech{" "}
-                        <span
-                            style={{
-                                background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
-                                WebkitBackgroundClip: "text",
-                                WebkitTextFillColor: "transparent",
-                                backgroundClip: "text",
-                            }}
-                        >
+                        <span className="bg-clip-text text-transparent bg-gradient-to-br from-indigo-500 to-purple-500">
                             Stack
                         </span>
                     </h2>
-                    <p className="section-subtitle" style={{ margin: "0 auto" }}>
+                    <p className="text-[17px] text-slate-600 dark:text-[#94a3b8] max-w-[560px] leading-[1.7] mx-auto">
                         A curated set of technologies I use to architect and ship production-grade applications.
                     </p>
                 </div>
 
                 {/* Tech Grid */}
-                <div
-                    style={{
-                        display: "grid",
-                        gridTemplateColumns: "repeat(auto-fill, minmax(130px, 1fr))",
-                        gap: 12,
-                        marginBottom: 72,
-                    }}
-                >
+                <div className="grid grid-cols-[repeat(auto-fill,minmax(130px,1fr))] gap-3 mb-20">
                     {DATA.techStack.map((tech, i) => (
                         <div
                             key={i}
-                            style={{
-                                background: "rgba(15, 23, 42, 0.7)",
-                                border: "1px solid rgba(99, 102, 241, 0.15)",
-                                borderRadius: 14,
-                                padding: "20px 16px",
-                                display: "flex",
-                                flexDirection: "column",
-                                alignItems: "center",
-                                gap: 10,
-                                cursor: "default",
-                                transition: "all 0.3s ease",
-                                backdropFilter: "blur(8px)",
-                            }}
-                            onMouseEnter={(e) => {
-                                (e.currentTarget as HTMLElement).style.borderColor = "rgba(99, 102, 241, 0.4)";
-                                (e.currentTarget as HTMLElement).style.transform = "translateY(-6px)";
-                                (e.currentTarget as HTMLElement).style.boxShadow = "0 16px 40px rgba(99, 102, 241, 0.15)";
-                                (e.currentTarget as HTMLElement).style.background = "rgba(99, 102, 241, 0.08)";
-                            }}
-                            onMouseLeave={(e) => {
-                                (e.currentTarget as HTMLElement).style.borderColor = "rgba(99, 102, 241, 0.15)";
-                                (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
-                                (e.currentTarget as HTMLElement).style.boxShadow = "none";
-                                (e.currentTarget as HTMLElement).style.background = "rgba(15, 23, 42, 0.7)";
-                            }}
+                            className="group flex flex-col items-center gap-2.5 p-5 bg-white/80 dark:bg-slate-900/70 backdrop-blur-md border border-slate-200 dark:border-indigo-500/15 rounded-2xl hover:-translate-y-1.5 hover:border-indigo-400/40 dark:hover:border-indigo-400/40 hover:shadow-[0_16px_40px_rgba(99,102,241,0.08)] dark:hover:shadow-[0_16px_40px_rgba(99,102,241,0.15)] hover:bg-indigo-50/50 dark:hover:bg-indigo-500/[0.08] transition-all duration-300"
                         >
-                            <span
-                                style={{
-                                    fontSize: 28,
-                                    fontWeight: 700,
-                                    color: tech.color,
-                                    fontFamily: "'Outfit', sans-serif",
-                                    lineHeight: 1,
-                                }}
-                            >
+                            <span className="text-[28px] font-bold font-outfit leading-none drop-shadow-sm" style={{ color: tech.color }}>
                                 {tech.icon}
                             </span>
-                            <span
-                                style={{
-                                    fontSize: 13,
-                                    fontWeight: 600,
-                                    color: "#94a3b8",
-                                    textAlign: "center",
-                                    lineHeight: 1.3,
-                                }}
-                            >
+                            <span className="text-[13px] font-semibold text-slate-600 dark:text-[#94a3b8] text-center leading-[1.3] transition-colors group-hover:text-slate-900 dark:group-hover:text-slate-200">
                                 {tech.name}
                             </span>
                         </div>
@@ -106,61 +46,29 @@ export function Skills() {
                 </div>
 
                 {/* Skills with progress bars */}
-                <div
-                    style={{
-                        display: "grid",
-                        gridTemplateColumns: "1fr 1fr",
-                        gap: 48,
-                    }}
-                    className="skills-grid"
-                >
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-12">
                     {/* Frontend */}
-                    <div>
-                        <div
-                            style={{
-                                display: "flex",
-                                alignItems: "center",
-                                gap: 10,
-                                marginBottom: 28,
-                            }}
-                        >
-                            <div
-                                style={{
-                                    width: 36,
-                                    height: 36,
-                                    borderRadius: 10,
-                                    background: "linear-gradient(135deg, rgba(99,102,241,0.2), rgba(139,92,246,0.2))",
-                                    border: "1px solid rgba(99,102,241,0.3)",
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    fontSize: 16,
-                                }}
-                            >
+                    <div className="bg-white/60 dark:bg-slate-900/50 border border-slate-200 dark:border-indigo-500/10 p-6 sm:p-8 rounded-3xl shadow-sm dark:shadow-none">
+                        <div className="flex items-center gap-3 mb-8">
+                            <div className="w-10 h-10 shrink-0 rounded-xl flex items-center justify-center text-[18px] bg-indigo-50 dark:bg-gradient-to-br dark:from-indigo-500/20 dark:to-purple-500/20 border border-indigo-100 dark:border-indigo-500/30">
                                 🎨
                             </div>
-                            <h3 style={{ fontSize: 18, fontWeight: 700, color: "#e2e8f0" }}>Frontend</h3>
+                            <h3 className="text-xl font-bold text-slate-900 dark:text-[#e2e8f0]">Frontend</h3>
                         </div>
-                        <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+                        <div className="flex flex-col gap-5">
                             {DATA.skills.frontend.map((skill, i) => (
                                 <div key={i}>
-                                    <div
-                                        style={{
-                                            display: "flex",
-                                            justifyContent: "space-between",
-                                            marginBottom: 8,
-                                        }}
-                                    >
-                                        <span style={{ fontSize: 14, fontWeight: 500, color: "#94a3b8" }}>
+                                    <div className="flex justify-between mb-2">
+                                        <span className="text-sm font-semibold text-slate-700 dark:text-slate-300">
                                             {skill.name}
                                         </span>
-                                        <span style={{ fontSize: 13, color: "#6366f1", fontWeight: 600 }}>
+                                        <span className="text-[13px] font-bold text-indigo-600 dark:text-indigo-400">
                                             {skill.level}%
                                         </span>
                                     </div>
-                                    <div className="skill-bar-track">
+                                    <div className="h-1.5 rounded-full overflow-hidden bg-slate-200 dark:bg-white/5">
                                         <div
-                                            className="skill-bar-fill"
+                                            className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 transition-all duration-1000 ease-out"
                                             style={{ width: `${skill.level}%` }}
                                         />
                                     </div>
@@ -170,56 +78,28 @@ export function Skills() {
                     </div>
 
                     {/* Backend */}
-                    <div>
-                        <div
-                            style={{
-                                display: "flex",
-                                alignItems: "center",
-                                gap: 10,
-                                marginBottom: 28,
-                            }}
-                        >
-                            <div
-                                style={{
-                                    width: 36,
-                                    height: 36,
-                                    borderRadius: 10,
-                                    background: "linear-gradient(135deg, rgba(6,182,212,0.15), rgba(99,102,241,0.15))",
-                                    border: "1px solid rgba(6,182,212,0.25)",
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    fontSize: 16,
-                                }}
-                            >
+                    <div className="bg-white/60 dark:bg-slate-900/50 border border-slate-200 dark:border-indigo-500/10 p-6 sm:p-8 rounded-3xl shadow-sm dark:shadow-none">
+                        <div className="flex items-center gap-3 mb-8">
+                            <div className="w-10 h-10 shrink-0 rounded-xl flex items-center justify-center text-[18px] bg-cyan-50 dark:bg-gradient-to-br dark:from-cyan-500/15 dark:to-indigo-500/15 border border-cyan-100 dark:border-cyan-500/25">
                                 ⚙️
                             </div>
-                            <h3 style={{ fontSize: 18, fontWeight: 700, color: "#e2e8f0" }}>Backend & AI</h3>
+                            <h3 className="text-xl font-bold text-slate-900 dark:text-[#e2e8f0]">Backend & AI</h3>
                         </div>
-                        <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+                        <div className="flex flex-col gap-5">
                             {DATA.skills.backend.map((skill, i) => (
                                 <div key={i}>
-                                    <div
-                                        style={{
-                                            display: "flex",
-                                            justifyContent: "space-between",
-                                            marginBottom: 8,
-                                        }}
-                                    >
-                                        <span style={{ fontSize: 14, fontWeight: 500, color: "#94a3b8" }}>
+                                    <div className="flex justify-between mb-2">
+                                        <span className="text-sm font-semibold text-slate-700 dark:text-slate-300">
                                             {skill.name}
                                         </span>
-                                        <span style={{ fontSize: 13, color: "#8b5cf6", fontWeight: 600 }}>
+                                        <span className="text-[13px] font-bold text-purple-600 dark:text-purple-400">
                                             {skill.level}%
                                         </span>
                                     </div>
-                                    <div className="skill-bar-track">
+                                    <div className="h-1.5 rounded-full overflow-hidden bg-slate-200 dark:bg-white/5">
                                         <div
-                                            className="skill-bar-fill"
-                                            style={{
-                                                width: `${skill.level}%`,
-                                                background: "linear-gradient(90deg, #06b6d4, #8b5cf6)",
-                                            }}
+                                            className="h-full rounded-full bg-gradient-to-r from-cyan-500 to-purple-500 transition-all duration-1000 ease-out"
+                                            style={{ width: `${skill.level}%` }}
                                         />
                                     </div>
                                 </div>
@@ -228,15 +108,6 @@ export function Skills() {
                     </div>
                 </div>
             </div>
-
-            <style jsx global>{`
-                @media (max-width: 768px) {
-                    .skills-grid {
-                        grid-template-columns: 1fr !important;
-                        gap: 40px !important;
-                    }
-                }
-            `}</style>
         </section>
     );
 }

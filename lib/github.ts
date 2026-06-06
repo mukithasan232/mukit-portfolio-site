@@ -2,7 +2,7 @@ export async function fetchGitHubData(username: string) {
     const urls = {
         user: `https://api.github.com/users/${username}`,
         repos: `https://api.github.com/users/${username}/repos?per_page=100&sort=updated`,
-        contributions: `https://github-contributions-api.jogruber.de/v4/${username}`
+        contributions: `https://github-contributions-api.deno.dev/${username}.json`
     };
 
     try {
@@ -18,6 +18,39 @@ export async function fetchGitHubData(username: string) {
 
         const contributionsPromise = fetch(urls.contributions)
             .then(res => res.ok ? res.json() : null)
+            .then(data => {
+                if (!data || !data.contributions) return null;
+                
+                const flatContributions = data.contributions.flat();
+                const totalByYear: Record<string, number> = {};
+                
+                const mappedContributions = flatContributions.map((item: any) => {
+                    let level = 0;
+                    if (item.contributionCount > 0) {
+                        if (item.contributionLevel === "FIRST_QUARTILE") level = 1;
+                        else if (item.contributionLevel === "SECOND_QUARTILE") level = 2;
+                        else if (item.contributionLevel === "THIRD_QUARTILE") level = 3;
+                        else if (item.contributionLevel === "FOURTH_QUARTILE") level = 4;
+                        else level = 1;
+                    }
+                    
+                    const year = item.date.substring(0, 4);
+                    if (year) {
+                        totalByYear[year] = (totalByYear[year] || 0) + item.contributionCount;
+                    }
+                    
+                    return {
+                        date: item.date,
+                        count: item.contributionCount,
+                        level: level
+                    };
+                });
+                
+                return {
+                    total: totalByYear,
+                    contributions: mappedContributions
+                };
+            })
             .catch(err => { console.error(`[GitHub] Failed to fetch Contributions: ${urls.contributions}`, err); return null; });
 
         const [user, repos, contributions] = await Promise.all([userPromise, reposPromise, contributionsPromise]);

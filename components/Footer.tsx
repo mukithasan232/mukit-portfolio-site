@@ -4,85 +4,32 @@ import { DATA } from "@/lib/data";
 import Link from "next/link";
 import { Github, Linkedin, Twitter, Mail, ArrowUp } from "lucide-react";
 
-const socialIconMap: Record<string, React.ComponentType<{ size?: number }>> = {
-    GitHub: Github,
-    LinkedIn: Linkedin,
-    Twitter: Twitter,
-    "Business Email": Mail,
-};
-
-const navLinks = [
-    { href: "#about", label: "About" },
-    { href: "#skills", label: "Tech Stack" },
-    { href: "#projects", label: "Projects" },
-    { href: "#services", label: "Services" },
-    { href: "#contact", label: "Contact" },
-];
-
 export function Footer() {
     const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
     return (
-        <footer
-            style={{
-                background: "linear-gradient(180deg, #060a14 0%, #040710 100%)",
-                borderTop: "1px solid rgba(99, 102, 241, 0.12)",
-                position: "relative",
-                overflow: "hidden",
-            }}
-        >
-            {/* Ambient glow */}
-            <div
-                className="glow-blob glow-blob-violet"
-                style={{ width: 400, height: 400, left: "20%", top: "-100px", opacity: 0.05 }}
-            />
+        <footer className="relative overflow-hidden bg-slate-50 dark:bg-gradient-to-b dark:from-[#060a14] dark:to-[#040710] border-t border-slate-200 dark:border-indigo-500/12 transition-colors duration-300">
+            {/* Ambient glow - Dark mode only */}
+            <div className="absolute left-[20%] top-[-100px] w-[400px] h-[400px] rounded-full blur-[80px] pointer-events-none opacity-0 dark:opacity-5 bg-purple-500/20 transition-opacity duration-300" />
 
-            <div className="container-standard" style={{ position: "relative", zIndex: 1 }}>
+            <div className="container-standard relative z-10">
                 {/* Main footer grid */}
-                <div
-                    style={{
-                        display: "grid",
-                        gridTemplateColumns: "1.8fr 1fr 1fr",
-                        gap: 48,
-                        paddingTop: 64,
-                        paddingBottom: 48,
-                    }}
-                    className="footer-grid"
-                >
+                <div className="grid grid-cols-1 md:grid-cols-[1.8fr_1fr_1fr] gap-9 md:gap-12 pt-10 md:pt-16 pb-12">
                     {/* Brand column */}
                     <div>
                         <Link
                             href="/"
-                            style={{
-                                fontFamily: "'Outfit', sans-serif",
-                                fontWeight: 900,
-                                fontSize: 28,
-                                textDecoration: "none",
-                                background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
-                                WebkitBackgroundClip: "text",
-                                WebkitTextFillColor: "transparent",
-                                backgroundClip: "text",
-                                letterSpacing: "-0.5px",
-                                display: "block",
-                                marginBottom: 14,
-                            }}
+                            style={{ fontFamily: "'Outfit', sans-serif" }}
+                            className="font-black text-[28px] tracking-tight bg-clip-text text-transparent bg-gradient-to-br from-indigo-500 to-purple-500 block mb-3.5"
                         >
                             Mukit.
                         </Link>
-                        <p
-                            style={{
-                                fontSize: 14,
-                                color: "#475569",
-                                lineHeight: 1.75,
-                                maxWidth: 300,
-                                marginBottom: 24,
-                            }}
-                        >
+                        <p className="text-sm text-slate-500 dark:text-slate-400 leading-[1.75] max-w-[300px] mb-6">
                             Full Stack Developer & AI Specialist. Founder @ CoderNest Digital Solutions. Building the future, one line of code at a time.
                         </p>
 
                         {/* Social icons */}
-                        <div style={{ display: "flex", gap: 10 }}>
+                        <div className="flex gap-2.5">
                             {DATA.socials.map((social) => {
                                 const Icon = social.icon;
                                 return (
@@ -92,31 +39,7 @@ export function Footer() {
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         aria-label={social.name}
-                                        style={{
-                                            width: 38,
-                                            height: 38,
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "center",
-                                            background: "rgba(99,102,241,0.08)",
-                                            border: "1px solid rgba(99,102,241,0.15)",
-                                            borderRadius: 10,
-                                            color: "#64748b",
-                                            textDecoration: "none",
-                                            transition: "all 0.2s ease",
-                                        }}
-                                        onMouseEnter={(e) => {
-                                            (e.currentTarget as HTMLElement).style.background = "rgba(99,102,241,0.15)";
-                                            (e.currentTarget as HTMLElement).style.borderColor = "rgba(99,102,241,0.4)";
-                                            (e.currentTarget as HTMLElement).style.color = "#a5b4fc";
-                                            (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)";
-                                        }}
-                                        onMouseLeave={(e) => {
-                                            (e.currentTarget as HTMLElement).style.background = "rgba(99,102,241,0.08)";
-                                            (e.currentTarget as HTMLElement).style.borderColor = "rgba(99,102,241,0.15)";
-                                            (e.currentTarget as HTMLElement).style.color = "#64748b";
-                                            (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
-                                        }}
+                                        className="w-9 h-9 flex items-center justify-center rounded-lg transition-all duration-200 bg-slate-100 dark:bg-indigo-500/10 border border-slate-200 dark:border-indigo-500/20 text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-300 hover:border-indigo-300 dark:hover:border-indigo-400/40 hover:bg-indigo-50 dark:hover:bg-indigo-500/15 hover:-translate-y-0.5"
                                     >
                                         <Icon size={16} />
                                     </a>
@@ -127,36 +50,21 @@ export function Footer() {
 
                     {/* Navigation */}
                     <div>
-                        <div
-                            style={{
-                                fontSize: 12,
-                                fontWeight: 700,
-                                color: "#374151",
-                                textTransform: "uppercase",
-                                letterSpacing: 2,
-                                marginBottom: 20,
-                            }}
-                        >
+                        <div className="text-xs font-bold text-slate-800 dark:text-slate-200 uppercase tracking-widest mb-5">
                             Navigation
                         </div>
-                        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                            {navLinks.map(({ href, label }) => (
+                        <div className="flex flex-col gap-3">
+                            {[
+                                { href: "#about", label: "About" },
+                                { href: "#skills", label: "Tech Stack" },
+                                { href: "#projects", label: "Projects" },
+                                { href: "#services", label: "Services" },
+                                { href: "#contact", label: "Contact" },
+                            ].map(({ href, label }) => (
                                 <Link
                                     key={href}
                                     href={href}
-                                    style={{
-                                        color: "#475569",
-                                        textDecoration: "none",
-                                        fontSize: 14,
-                                        fontWeight: 500,
-                                        transition: "color 0.2s ease",
-                                    }}
-                                    onMouseEnter={(e) => {
-                                        (e.target as HTMLElement).style.color = "#a5b4fc";
-                                    }}
-                                    onMouseLeave={(e) => {
-                                        (e.target as HTMLElement).style.color = "#475569";
-                                    }}
+                                    className="text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-300 transition-colors duration-200"
                                 >
                                     {label}
                                 </Link>
@@ -166,111 +74,62 @@ export function Footer() {
 
                     {/* Contact info */}
                     <div>
-                        <div
-                            style={{
-                                fontSize: 12,
-                                fontWeight: 700,
-                                color: "#374151",
-                                textTransform: "uppercase",
-                                letterSpacing: 2,
-                                marginBottom: 20,
-                            }}
-                        >
+                        <div className="text-xs font-bold text-slate-800 dark:text-slate-200 uppercase tracking-widest mb-5">
                             Contact
                         </div>
-                        <div style={{ display: "flex", flexDirection: "column", gap: 14, fontSize: 14 }}>
+                        <div className="flex flex-col gap-3.5 text-sm">
                             <div>
-                                <div style={{ color: "#374151", fontWeight: 600, fontSize: 12, marginBottom: 3 }}>BUSINESS</div>
+                                <div className="text-slate-800 dark:text-slate-300 font-semibold text-xs mb-1">BUSINESS</div>
                                 <a
                                     href={`mailto:${DATA.contact.email}`}
-                                    style={{ color: "#475569", textDecoration: "none" }}
-                                    onMouseEnter={(e) => (e.target as HTMLElement).style.color = "#a5b4fc"}
-                                    onMouseLeave={(e) => (e.target as HTMLElement).style.color = "#475569"}
+                                    className="text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-300 transition-colors"
                                 >
                                     {DATA.contact.email}
                                 </a>
                             </div>
                             <div>
-                                <div style={{ color: "#374151", fontWeight: 600, fontSize: 12, marginBottom: 3 }}>PERSONAL</div>
+                                <div className="text-slate-800 dark:text-slate-300 font-semibold text-xs mb-1">PERSONAL</div>
                                 <a
                                     href={`mailto:${DATA.contact.personalEmail}`}
-                                    style={{ color: "#475569", textDecoration: "none" }}
-                                    onMouseEnter={(e) => (e.target as HTMLElement).style.color = "#a5b4fc"}
-                                    onMouseLeave={(e) => (e.target as HTMLElement).style.color = "#475569"}
+                                    className="text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-300 transition-colors"
                                 >
                                     {DATA.contact.personalEmail}
                                 </a>
                             </div>
                             <div>
-                                <div style={{ color: "#374151", fontWeight: 600, fontSize: 12, marginBottom: 3 }}>LOCATION</div>
-                                <span style={{ color: "#475569" }}>Bangladesh · Remote Worldwide</span>
+                                <div className="text-slate-800 dark:text-slate-300 font-semibold text-xs mb-1">LOCATION</div>
+                                <span className="text-slate-500 dark:text-slate-400">Bangladesh · Remote Worldwide</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 {/* Divider */}
-                <div className="divider" />
+                <div className="h-px bg-gradient-to-r from-transparent via-slate-200 dark:via-indigo-500/30 to-transparent m-0" />
 
                 {/* Bottom bar */}
-                <div
-                    style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        padding: "24px 0",
-                        flexWrap: "wrap",
-                        gap: 12,
-                    }}
-                >
-                    <p style={{ fontSize: 13, color: "#374151" }}>
-                        © {new Date().getFullYear()} <span style={{ color: "#6366f1" }}>{DATA.name}</span>. All rights reserved.
+                <div className="flex justify-between items-center py-6 flex-wrap gap-3">
+                    <p className="text-[13px] text-slate-500 dark:text-slate-400 font-medium">
+                        © {new Date().getFullYear()} <span className="text-indigo-600 dark:text-indigo-400">{DATA.name}</span>. All rights reserved.
                     </p>
-                    <p style={{ fontSize: 13, color: "#374151" }}>
+                    <p className="text-[13px] text-slate-500 dark:text-slate-400 font-medium">
                         Built with{" "}
-                        <span style={{ color: "#6366f1" }}>Next.js</span> ·{" "}
-                        <span style={{ color: "#8b5cf6" }}>TypeScript</span> ·{" "}
-                        <span style={{ color: "#a855f7" }}>Tailwind</span>
+                        <span className="text-indigo-600 dark:text-indigo-400">Next.js</span> ·{" "}
+                        <span className="text-purple-600 dark:text-purple-400">TypeScript</span> ·{" "}
+                        <span className="text-purple-500 dark:text-purple-400">Tailwind</span>
+                    </p>
+                    <p className="text-xs font-medium text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-indigo-500/5 px-2.5 py-1 rounded-full border border-slate-200 dark:border-indigo-500/10">
+                        Available for Remote Work Worldwide | Overlapping with EST & CET timezones
                     </p>
                     <button
                         onClick={scrollToTop}
-                        style={{
-                            width: 36,
-                            height: 36,
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            background: "rgba(99,102,241,0.1)",
-                            border: "1px solid rgba(99,102,241,0.2)",
-                            borderRadius: 8,
-                            cursor: "pointer",
-                            color: "#6366f1",
-                            transition: "all 0.2s ease",
-                        }}
-                        onMouseEnter={(e) => {
-                            (e.currentTarget as HTMLElement).style.background = "rgba(99,102,241,0.2)";
-                            (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)";
-                        }}
-                        onMouseLeave={(e) => {
-                            (e.currentTarget as HTMLElement).style.background = "rgba(99,102,241,0.1)";
-                            (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
-                        }}
+                        className="w-9 h-9 flex items-center justify-center bg-slate-100 dark:bg-indigo-500/10 border border-slate-200 dark:border-indigo-500/20 rounded-lg text-indigo-600 dark:text-indigo-400 cursor-pointer transition-all duration-200 hover:bg-indigo-50 dark:hover:bg-indigo-500/20 hover:-translate-y-0.5"
                         aria-label="Scroll to top"
                     >
                         <ArrowUp size={16} />
                     </button>
                 </div>
             </div>
-
-            <style jsx global>{`
-                @media (max-width: 768px) {
-                    .footer-grid {
-                        grid-template-columns: 1fr !important;
-                        gap: 36px !important;
-                        padding-top: 40px !important;
-                    }
-                }
-            `}</style>
         </footer>
     );
 }

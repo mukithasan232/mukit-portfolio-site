@@ -9,181 +9,97 @@ export const RecentProjectHighlight = () => {
 
     return (
         <section
-            style={{
-                background: "linear-gradient(180deg, #0a0f1e 0%, #080d1a 100%)",
-                padding: "80px 0",
-                position: "relative",
-                overflow: "hidden",
-            }}
+            className="w-full relative overflow-hidden bg-slate-50 dark:bg-gradient-to-b dark:from-[#0a0f1e] dark:to-[#080d1a] py-20 transition-colors duration-300"
         >
-            {/* Ambient glow */}
-            <div
-                className="glow-blob glow-blob-blue"
-                style={{ width: 600, height: 600, right: 0, top: "50%", transform: "translateY(-50%)", opacity: 0.07 }}
-            />
+            {/* Ambient glow - Only visible in dark mode */}
+            <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full blur-[80px] pointer-events-none opacity-0 dark:opacity-[0.07] bg-indigo-500/30 transition-opacity duration-300" />
 
-            <div className="container-standard" style={{ position: "relative", zIndex: 1 }}>
-                <div
-                    style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        marginBottom: 40,
-                        flexWrap: "wrap",
-                        gap: 12,
-                    }}
-                >
+            <div className="container-standard relative z-10">
+                <div className="flex justify-between items-center mb-10 flex-wrap gap-3">
                     <div>
-                        <span className="section-label">Showcase</span>
-                        <h2
-                            style={{
-                                fontSize: 32,
-                                fontWeight: 800,
-                                color: "#f0f4ff",
-                                fontFamily: "'Outfit', sans-serif",
-                                marginTop: 8,
-                            }}
-                        >
+                        <span className="text-[13px] font-semibold tracking-[3px] uppercase text-indigo-600 dark:text-indigo-400 mb-2 block">
+                            Showcase
+                        </span>
+                        <h2 className="text-[32px] font-extrabold text-slate-900 dark:text-[#f0f4ff] font-outfit">
                             Recent Highlights
                         </h2>
                     </div>
                     <Link
                         href="#projects"
-                        className="btn-outline"
-                        style={{ display: "inline-flex", fontSize: 13 }}
+                        className="btn-outline inline-flex text-[13px]"
                     >
                         View All <ArrowRight size={14} />
                     </Link>
                 </div>
 
-                <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+                <div className="flex flex-col gap-5">
                     {recentProjects.map((project, index) => (
                         <div
                             key={index}
-                            style={{
-                                background: "rgba(15, 23, 42, 0.7)",
-                                backdropFilter: "blur(16px)",
-                                border: "1px solid rgba(99, 102, 241, 0.15)",
-                                borderRadius: 20,
-                                overflow: "hidden",
-                                display: "grid",
-                                gridTemplateColumns: "280px 1fr",
-                                transition: "all 0.3s ease",
-                            }}
-                            className="highlight-card"
-                            onMouseEnter={(e) => {
-                                (e.currentTarget as HTMLElement).style.borderColor = "rgba(99,102,241,0.4)";
-                                (e.currentTarget as HTMLElement).style.boxShadow = "0 16px 40px rgba(99,102,241,0.12)";
-                            }}
-                            onMouseLeave={(e) => {
-                                (e.currentTarget as HTMLElement).style.borderColor = "rgba(99,102,241,0.15)";
-                                (e.currentTarget as HTMLElement).style.boxShadow = "none";
-                            }}
+                            className="group bg-white/80 dark:bg-slate-900/70 backdrop-blur-md border border-slate-200 dark:border-indigo-500/15 rounded-[20px] overflow-hidden grid grid-cols-1 md:grid-cols-[280px_1fr] transition-all duration-300 hover:border-indigo-400/40 dark:hover:border-indigo-400/40 hover:shadow-[0_16px_40px_rgba(99,102,241,0.08)] dark:hover:shadow-[0_16px_40px_rgba(99,102,241,0.12)]"
                         >
                             {/* Image */}
-                            <div style={{ overflow: "hidden", position: "relative", height: 220 }}>
+                            <div className="relative h-[200px] md:h-full overflow-hidden bg-slate-100 dark:bg-gradient-to-br dark:from-indigo-500/15 dark:to-purple-500/10">
                                 {project.images?.length > 0 ? (
                                     <img
                                         src={project.images[0]}
                                         alt={project.title}
-                                        style={{
-                                            width: "100%",
-                                            height: "100%",
-                                            objectFit: "cover",
-                                            objectPosition: "top",
-                                            display: "block",
-                                            transition: "transform 0.5s ease",
-                                        }}
+                                        className="w-full h-full object-cover object-top block transition-transform duration-500 group-hover:scale-105 filter dark:brightness-90"
                                     />
                                 ) : (
-                                    <div
-                                        style={{
-                                            width: "100%",
-                                            height: "100%",
-                                            background: "linear-gradient(135deg, rgba(99,102,241,0.15), rgba(139,92,246,0.1))",
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "center",
-                                            fontSize: 48,
-                                        }}
-                                    >
+                                    <div className="w-full h-full flex items-center justify-center text-[48px]">
                                         🔷
                                     </div>
                                 )}
-                                <div
-                                    style={{
-                                        position: "absolute",
-                                        inset: 0,
-                                        background: "linear-gradient(90deg, transparent, rgba(15,23,42,0.3))",
-                                    }}
-                                />
+                                <div className="absolute inset-0 bg-gradient-to-r from-transparent to-slate-900/5 dark:to-slate-900/30" />
                             </div>
 
                             {/* Details */}
-                            <div style={{ padding: "28px 28px", display: "flex", flexDirection: "column", gap: 14 }}>
+                            <div className="p-6 md:p-7 flex flex-col gap-3.5">
                                 {/* Badges */}
-                                <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+                                <div className="flex gap-1.5 flex-wrap">
                                     {project.aiPowered && (
-                                        <span className="badge-ai">
+                                        <span className="flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-bold tracking-wide uppercase rounded-full bg-indigo-100 text-indigo-700 dark:bg-indigo-500/20 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-500/30">
                                             <Sparkles size={10} />
                                             Built with AI
                                         </span>
                                     )}
-                                    <span
-                                        style={{
-                                            background: "rgba(16,185,129,0.1)",
-                                            border: "1px solid rgba(16,185,129,0.3)",
-                                            color: "#6ee7b7",
-                                            fontSize: 11,
-                                            fontWeight: 600,
-                                            padding: "3px 10px",
-                                            borderRadius: 20,
-                                        }}
-                                    >
+                                    <span className="px-2.5 py-1 text-[11px] font-bold tracking-wide uppercase rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-500/30">
                                         ⭐ Featured
                                     </span>
                                 </div>
 
                                 <div>
-                                    <h3
-                                        style={{
-                                            fontSize: 22,
-                                            fontWeight: 800,
-                                            color: "#f0f4ff",
-                                            fontFamily: "'Outfit', sans-serif",
-                                            marginBottom: 4,
-                                        }}
-                                    >
+                                    <h3 className="text-[22px] font-extrabold text-slate-900 dark:text-[#f0f4ff] font-outfit mb-1 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
                                         {project.title}
                                     </h3>
-                                    <div style={{ fontSize: 13, color: "#6366f1", fontWeight: 600 }}>
+                                    <div className="text-[13px] font-semibold text-indigo-600 dark:text-indigo-400">
                                         {project.tagline}
                                     </div>
                                 </div>
 
-                                <p style={{ fontSize: 14, color: "#64748b", lineHeight: 1.65 }}>
+                                <p className="text-[14px] text-slate-600 dark:text-[#64748b] leading-[1.65]">
                                     {project.solution}
                                 </p>
 
                                 {/* Tech tags */}
-                                <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+                                <div className="flex flex-wrap gap-1.5 mt-1">
                                     {project.tech.slice(0, 5).map((t: string) => (
-                                        <span key={t} className="badge-tech">
+                                        <span key={t} className="px-2 py-1 text-[11px] font-medium rounded-md bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300">
                                             {t}
                                         </span>
                                     ))}
                                 </div>
 
                                 {/* Buttons */}
-                                <div style={{ display: "flex", gap: 10, marginTop: 4 }}>
+                                <div className="flex gap-2.5 mt-2">
                                     <Link
                                         href={project.live || "#"}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="btn-primary"
-                                        style={{ padding: "10px 18px", fontSize: 13, textDecoration: "none" }}
+                                        className="btn-primary py-2.5 px-4 text-[13px] inline-flex"
                                     >
-                                        <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                                        <span className="flex items-center gap-1.5">
                                             <ExternalLink size={13} /> Live Demo
                                         </span>
                                     </Link>
@@ -191,8 +107,7 @@ export const RecentProjectHighlight = () => {
                                         href={project.github || "#"}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="btn-outline"
-                                        style={{ padding: "10px 16px", fontSize: 13, textDecoration: "none" }}
+                                        className="btn-outline py-2.5 px-4 text-[13px] inline-flex"
                                     >
                                         <Github size={14} />
                                     </Link>
@@ -202,17 +117,6 @@ export const RecentProjectHighlight = () => {
                     ))}
                 </div>
             </div>
-
-            <style jsx global>{`
-                @media (max-width: 768px) {
-                    .highlight-card {
-                        grid-template-columns: 1fr !important;
-                    }
-                    .highlight-card > div:first-child {
-                        height: 200px !important;
-                    }
-                }
-            `}</style>
         </section>
     );
 };

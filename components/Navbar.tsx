@@ -3,19 +3,19 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
+import { ThemeToggle } from "./ThemeToggle";
 
 const navItems = [
-    { name: "About", href: "#about" },
-    { name: "Tech Stack", href: "#skills" },
-    { name: "Projects", href: "#projects" },
-    { name: "Services", href: "#services" },
-    { name: "Contact", href: "#contact" },
+    { name: "About", href: "/about" },
+    { name: "Projects", href: "/projects" },
+    { name: "Services", href: "/services" },
+    { name: "Blog", href: "/blog" },
+    { name: "Contact", href: "/contact" },
 ];
 
 export function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
-    const [activeSection, setActiveSection] = useState("");
 
     useEffect(() => {
         const handleScroll = () => {
@@ -28,32 +28,16 @@ export function Navbar() {
     return (
         <>
             <nav
-                style={{
-                    position: "fixed",
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    zIndex: 9999,
-                    transition: "all 0.3s ease",
-                    padding: scrolled ? "12px 0" : "20px 0",
-                    background: scrolled
-                        ? "rgba(8, 13, 26, 0.85)"
-                        : "transparent",
-                    backdropFilter: scrolled ? "blur(24px)" : "none",
-                    WebkitBackdropFilter: scrolled ? "blur(24px)" : "none",
-                    borderBottom: scrolled
-                        ? "1px solid rgba(99, 102, 241, 0.15)"
-                        : "1px solid transparent",
-                }}
+                className={`sticky top-0 z-50 w-full bg-white/80 dark:bg-[#0B0F19]/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-colors duration-300 ${
+                    scrolled ? "shadow-sm" : ""
+                }`}
             >
-                <div className="container-standard" style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                <div className="flex items-center justify-between max-w-7xl mx-auto px-4 md:px-6 py-4">
                     {/* Logo */}
                     <Link
                         href="/"
                         style={{
                             fontFamily: "'Outfit', sans-serif",
-                            fontWeight: 800,
-                            fontSize: 22,
                             textDecoration: "none",
                             background: "linear-gradient(135deg, #6366f1, #8b5cf6, #a855f7)",
                             WebkitBackgroundClip: "text",
@@ -61,41 +45,18 @@ export function Navbar() {
                             backgroundClip: "text",
                             letterSpacing: "-0.5px",
                         }}
+                        className="text-2xl font-bold"
                     >
-                        Mukit<span style={{ color: "#6366f1" }}>.</span>
+                        Mukit<span className="text-indigo-500">.</span>
                     </Link>
 
                     {/* Desktop nav */}
-                    <div
-                        style={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: 4,
-                        }}
-                        className="hidden-mobile"
-                    >
+                    <div className="hidden md:flex items-center gap-1">
                         {navItems.map((item) => (
                             <Link
                                 key={item.name}
                                 href={item.href}
-                                style={{
-                                    color: "#94a3b8",
-                                    textDecoration: "none",
-                                    fontSize: 14,
-                                    fontWeight: 500,
-                                    padding: "8px 16px",
-                                    borderRadius: 8,
-                                    transition: "all 0.2s ease",
-                                    letterSpacing: "0.2px",
-                                }}
-                                onMouseEnter={(e) => {
-                                    (e.target as HTMLElement).style.color = "#fff";
-                                    (e.target as HTMLElement).style.background = "rgba(99, 102, 241, 0.1)";
-                                }}
-                                onMouseLeave={(e) => {
-                                    (e.target as HTMLElement).style.color = "#94a3b8";
-                                    (e.target as HTMLElement).style.background = "transparent";
-                                }}
+                                className="text-sm font-medium px-4 py-2 rounded-lg transition-all duration-200 tracking-wide text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-indigo-500/10"
                             >
                                 {item.name}
                             </Link>
@@ -103,28 +64,21 @@ export function Navbar() {
                     </div>
 
                     {/* CTA */}
-                    <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                        <Link
-                            href="#contact"
-                            className="btn-primary hidden-mobile"
-                            style={{ padding: "10px 22px", fontSize: 14 }}
-                        >
-                            <span>Let&apos;s Talk</span>
-                        </Link>
+                    <div className="flex items-center gap-3 md:gap-4">
+                        <ThemeToggle />
+                        <div className="hidden md:block">
+                            <Link
+                                href="/contact"
+                                className="btn-primary px-4 py-2 text-sm md:px-6 md:py-2.5 md:text-base"
+                            >
+                                <span>Let&apos;s Talk</span>
+                            </Link>
+                        </div>
 
                         {/* Mobile menu button */}
                         <button
                             onClick={() => setIsOpen(!isOpen)}
-                            style={{
-                                background: "rgba(99, 102, 241, 0.1)",
-                                border: "1px solid rgba(99, 102, 241, 0.2)",
-                                borderRadius: 8,
-                                padding: "8px",
-                                cursor: "pointer",
-                                color: "#a5b4fc",
-                                display: "none",
-                            }}
-                            className="mobile-menu-btn"
+                            className="flex items-center justify-center md:hidden p-2 rounded-lg bg-indigo-50 dark:bg-indigo-500/10 border border-indigo-200 dark:border-indigo-500/20 text-indigo-600 dark:text-indigo-400"
                             aria-label="Toggle menu"
                         >
                             {isOpen ? <X size={20} /> : <Menu size={20} />}
@@ -134,39 +88,22 @@ export function Navbar() {
 
                 {/* Mobile menu */}
                 {isOpen && (
-                    <div
-                        style={{
-                            background: "rgba(8, 13, 26, 0.97)",
-                            backdropFilter: "blur(24px)",
-                            borderTop: "1px solid rgba(99, 102, 241, 0.15)",
-                            padding: "16px 24px 24px",
-                        }}
-                    >
-                        <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                    <div className="bg-white/95 dark:bg-[#080d1a]/95 backdrop-blur-xl border-t border-slate-200 dark:border-indigo-500/15 px-6 pt-4 pb-6 absolute w-full left-0 right-0">
+                        <div className="flex flex-col gap-1">
                             {navItems.map((item) => (
                                 <Link
                                     key={item.name}
                                     href={item.href}
                                     onClick={() => setIsOpen(false)}
-                                    style={{
-                                        color: "#94a3b8",
-                                        textDecoration: "none",
-                                        fontSize: 16,
-                                        fontWeight: 500,
-                                        padding: "12px 16px",
-                                        borderRadius: 10,
-                                        transition: "all 0.2s ease",
-                                        display: "block",
-                                    }}
+                                    className="block px-4 py-3 text-base font-medium rounded-xl text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"
                                 >
                                     {item.name}
                                 </Link>
                             ))}
                             <Link
-                                href="#contact"
+                                href="/contact"
                                 onClick={() => setIsOpen(false)}
-                                className="btn-primary"
-                                style={{ marginTop: 12, justifyContent: "center", textAlign: "center" }}
+                                className="btn-primary mt-3 flex justify-center text-center px-4 py-2 text-sm md:px-6 md:py-2.5 md:text-base"
                             >
                                 <span>Let&apos;s Talk</span>
                             </Link>
@@ -174,19 +111,6 @@ export function Navbar() {
                     </div>
                 )}
             </nav>
-
-            <style jsx global>{`
-                @media (max-width: 768px) {
-                    .hidden-mobile {
-                        display: none !important;
-                    }
-                    .mobile-menu-btn {
-                        display: flex !important;
-                        align-items: center;
-                        justify-content: center;
-                    }
-                }
-            `}</style>
         </>
     );
 }

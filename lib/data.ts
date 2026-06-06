@@ -76,6 +76,7 @@ export const DATA = {
     },
     projects: [
         {
+            slug: "medos",
             title: "MedOS",
             tagline: "Hospital Management SaaS",
             problem: "Healthcare facilities struggle with fragmented, outdated systems that make scheduling, patient tracking, and billing inefficient.",
@@ -98,6 +99,7 @@ export const DATA = {
             ],
         },
         {
+            slug: "medistore-lite",
             title: "MediStore Lite",
             tagline: "AI-Powered Pharmacy POS & Inventory",
             problem: "Pharmacy POS systems are outdated, slow, and lack intelligent inventory management capabilities.",
@@ -116,6 +118,7 @@ export const DATA = {
             ],
         },
         {
+            slug: "smm-elite",
             title: "SMM Elite",
             tagline: "Automated SMM Reseller Panel",
             problem: "Managing and reselling thousands of social media services manually is inefficient, with no seamless payment or API bridging.",
@@ -135,6 +138,7 @@ export const DATA = {
             ],
         },
         {
+            slug: "ai-web-builder",
             title: "AI Web Builder",
             tagline: "AI-Powered Website Generator",
             problem: "Manually building websites is time-consuming and requires technical expertise.",
@@ -152,6 +156,7 @@ export const DATA = {
             ],
         },
         {
+            slug: "affiliatepro",
             title: "AffiliatePro",
             tagline: "Amazon Affiliate Platform",
             problem: "Amazon affiliate marketers struggle with slow, unoptimized websites and lack of real-time product data syncing.",
@@ -169,6 +174,7 @@ export const DATA = {
             ],
         },
         {
+            slug: "digital-orchard",
             title: "Digital Orchard",
             tagline: "Premium Mango Marketplace",
             problem: "Local farmers in Bangladesh struggle to reach consumers, relying on middlemen with unfair pricing.",
@@ -180,9 +186,9 @@ export const DATA = {
             aiPowered: false,
             featured: false,
             images: [
-                "/project7-screenshot1.png",
-                "/project7-screenshot2.png",
-                "/project7-screenshot3.png",
+                "/project6-screenshot1.png",
+                "/project6-screenshot2.png",
+                "/project6-screenshot3.png",
             ],
         },
     ],
@@ -248,32 +254,40 @@ export const DATA = {
     ],
     blog: [
         {
+            slug: "building-ai-powered-saas",
             title: "Building AI-Powered SaaS with Next.js & Gemini API",
             excerpt: "How I orchestrated LLM capabilities into production apps without breaking the bank.",
             date: "Apr 15, 2026",
             category: "AI",
-            image: "/blog-react-tailwind.png"
+            image: "/blog-react-tailwind.png",
+            content: "Artificial Intelligence is no longer just a buzzword; it's a fundamental shift in how we build and interact with software. In this comprehensive guide, we'll explore how to architect a production-ready Software as a Service (SaaS) application using the bleeding edge of modern web development: Next.js 14 App Router and Google's Gemini AI API.\n\n## The Architecture\n\nBefore writing a single line of code, we need a solid foundation. Here is the stack we'll be using:\n\n*   **Framework**: Next.js 14 (App Router) for Server-Side Rendering and seamless API routes.\n*   **Database**: PostgreSQL managed via Prisma ORM for type-safe database access.\n*   **AI Engine**: Google Gemini API for intelligent text generation and processing.\n*   **Styling**: Tailwind CSS for rapid, responsive design.\n\n### Why Gemini?\n\nWhile OpenAI's GPT models are fantastic, Gemini offers incredibly competitive pricing and performance, especially for tasks requiring large context windows or multimodal inputs. Its integration into Node.js environments is straightforward, making it an excellent choice for modern SaaS products.\n\n## Implementation Steps\n\n1.  **Setting up the Next.js Project**: We start by initializing a new Next.js project with Tailwind CSS and TypeScript.\n2.  **Integrating Prisma**: We define our database schema, including models for Users, Prompts, and AI Responses.\n3.  **Connecting to Gemini**: We use the official `@google/generative-ai` SDK to authenticate and send requests to the Gemini models.\n4.  **Building the UI**: We create a responsive chat interface using React components and Tailwind utility classes.\n\n## Conclusion\n\nBuilding AI-powered SaaS products has never been more accessible. By combining the robust architecture of Next.js with the powerful capabilities of the Gemini API, developers can ship intelligent, scalable applications faster than ever before. The key is to start small, validate your use case, and iteratively enhance the AI features based on user feedback.",
         },
         {
+            slug: "from-idea-to-mvp",
             title: "From Idea to MVP in 3 Weeks: My Workflow",
             excerpt: "The exact process I use to ship full-stack MVPs rapidly — architecture, tools, and deployment.",
             date: "Mar 20, 2026",
             category: "Development",
-            image: "/blog-firebase.png"
+            image: "/blog-firebase.png",
+            content: "Shipping a Minimum Viable Product (MVP) quickly is crucial for validating ideas and gaining early user feedback. Over the years, I've refined a workflow that allows me to go from a raw concept to a fully deployed MVP in just three weeks. Here's a deep dive into my process.\n\n## Week 1: Planning and Architecture\n\nThe first week is entirely devoted to understanding the problem and designing the solution.\n\n*   **Requirement Gathering**: Clearly defining the core features. What is the absolutely essential functionality needed to solve the user's problem?\n*   **Database Design**: Creating the ERD (Entity Relationship Diagram). I typically use PostgreSQL and Prisma. Getting the data model right early saves countless hours later.\n*   **UI/UX Wireframing**: Sketching the user flow. I use Figma to create low-fidelity wireframes, focusing on usability rather than pixel-perfect design.\n\n## Week 2: Development Sprints\n\nThis is where the heavy lifting happens. I use Next.js for both the frontend and backend logic.\n\n*   **Auth and Database**: Setting up NextAuth (or Clerk) and running the initial Prisma migrations.\n*   **Core Logic**: Building the primary API routes and Server Actions.\n*   **Frontend Components**: Translating the wireframes into functional React components using Tailwind CSS and Radix UI primitives for speed and accessibility.\n\n## Week 3: Polish and Deployment\n\nThe final week is about making the MVP robust and getting it live.\n\n*   **Testing**: Writing essential unit tests and performing manual end-to-end testing.\n*   **Deployment**: Pushing the code to Vercel for the frontend and setting up the production database on a platform like Supabase or Neon.\n*   **Monitoring**: Integrating tools like Sentry for error tracking and PostHog for basic product analytics.\n\nBy strictly adhering to this workflow, I avoid feature creep and ensure that I launch quickly, allowing the market to dictate the next steps.",
         },
         {
+            slug: "postgresql-prisma-stack",
             title: "Why PostgreSQL + Prisma is My Go-To Stack",
             excerpt: "Type-safe database queries, migrations, and relational power — why I switched from Firebase.",
             date: "Feb 10, 2026",
             category: "Backend",
-            image: "/blog-career-mistakes.png"
+            image: "/blog-career-mistakes.png",
+            content: "For a long time, I was a huge advocate for NoSQL databases, specifically Firebase. The speed of setup and real-time capabilities were intoxicating. However, as the applications I built grew in complexity, I found myself fighting against the constraints of NoSQL. That's when I made the switch to PostgreSQL and Prisma, and I haven't looked back.\n\n## The Problem with NoSQL for Complex Apps\n\nWhile Firebase is excellent for simple, document-based data, it struggles when you need to perform complex relational queries. Emulating joins in NoSQL often leads to massive data duplication or complex client-side logic to stitch data together.\n\n## Enter PostgreSQL\n\nPostgreSQL is a robust, open-source relational database that handles complex queries with ease. It enforces data integrity, supports advanced indexing, and scales incredibly well. When your data has clear relationships (e.g., Users have Posts, Posts have Comments), a relational database is almost always the better choice.\n\n## The Magic of Prisma\n\nWriting raw SQL can be tedious and error-prone. Prisma changes the game by providing a next-generation Object-Relational Mapper (ORM).\n\n*   **Type Safety**: Prisma generates a strongly typed client based on your database schema. This means you get autocompletion in your IDE and catch database query errors at compile time, not runtime.\n*   **Intuitive Migrations**: Managing database schema changes is a breeze with Prisma Migrate. It automatically generates SQL migration files based on changes to your `schema.prisma` file.\n*   **Readable Queries**: Prisma's query syntax is incredibly intuitive and readable, making it easy to perform complex joins and aggregations without writing nested SQL statements.\n\n## Conclusion\n\nThe combination of PostgreSQL's reliability and Prisma's developer experience has significantly accelerated my backend development process. It provides the perfect balance of performance, type safety, and maintainability for modern web applications.",
         },
         {
+            slug: "seo-first-architecture-nextjs",
             title: "SEO-First Architecture in Next.js 14",
             excerpt: "Server components, metadata API, and structured data — how to rank on Google with Next.js.",
             date: "Jan 28, 2026",
             category: "SEO",
-            image: "/blog-seo.png"
+            image: "/blog-seo.png",
+            content: "Building a beautiful web application is only half the battle; ensuring people can find it is equally important. Search Engine Optimization (SEO) shouldn't be an afterthought; it should be baked into the architecture from day one. Next.js 14 provides powerful tools to achieve an SEO-first architecture.\n\n## Server Components: The Ultimate SEO Hack\n\nThe introduction of React Server Components (RSC) in the Next.js App Router is a game-changer for SEO. By rendering components on the server, we send fully formed HTML to the browser. This ensures that search engine crawlers can immediately parse the content without waiting for JavaScript to execute.\n\n## Mastering the Metadata API\n\nNext.js provides a streamlined Metadata API for managing standard HTML meta tags and Open Graph data.\n\n*   **Static Metadata**: For pages with fixed content (like the Home or About page), you can export a `metadata` object directly from `page.tsx`.\n*   **Dynamic Metadata**: For pages like blog posts or product listings, you can use the `generateMetadata` function to dynamically fetch data and generate meta tags based on the route parameters (e.g., the post slug).\n\n## Structured Data (JSON-LD)\n\nStructured data helps search engines understand the context of your content, leading to rich snippets in search results. In Next.js, injecting JSON-LD is as simple as adding a `<script>` tag within your component.\n\n```jsx\n<script\n  type=\"application/ld+json\"\n  dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdData) }}\n/>\n```\n\n## Core Web Vitals\n\nSEO is not just about content; it's also about performance. Google's Core Web Vitals heavily influence rankings. Next.js helps optimize these metrics through features like the `next/image` component (for automatic image optimization and lazy loading) and `next/font` (for self-hosting fonts to prevent layout shifts).\n\nBy leveraging these built-in features, you can ensure your Next.js application is primed for maximum visibility in search engine results.",
         },
     ],
     mapUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3596.73352!2d88.7767625!3d25.6473352!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39fb55eb718e02d9%3A0x32fd0be634d9111c!2sCoderNest!5e0!3m2!1sen!2sbd!4v1710000000000!5m2!1sen!2sbd",

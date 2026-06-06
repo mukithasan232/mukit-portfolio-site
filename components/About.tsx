@@ -1,5 +1,3 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
 import { DATA } from "@/lib/data";
@@ -12,143 +10,79 @@ const highlights = [
     { icon: "⚡", title: "Full Stack Dev", desc: "Next.js · Node.js · PostgreSQL" },
 ];
 
-export function About() {
+const skills = [
+    { name: "Next.js & React", progress: 95, color: "#6366f1" },
+    { name: "Tailwind CSS", progress: 98, color: "#06b6d4" },
+    { name: "PostgreSQL & Prisma", progress: 90, color: "#3b82f6" },
+    { name: "Gemini API & AI Integration", progress: 85, color: "#8b5cf6" },
+];
+
+export function About({ asH1 = false }: { asH1?: boolean }) {
     const paragraphs = DATA.about.description.split("\n\n");
 
     return (
         <section
             id="about"
-            className="section-padding"
-            style={{
-                background: "linear-gradient(180deg, #080d1a 0%, #0a0f1e 100%)",
-                position: "relative",
-                overflow: "hidden",
-            }}
+            className="section-padding w-full relative overflow-hidden bg-slate-50 dark:bg-gradient-to-b dark:from-[#080d1a] dark:to-[#0a0f1e] transition-colors duration-300"
         >
-            {/* Background glow */}
-            <div
-                className="glow-blob glow-blob-violet"
-                style={{ width: 500, height: 500, right: 0, top: "50%", transform: "translateY(-50%)", opacity: 0.12 }}
-            />
+            {/* Background glow - Only visible in dark mode */}
+            <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full blur-[80px] pointer-events-none opacity-0 dark:opacity-10 bg-purple-500/30 transition-opacity duration-300" />
 
-            <div className="container-standard" style={{ position: "relative", zIndex: 1 }}>
+            <div className="container-standard relative z-10">
                 {/* Section header */}
-                <div style={{ marginBottom: 64 }}>
-                    <span className="section-label">Who I Am</span>
-                    <h2 className="section-title">
-                        About{" "}
-                        <span
-                            style={{
-                                background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
-                                WebkitBackgroundClip: "text",
-                                WebkitTextFillColor: "transparent",
-                                backgroundClip: "text",
-                            }}
-                        >
-                            Me
-                        </span>
-                    </h2>
+                <div className="mb-16">
+                    <span className="text-[13px] font-semibold tracking-[3px] uppercase text-indigo-600 dark:text-indigo-400 mb-3 block">
+                        Who I Am
+                    </span>
+                    {asH1 ? (
+                        <h1 className="text-[clamp(32px,5vw,48px)] font-extrabold text-slate-900 dark:text-[#f0f4ff] mb-4 leading-[1.15]">
+                            About{" "}
+                            <span className="bg-clip-text text-transparent bg-gradient-to-br from-indigo-500 to-purple-500">
+                                Me
+                            </span>
+                        </h1>
+                    ) : (
+                        <h2 className="text-[clamp(32px,5vw,48px)] font-extrabold text-slate-900 dark:text-[#f0f4ff] mb-4 leading-[1.15]">
+                            About{" "}
+                            <span className="bg-clip-text text-transparent bg-gradient-to-br from-indigo-500 to-purple-500">
+                                Me
+                            </span>
+                        </h2>
+                    )}
                 </div>
 
-                <div
-                    style={{
-                        display: "grid",
-                        gridTemplateColumns: "1fr 1.4fr",
-                        gap: 64,
-                        alignItems: "start",
-                    }}
-                    className="about-grid"
-                >
+                <div className="grid grid-cols-1 md:grid-cols-[1fr_1.4fr] gap-10 md:gap-16 items-start">
                     {/* Left: Image + info card */}
                     <div>
                         {/* Photo */}
-                        <div
-                            style={{
-                                position: "relative",
-                                borderRadius: 20,
-                                overflow: "hidden",
-                                aspectRatio: "4/5",
-                                background: "linear-gradient(135deg, rgba(99,102,241,0.1), rgba(139,92,246,0.05))",
-                                border: "1px solid rgba(99,102,241,0.2)",
-                                marginBottom: 20,
-                            }}
-                        >
+                        <div className="relative rounded-[20px] overflow-hidden aspect-[4/5] bg-gradient-to-br from-indigo-100/50 to-purple-50/50 dark:from-indigo-500/10 dark:to-purple-500/5 border border-indigo-200 dark:border-indigo-500/20 mb-5">
                             <Image
                                 src={DATA.profilePicture}
                                 alt={DATA.name}
                                 fill
-                                className="object-cover"
+                                className="object-cover transition-all duration-300 filter dark:brightness-90 dark:saturate-90"
                                 unoptimized
                                 priority
-                                style={{
-                                    filter: "brightness(0.82) saturate(0.9)",
-                                }}
                             />
                             {/* Dark tint overlay — tones down bright background */}
-                            <div
-                                style={{
-                                    position: "absolute",
-                                    inset: 0,
-                                    background: "rgba(8, 13, 26, 0.18)",
-                                    zIndex: 1,
-                                    pointerEvents: "none",
-                                }}
-                            />
+                            <div className="absolute inset-0 bg-transparent dark:bg-[#080d1a]/10 z-[1] pointer-events-none transition-colors duration-300" />
                             {/* Bottom gradient for name card readability */}
-                            <div
-                                style={{
-                                    position: "absolute",
-                                    inset: 0,
-                                    background: "linear-gradient(180deg, transparent 50%, rgba(8,13,26,0.82) 100%)",
-                                    zIndex: 2,
-                                    pointerEvents: "none",
-                                }}
-                            />
+                            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-slate-900/40 dark:to-[#080d1a]/80 z-[2] pointer-events-none transition-colors duration-300" />
+                            
                             {/* Name card overlay */}
-                            <div
-                                style={{
-                                    position: "absolute",
-                                    bottom: 20,
-                                    left: 20,
-                                    right: 20,
-                                    zIndex: 3,
-                                }}
-                            >
-                                <div
-                                    style={{
-                                        background: "rgba(8, 13, 26, 0.85)",
-                                        backdropFilter: "blur(12px)",
-                                        border: "1px solid rgba(99,102,241,0.2)",
-                                        borderRadius: 12,
-                                        padding: "12px 16px",
-                                        display: "flex",
-                                        alignItems: "center",
-                                        gap: 10,
-                                    }}
-                                >
-                                    <div
-                                        style={{
-                                            width: 8,
-                                            height: 8,
-                                            borderRadius: "50%",
-                                            background: "#10b981",
-                                            boxShadow: "0 0 8px #10b981",
-                                        }}
-                                    />
+                            <div className="absolute bottom-5 left-5 right-5 z-[3]">
+                                <div className="bg-white/90 dark:bg-[#080d1a]/85 backdrop-blur-md border border-slate-200 dark:border-indigo-500/20 rounded-xl px-4 py-3 flex items-center gap-2.5 shadow-sm">
+                                    <div className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981]" />
                                     <div>
-                                        <div style={{ fontSize: 13, fontWeight: 700, color: "#f0f4ff" }}>
-                                            {DATA.name}
-                                        </div>
-                                        <div style={{ fontSize: 11, color: "#64748b" }}>
-                                            Available for projects
-                                        </div>
+                                        <div className="text-[13px] font-bold text-slate-900 dark:text-[#f0f4ff]">{DATA.name}</div>
+                                        <div className="text-[11px] text-slate-500 dark:text-slate-400">Available for projects</div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         {/* Info pills */}
-                        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                        <div className="flex flex-col gap-2.5">
                             {[
                                 { icon: <MapPin size={14} />, label: "Bangladesh", sub: "Remote / Worldwide" },
                                 { icon: <GraduationCap size={14} />, label: "ICE — Daffodil International University", sub: "2023 – Present" },
@@ -156,22 +90,12 @@ export function About() {
                             ].map((item, i) => (
                                 <div
                                     key={i}
-                                    style={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                        gap: 12,
-                                        padding: "10px 14px",
-                                        background: "rgba(99, 102, 241, 0.06)",
-                                        border: "1px solid rgba(99, 102, 241, 0.12)",
-                                        borderRadius: 10,
-                                    }}
+                                    className="flex items-center gap-3 px-3.5 py-2.5 bg-indigo-50/80 dark:bg-indigo-500/5 border border-indigo-100 dark:border-indigo-500/10 rounded-xl"
                                 >
-                                    <span style={{ color: "#6366f1", flexShrink: 0 }}>{item.icon}</span>
+                                    <span className="text-indigo-600 dark:text-indigo-400 shrink-0">{item.icon}</span>
                                     <div>
-                                        <div style={{ fontSize: 13, fontWeight: 600, color: "#e2e8f0" }}>
-                                            {item.label}
-                                        </div>
-                                        <div style={{ fontSize: 12, color: "#475569" }}>{item.sub}</div>
+                                        <div className="text-[13px] font-semibold text-slate-800 dark:text-slate-200">{item.label}</div>
+                                        <div className="text-xs text-slate-500 dark:text-slate-400">{item.sub}</div>
                                     </div>
                                 </div>
                             ))}
@@ -181,55 +105,51 @@ export function About() {
                     {/* Right: Description + highlights */}
                     <div>
                         {/* Description */}
-                        <div style={{ marginBottom: 40 }}>
+                        <div className="mb-10">
                             {paragraphs.map((para, i) => (
-                                <p
-                                    key={i}
-                                    style={{
-                                        fontSize: 16,
-                                        color: "#94a3b8",
-                                        lineHeight: 1.8,
-                                        marginBottom: 20,
-                                    }}
-                                >
+                                <p key={i} className="text-base text-slate-600 dark:text-slate-400 leading-[1.8] mb-5">
                                     {para}
                                 </p>
                             ))}
                         </div>
 
                         {/* Highlight cards */}
-                        <div
-                            style={{
-                                display: "grid",
-                                gridTemplateColumns: "1fr 1fr",
-                                gap: 14,
-                                marginBottom: 36,
-                            }}
-                        >
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mb-9">
                             {highlights.map((item, i) => (
                                 <div
                                     key={i}
-                                    className="glass-card"
-                                    style={{ padding: "20px 22px" }}
+                                    className="bg-white/80 dark:bg-slate-900/60 backdrop-blur-md border border-slate-200 dark:border-indigo-500/15 rounded-[16px] p-5 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300"
                                 >
-                                    <div style={{ fontSize: 26, marginBottom: 10 }}>{item.icon}</div>
-                                    <div
-                                        style={{
-                                            fontSize: 15,
-                                            fontWeight: 700,
-                                            color: "#e2e8f0",
-                                            marginBottom: 4,
-                                        }}
-                                    >
-                                        {item.title}
-                                    </div>
-                                    <div style={{ fontSize: 13, color: "#475569" }}>{item.desc}</div>
+                                    <div className="text-[26px] mb-2.5">{item.icon}</div>
+                                    <div className="text-[15px] font-bold text-slate-900 dark:text-slate-200 mb-1">{item.title}</div>
+                                    <div className="text-[13px] text-slate-500 dark:text-slate-400">{item.desc}</div>
                                 </div>
                             ))}
                         </div>
 
+                        {/* Skills Bars */}
+                        <div className="mb-10">
+                            <h3 className="text-lg font-bold text-slate-900 dark:text-[#f0f4ff] mb-5">Core Expertise</h3>
+                            <div className="flex flex-col gap-5">
+                                {skills.map((skill) => (
+                                    <div key={skill.name}>
+                                        <div className="flex justify-between mb-2">
+                                            <span className="text-sm font-semibold text-slate-700 dark:text-slate-200">{skill.name}</span>
+                                            <span className="text-[13px] font-medium" style={{ color: skill.color }}>{skill.progress}%</span>
+                                        </div>
+                                        <div className="h-1.5 rounded-full overflow-hidden bg-slate-200 dark:bg-white/5">
+                                            <div
+                                                className="h-full rounded-full transition-all duration-1000 ease-out"
+                                                style={{ width: `${skill.progress}%`, background: skill.color }}
+                                            />
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
                         {/* CTA */}
-                        <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
+                        <div className="flex flex-wrap gap-3.5">
                             <Link href="#contact" className="btn-primary">
                                 <span>Let&apos;s Work Together</span>
                             </Link>
@@ -240,15 +160,6 @@ export function About() {
                     </div>
                 </div>
             </div>
-
-            <style jsx global>{`
-                @media (max-width: 768px) {
-                    .about-grid {
-                        grid-template-columns: 1fr !important;
-                        gap: 40px !important;
-                    }
-                }
-            `}</style>
         </section>
     );
 }

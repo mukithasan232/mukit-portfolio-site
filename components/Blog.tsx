@@ -2,153 +2,71 @@
 
 import { DATA } from "@/lib/data";
 import Image from "next/image";
-import Link from "next/link";
 import { ArrowRight, Calendar } from "lucide-react";
 
 export function Blog() {
     return (
         <section
             id="blog"
-            className="section-padding"
-            style={{
-                background: "linear-gradient(180deg, #0a0f1e 0%, #080d1a 100%)",
-                position: "relative",
-                overflow: "hidden",
-            }}
+            className="section-padding w-full relative overflow-hidden bg-slate-50 dark:bg-gradient-to-b dark:from-[#0a0f1e] dark:to-[#080d1a] transition-colors duration-300"
         >
-            {/* Ambient glow */}
-            <div
-                className="glow-blob glow-blob-violet"
-                style={{ width: 400, height: 400, left: 0, bottom: 0, opacity: 0.08 }}
-            />
+            {/* Ambient glow - Only visible in dark mode */}
+            <div className="absolute left-0 bottom-0 w-[400px] h-[400px] rounded-full blur-[80px] pointer-events-none opacity-0 dark:opacity-[0.08] bg-purple-500/30 transition-opacity duration-300" />
 
-            <div className="container-standard" style={{ position: "relative", zIndex: 1 }}>
+            <div className="container-standard relative z-10">
                 {/* Section header */}
-                <div style={{ textAlign: "center", marginBottom: 64 }}>
-                    <span className="section-label">Insights & Writing</span>
-                    <h2 className="section-title" style={{ margin: "0 auto 16px" }}>
+                <div className="text-center mb-16">
+                    <span className="text-[13px] font-semibold tracking-[3px] uppercase text-indigo-600 dark:text-indigo-400 mb-3 block">
+                        Insights & Writing
+                    </span>
+                    <h2 className="text-[clamp(32px,5vw,48px)] font-extrabold text-slate-900 dark:text-[#f0f4ff] mb-4 leading-[1.15] mx-auto">
                         Latest{" "}
-                        <span
-                            style={{
-                                background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
-                                WebkitBackgroundClip: "text",
-                                WebkitTextFillColor: "transparent",
-                                backgroundClip: "text",
-                            }}
-                        >
+                        <span className="bg-clip-text text-transparent bg-gradient-to-br from-indigo-500 to-purple-500">
                             Articles
                         </span>
                     </h2>
-                    <p className="section-subtitle" style={{ margin: "0 auto" }}>
+                    <p className="text-[17px] text-slate-600 dark:text-[#94a3b8] max-w-[560px] leading-[1.7] mx-auto">
                         Thoughts on full-stack development, AI integration, and building products that matter.
                     </p>
                 </div>
 
                 {/* Blog grid */}
-                <div
-                    style={{
-                        display: "grid",
-                        gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
-                        gap: 20,
-                    }}
-                    className="blog-grid"
-                >
+                <div className="grid grid-cols-1 sm:grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-5">
                     {DATA.blog.map((post, i) => (
                         <article
                             key={i}
-                            style={{
-                                background: "rgba(15, 23, 42, 0.7)",
-                                backdropFilter: "blur(16px)",
-                                border: "1px solid rgba(99, 102, 241, 0.15)",
-                                borderRadius: 16,
-                                overflow: "hidden",
-                                transition: "all 0.3s ease",
-                                cursor: "pointer",
-                            }}
-                            onMouseEnter={(e) => {
-                                (e.currentTarget as HTMLElement).style.borderColor = "rgba(99, 102, 241, 0.4)";
-                                (e.currentTarget as HTMLElement).style.transform = "translateY(-4px)";
-                                (e.currentTarget as HTMLElement).style.boxShadow = "0 16px 40px rgba(99, 102, 241, 0.12)";
-                            }}
-                            onMouseLeave={(e) => {
-                                (e.currentTarget as HTMLElement).style.borderColor = "rgba(99, 102, 241, 0.15)";
-                                (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
-                                (e.currentTarget as HTMLElement).style.boxShadow = "none";
-                            }}
+                            className="group flex flex-col bg-white/80 dark:bg-slate-900/70 backdrop-blur-md border border-slate-200 dark:border-indigo-500/15 rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:border-indigo-400/40 dark:hover:border-indigo-400/40 hover:shadow-[0_16px_40px_rgba(99,102,241,0.08)] dark:hover:shadow-[0_16px_40px_rgba(99,102,241,0.12)]"
                         >
                             {/* Image */}
-                            <div style={{ height: 180, overflow: "hidden", position: "relative" }}>
+                            <div className="relative h-[180px] overflow-hidden bg-slate-100 dark:bg-slate-800">
                                 <Image
                                     src={post.image}
                                     alt={post.title}
                                     fill
-                                    className="object-cover"
+                                    className="object-cover transition-transform duration-500 group-hover:scale-105 filter dark:brightness-90"
                                     unoptimized
-                                    style={{ transition: "transform 0.5s ease" }}
                                 />
-                                <div
-                                    style={{
-                                        position: "absolute",
-                                        inset: 0,
-                                        background: "linear-gradient(180deg, transparent 50%, rgba(15,23,42,0.7) 100%)",
-                                    }}
-                                />
+                                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-slate-900/10 dark:to-slate-900/70 pointer-events-none" />
+                                
                                 {/* Category badge */}
-                                <span
-                                    className="badge-ai"
-                                    style={{
-                                        position: "absolute",
-                                        top: 12,
-                                        left: 12,
-                                        background: "rgba(99,102,241,0.2)",
-                                        borderColor: "rgba(99,102,241,0.4)",
-                                        color: "#a5b4fc",
-                                    }}
-                                >
+                                <span className="absolute top-3 left-3 px-2.5 py-1 text-[11px] font-bold tracking-wide uppercase rounded-full bg-indigo-100 text-indigo-700 dark:bg-indigo-500/20 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-500/40 backdrop-blur-md">
                                     {post.category}
                                 </span>
                             </div>
 
                             {/* Content */}
-                            <div style={{ padding: "20px 22px" }}>
-                                <div
-                                    style={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                        gap: 6,
-                                        color: "#475569",
-                                        fontSize: 12,
-                                        marginBottom: 10,
-                                    }}
-                                >
+                            <div className="p-5 md:p-6 flex flex-col flex-1">
+                                <div className="flex items-center gap-1.5 text-[12px] font-medium text-slate-500 dark:text-[#475569] mb-3">
                                     <Calendar size={12} />
                                     {post.date}
                                 </div>
-                                <h3
-                                    style={{
-                                        fontSize: 16,
-                                        fontWeight: 700,
-                                        color: "#f0f4ff",
-                                        marginBottom: 8,
-                                        lineHeight: 1.4,
-                                        fontFamily: "'Outfit', sans-serif",
-                                    }}
-                                >
+                                <h3 className="text-[16px] font-bold text-slate-900 dark:text-[#f0f4ff] mb-2 leading-[1.4] font-outfit group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
                                     {post.title}
                                 </h3>
-                                <p style={{ fontSize: 13, color: "#64748b", lineHeight: 1.6, marginBottom: 16 }}>
+                                <p className="text-[13px] text-slate-600 dark:text-[#64748b] leading-[1.6] mb-5 flex-1">
                                     {post.excerpt}
                                 </p>
-                                <div
-                                    style={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                        gap: 4,
-                                        fontSize: 13,
-                                        fontWeight: 600,
-                                        color: "#6366f1",
-                                    }}
-                                >
+                                <div className="flex items-center gap-1.5 text-[13px] font-bold text-indigo-600 dark:text-indigo-400 group-hover:gap-2 transition-all">
                                     Read more <ArrowRight size={13} />
                                 </div>
                             </div>
@@ -156,14 +74,6 @@ export function Blog() {
                     ))}
                 </div>
             </div>
-
-            <style jsx global>{`
-                @media (max-width: 640px) {
-                    .blog-grid {
-                        grid-template-columns: 1fr !important;
-                    }
-                }
-            `}</style>
         </section>
     );
 }

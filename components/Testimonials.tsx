@@ -6,127 +6,55 @@ export function Testimonials() {
     return (
         <section
             id="testimonials"
-            className="section-padding"
-            style={{
-                background: "linear-gradient(180deg, #080d1a 0%, #0a0f1e 100%)",
-                position: "relative",
-                overflow: "hidden",
-            }}
+            className="section-padding w-full relative overflow-hidden bg-slate-50 dark:bg-gradient-to-b dark:from-[#080d1a] dark:to-[#0a0f1e] transition-colors duration-300"
         >
-            {/* Ambient glow */}
-            <div
-                className="glow-blob glow-blob-blue"
-                style={{ width: 500, height: 500, right: "-100px", top: "50%", transform: "translateY(-50%)", opacity: 0.06 }}
-            />
+            {/* Ambient glow - Only visible in dark mode */}
+            <div className="absolute top-1/2 -right-[100px] -translate-y-1/2 w-[500px] h-[500px] rounded-full blur-[80px] pointer-events-none opacity-0 dark:opacity-[0.06] bg-indigo-500/30 transition-opacity duration-300" />
 
-            <div className="container-standard" style={{ position: "relative", zIndex: 1 }}>
+            <div className="container-standard relative z-10">
                 {/* Section header */}
-                <div style={{ textAlign: "center", marginBottom: 64 }}>
-                    <span className="section-label">Client Feedback</span>
-                    <h2 className="section-title" style={{ margin: "0 auto 16px" }}>
+                <div className="text-center mb-16">
+                    <span className="text-[13px] font-semibold tracking-[3px] uppercase text-indigo-600 dark:text-indigo-400 mb-3 block">
+                        Client Feedback
+                    </span>
+                    <h2 className="text-[clamp(32px,5vw,48px)] font-extrabold text-slate-900 dark:text-[#f0f4ff] mb-4 leading-[1.15] mx-auto">
                         What Clients{" "}
-                        <span
-                            style={{
-                                background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
-                                WebkitBackgroundClip: "text",
-                                WebkitTextFillColor: "transparent",
-                                backgroundClip: "text",
-                            }}
-                        >
+                        <span className="bg-clip-text text-transparent bg-gradient-to-br from-indigo-500 to-purple-500">
                             Say
                         </span>
                     </h2>
                 </div>
 
                 {/* Testimonials grid */}
-                <div
-                    style={{
-                        display: "grid",
-                        gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
-                        gap: 20,
-                    }}
-                >
+                <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-5">
                     {DATA.testimonials.map((t, i) => (
                         <div
                             key={i}
-                            style={{
-                                background: "rgba(15, 23, 42, 0.7)",
-                                backdropFilter: "blur(16px)",
-                                border: "1px solid rgba(99, 102, 241, 0.15)",
-                                borderRadius: 20,
-                                padding: "28px 28px",
-                                transition: "all 0.3s ease",
-                                position: "relative",
-                                overflow: "hidden",
-                            }}
-                            onMouseEnter={(e) => {
-                                (e.currentTarget as HTMLElement).style.borderColor = "rgba(99, 102, 241, 0.35)";
-                                (e.currentTarget as HTMLElement).style.transform = "translateY(-4px)";
-                                (e.currentTarget as HTMLElement).style.boxShadow = "0 16px 40px rgba(99, 102, 241, 0.12)";
-                            }}
-                            onMouseLeave={(e) => {
-                                (e.currentTarget as HTMLElement).style.borderColor = "rgba(99, 102, 241, 0.15)";
-                                (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
-                                (e.currentTarget as HTMLElement).style.boxShadow = "none";
-                            }}
+                            className="group relative bg-white/80 dark:bg-slate-900/70 backdrop-blur-md border border-slate-200 dark:border-indigo-500/15 rounded-2xl p-7 transition-all duration-300 hover:-translate-y-1 hover:border-indigo-400/40 dark:hover:border-indigo-400/40 hover:shadow-[0_16px_40px_rgba(99,102,241,0.08)] dark:hover:shadow-[0_16px_40px_rgba(99,102,241,0.12)] hover:bg-indigo-50/50 dark:hover:bg-indigo-500/[0.05] overflow-hidden"
                         >
                             {/* Quote mark */}
-                            <div
-                                style={{
-                                    fontSize: 72,
-                                    lineHeight: 1,
-                                    color: "rgba(99,102,241,0.15)",
-                                    fontFamily: "Georgia, serif",
-                                    position: "absolute",
-                                    top: 10,
-                                    right: 20,
-                                    userSelect: "none",
-                                }}
-                            >
+                            <div className="absolute top-2.5 right-5 text-[72px] leading-none font-serif text-slate-100 dark:text-indigo-500/10 select-none transition-colors group-hover:text-indigo-50 dark:group-hover:text-indigo-500/15">
                                 &ldquo;
                             </div>
 
                             {/* Stars */}
-                            <div style={{ color: "#f59e0b", fontSize: 14, marginBottom: 16, letterSpacing: 2 }}>
+                            <div className="text-amber-400 text-[14px] mb-4 tracking-[2px]">
                                 ★★★★★
                             </div>
 
                             {/* Content */}
-                            <p
-                                style={{
-                                    fontSize: 15,
-                                    color: "#94a3b8",
-                                    lineHeight: 1.75,
-                                    marginBottom: 24,
-                                    fontStyle: "italic",
-                                }}
-                            >
+                            <p className="text-[15px] text-slate-600 dark:text-[#94a3b8] leading-[1.75] mb-6 italic relative z-10">
                                 &ldquo;{t.content}&rdquo;
                             </p>
 
                             {/* Author */}
-                            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                                <div
-                                    style={{
-                                        width: 44,
-                                        height: 44,
-                                        borderRadius: "50%",
-                                        background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
-                                        display: "flex",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        fontSize: 14,
-                                        fontWeight: 800,
-                                        color: "#fff",
-                                        fontFamily: "'Outfit', sans-serif",
-                                        flexShrink: 0,
-                                    }}
-                                >
+                            <div className="flex items-center gap-3 relative z-10">
+                                <div className="w-[44px] h-[44px] shrink-0 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-[14px] font-extrabold text-white font-outfit shadow-sm">
                                     {t.avatar || t.name.split(" ").map((n: string) => n[0]).join("").slice(0, 2)}
                                 </div>
                                 <div>
-                                    <div style={{ fontSize: 15, fontWeight: 700, color: "#e2e8f0" }}>{t.name}</div>
-                                    <div style={{ fontSize: 12, color: "#475569" }}>{t.role}</div>
+                                    <div className="text-[15px] font-bold text-slate-900 dark:text-[#e2e8f0]">{t.name}</div>
+                                    <div className="text-[12px] text-slate-500 dark:text-[#475569]">{t.role}</div>
                                 </div>
                             </div>
                         </div>

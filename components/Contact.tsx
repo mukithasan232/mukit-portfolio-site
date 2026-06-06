@@ -1,87 +1,46 @@
-"use client";
-
-import { Mail, MapPin, Send, Github, Linkedin, Twitter } from "lucide-react";
-import { useState } from "react";
+import { Mail, MapPin } from "lucide-react";
 import { DATA } from "@/lib/data";
+import { LeadMagnetForm } from "./LeadMagnetForm";
 
-const socialIcons: Record<string, React.ComponentType<{ size?: number }>> = {
-    GitHub: Github,
-    LinkedIn: Linkedin,
-    Twitter: Twitter,
-    "Business Email": Mail,
-};
-
-export function Contact() {
-    const [formData, setFormData] = useState({ name: "", email: "", subject: "", message: "" });
-    const [sending, setSending] = useState(false);
-    const [sent, setSent] = useState(false);
-
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        setSending(true);
-        const body = `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`;
-        const mailtoUrl = `mailto:${DATA.contact.email}?subject=${encodeURIComponent(formData.subject || "Portfolio Contact")}&body=${encodeURIComponent(body)}`;
-        setTimeout(() => {
-            window.location.href = mailtoUrl;
-            setSending(false);
-            setSent(true);
-            setTimeout(() => setSent(false), 3000);
-        }, 600);
-    };
-
+export function Contact({ asH1 = false }: { asH1?: boolean }) {
     return (
         <section
             id="contact"
-            className="section-padding"
-            style={{
-                background: "linear-gradient(180deg, #080d1a 0%, #060a14 100%)",
-                position: "relative",
-                overflow: "hidden",
-            }}
+            className="section-padding w-full relative overflow-hidden bg-slate-50 dark:bg-gradient-to-b dark:from-[#080d1a] dark:to-[#060a14] transition-colors duration-300"
         >
-            {/* Glows */}
-            <div
-                className="glow-blob glow-blob-blue"
-                style={{ width: 600, height: 600, left: "50%", top: "50%", transform: "translate(-50%,-50%)", opacity: 0.06 }}
-            />
-            <div
-                className="glow-blob glow-blob-violet"
-                style={{ width: 400, height: 400, right: 0, bottom: 0, opacity: 0.08 }}
-            />
+            {/* Glows - Only visible in dark mode */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full blur-[80px] pointer-events-none opacity-0 dark:opacity-10 bg-indigo-500/30 transition-opacity duration-300" />
+            <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full blur-[80px] pointer-events-none opacity-0 dark:opacity-[0.08] bg-purple-500/30 transition-opacity duration-300" />
 
-            <div className="container-standard" style={{ position: "relative", zIndex: 1 }}>
+            <div className="container-standard relative z-10">
                 {/* Section header */}
-                <div style={{ textAlign: "center", marginBottom: 64 }}>
-                    <span className="section-label">Get In Touch</span>
-                    <h2 className="section-title" style={{ margin: "0 auto 16px" }}>
-                        Let&apos;s{" "}
-                        <span
-                            style={{
-                                background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
-                                WebkitBackgroundClip: "text",
-                                WebkitTextFillColor: "transparent",
-                                backgroundClip: "text",
-                            }}
-                        >
-                            Collaborate
-                        </span>
-                    </h2>
-                    <p className="section-subtitle" style={{ margin: "0 auto" }}>
+                <div className="text-center mb-16">
+                    <span className="text-[13px] font-semibold tracking-[3px] uppercase text-indigo-600 dark:text-indigo-400 mb-3 block">
+                        Get In Touch
+                    </span>
+                    {asH1 ? (
+                        <h1 className="text-[clamp(32px,5vw,48px)] font-extrabold text-slate-900 dark:text-[#f0f4ff] mb-4 leading-[1.15] mx-auto">
+                            Let&apos;s{" "}
+                            <span className="bg-clip-text text-transparent bg-gradient-to-br from-indigo-500 to-purple-500">
+                                Collaborate
+                            </span>
+                        </h1>
+                    ) : (
+                        <h2 className="text-[clamp(32px,5vw,48px)] font-extrabold text-slate-900 dark:text-[#f0f4ff] mb-4 leading-[1.15] mx-auto">
+                            Let&apos;s{" "}
+                            <span className="bg-clip-text text-transparent bg-gradient-to-br from-indigo-500 to-purple-500">
+                                Collaborate
+                            </span>
+                        </h2>
+                    )}
+                    <p className="text-[17px] text-slate-600 dark:text-[#94a3b8] max-w-[560px] leading-[1.7] mx-auto">
                         Ready to build something extraordinary? Whether it&apos;s an MVP, SaaS, or AI integration — let&apos;s make it happen.
                     </p>
                 </div>
 
-                <div
-                    style={{
-                        display: "grid",
-                        gridTemplateColumns: "1fr 1.6fr",
-                        gap: 32,
-                        alignItems: "start",
-                    }}
-                    className="contact-grid"
-                >
+                <div className="grid grid-cols-1 md:grid-cols-[1fr_1.6fr] gap-8 items-start">
                     {/* Left: Info */}
-                    <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+                    <div className="flex flex-col gap-5">
                         {/* Contact info cards */}
                         {[
                             {
@@ -100,15 +59,7 @@ export function Contact() {
                             },
                             {
                                 icon: (
-                                    <span
-                                        style={{
-                                            width: 18,
-                                            height: 18,
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "center",
-                                        }}
-                                    >
+                                    <span className="w-[18px] h-[18px] flex items-center justify-center">
                                         ⚡
                                     </span>
                                 ),
@@ -120,59 +71,28 @@ export function Contact() {
                         ].map((item, i) => (
                             <div
                                 key={i}
-                                style={{
-                                    background: "rgba(15, 23, 42, 0.7)",
-                                    backdropFilter: "blur(16px)",
-                                    border: "1px solid rgba(99, 102, 241, 0.15)",
-                                    borderRadius: 16,
-                                    padding: "20px 22px",
-                                    display: "flex",
-                                    gap: 16,
-                                    alignItems: "flex-start",
-                                    transition: "all 0.3s ease",
-                                }}
-                                onMouseEnter={(e) => {
-                                    (e.currentTarget as HTMLElement).style.borderColor = "rgba(99,102,241,0.35)";
-                                    (e.currentTarget as HTMLElement).style.background = "rgba(99,102,241,0.06)";
-                                }}
-                                onMouseLeave={(e) => {
-                                    (e.currentTarget as HTMLElement).style.borderColor = "rgba(99,102,241,0.15)";
-                                    (e.currentTarget as HTMLElement).style.background = "rgba(15,23,42,0.7)";
-                                }}
+                                className="group flex items-start gap-4 p-5 rounded-2xl bg-white/80 dark:bg-slate-900/70 backdrop-blur-md border border-slate-200 dark:border-indigo-500/15 hover:border-indigo-400/40 dark:hover:border-indigo-400/40 hover:bg-indigo-50 dark:hover:bg-indigo-500/10 transition-all duration-300"
                             >
-                                <div
-                                    style={{
-                                        width: 42,
-                                        height: 42,
-                                        borderRadius: 12,
-                                        background: "linear-gradient(135deg, rgba(99,102,241,0.2), rgba(139,92,246,0.1))",
-                                        border: "1px solid rgba(99,102,241,0.25)",
-                                        display: "flex",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        color: "#6366f1",
-                                        flexShrink: 0,
-                                    }}
-                                >
+                                <div className="w-[42px] h-[42px] shrink-0 rounded-xl flex items-center justify-center border bg-indigo-50 dark:bg-gradient-to-br dark:from-indigo-500/20 dark:to-purple-500/10 border-indigo-200 dark:border-indigo-500/25 text-indigo-600 dark:text-indigo-400">
                                     {item.icon}
                                 </div>
                                 <div>
-                                    <div style={{ fontSize: 12, color: "#475569", fontWeight: 600, marginBottom: 2, textTransform: "uppercase", letterSpacing: 0.5 }}>
+                                    <div className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-0.5">
                                         {item.title}
                                     </div>
                                     {item.href ? (
                                         <a
                                             href={item.href}
-                                            style={{ fontSize: 15, fontWeight: 600, color: "#a5b4fc", textDecoration: "none" }}
+                                            className="text-[15px] font-semibold text-slate-900 dark:text-indigo-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
                                         >
                                             {item.value}
                                         </a>
                                     ) : (
-                                        <div style={{ fontSize: 15, fontWeight: 600, color: "#e2e8f0" }}>
+                                        <div className="text-[15px] font-semibold text-slate-900 dark:text-slate-200">
                                             {item.value}
                                         </div>
                                     )}
-                                    <div style={{ fontSize: 12, color: "#475569", marginTop: 2 }}>
+                                    <div className="text-xs text-slate-500 dark:text-slate-500 mt-1">
                                         {item.sub}
                                     </div>
                                 </div>
@@ -180,18 +100,11 @@ export function Contact() {
                         ))}
 
                         {/* Social Links */}
-                        <div
-                            style={{
-                                background: "rgba(15, 23, 42, 0.5)",
-                                border: "1px solid rgba(99,102,241,0.12)",
-                                borderRadius: 16,
-                                padding: "20px 22px",
-                            }}
-                        >
-                            <div style={{ fontSize: 13, fontWeight: 600, color: "#64748b", marginBottom: 14, textTransform: "uppercase", letterSpacing: 1 }}>
+                        <div className="p-5 rounded-2xl bg-white/60 dark:bg-slate-900/50 border border-slate-200 dark:border-indigo-500/10">
+                            <div className="text-[13px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-3.5">
                                 Connect on Social
                             </div>
-                            <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+                            <div className="flex flex-wrap gap-2.5">
                                 {DATA.socials.map((social) => {
                                     const Icon = social.icon;
                                     return (
@@ -200,30 +113,7 @@ export function Contact() {
                                             href={social.url}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            style={{
-                                                display: "flex",
-                                                alignItems: "center",
-                                                gap: 8,
-                                                padding: "10px 16px",
-                                                background: "rgba(99,102,241,0.08)",
-                                                border: "1px solid rgba(99,102,241,0.2)",
-                                                borderRadius: 10,
-                                                color: "#94a3b8",
-                                                textDecoration: "none",
-                                                fontSize: 13,
-                                                fontWeight: 500,
-                                                transition: "all 0.2s ease",
-                                            }}
-                                            onMouseEnter={(e) => {
-                                                (e.currentTarget as HTMLElement).style.background = "rgba(99,102,241,0.15)";
-                                                (e.currentTarget as HTMLElement).style.borderColor = "rgba(99,102,241,0.4)";
-                                                (e.currentTarget as HTMLElement).style.color = "#a5b4fc";
-                                            }}
-                                            onMouseLeave={(e) => {
-                                                (e.currentTarget as HTMLElement).style.background = "rgba(99,102,241,0.08)";
-                                                (e.currentTarget as HTMLElement).style.borderColor = "rgba(99,102,241,0.2)";
-                                                (e.currentTarget as HTMLElement).style.color = "#94a3b8";
-                                            }}
+                                            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-[13px] font-medium transition-all duration-200 bg-slate-100 dark:bg-indigo-500/10 border border-slate-200 dark:border-indigo-500/20 text-slate-600 dark:text-slate-400 hover:bg-indigo-50 dark:hover:bg-indigo-500/15 hover:border-indigo-300 dark:hover:border-indigo-400/40 hover:text-indigo-600 dark:hover:text-indigo-300"
                                             aria-label={social.name}
                                         >
                                             <Icon size={15} />
@@ -236,153 +126,13 @@ export function Contact() {
                     </div>
 
                     {/* Right: Contact Form */}
-                    <div
-                        style={{
-                            background: "rgba(15, 23, 42, 0.7)",
-                            backdropFilter: "blur(20px)",
-                            border: "1px solid rgba(99, 102, 241, 0.2)",
-                            borderRadius: 24,
-                            padding: "40px 36px",
-                            position: "relative",
-                            overflow: "hidden",
-                        }}
-                    >
+                    <div className="relative overflow-hidden p-8 sm:p-10 rounded-3xl bg-white/80 dark:bg-slate-900/70 backdrop-blur-xl border border-slate-200 dark:border-indigo-500/20 shadow-sm dark:shadow-none">
                         {/* Top glow line */}
-                        <div
-                            style={{
-                                position: "absolute",
-                                top: 0,
-                                left: 0,
-                                right: 0,
-                                height: "2px",
-                                background: "linear-gradient(90deg, transparent, #6366f1, #8b5cf6, transparent)",
-                            }}
-                        />
-
-                        <h3
-                            style={{
-                                fontSize: 24,
-                                fontWeight: 700,
-                                color: "#f0f4ff",
-                                marginBottom: 6,
-                                fontFamily: "'Outfit', sans-serif",
-                            }}
-                        >
-                            Send a Message
-                        </h3>
-                        <p style={{ fontSize: 14, color: "#475569", marginBottom: 28 }}>
-                            Tell me about your project and I&apos;ll get back to you within 24 hours.
-                        </p>
-
-                        <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-                            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }} className="form-row">
-                                <div>
-                                    <label style={{ fontSize: 13, fontWeight: 600, color: "#64748b", display: "block", marginBottom: 6 }}>
-                                        Your Name
-                                    </label>
-                                    <input
-                                        type="text"
-                                        required
-                                        placeholder="MD Mukit Hasan"
-                                        id="contact-name"
-                                        className="form-input"
-                                        value={formData.name}
-                                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                    />
-                                </div>
-                                <div>
-                                    <label style={{ fontSize: 13, fontWeight: 600, color: "#64748b", display: "block", marginBottom: 6 }}>
-                                        Email Address
-                                    </label>
-                                    <input
-                                        type="email"
-                                        required
-                                        placeholder="you@example.com"
-                                        id="contact-email"
-                                        className="form-input"
-                                        value={formData.email}
-                                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                    />
-                                </div>
-                            </div>
-
-                            <div>
-                                <label style={{ fontSize: 13, fontWeight: 600, color: "#64748b", display: "block", marginBottom: 6 }}>
-                                    Subject
-                                </label>
-                                <input
-                                    type="text"
-                                    placeholder="MVP Development · SaaS Project · AI Integration"
-                                    id="contact-subject"
-                                    className="form-input"
-                                    value={formData.subject}
-                                    onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                                />
-                            </div>
-
-                            <div>
-                                <label style={{ fontSize: 13, fontWeight: 600, color: "#64748b", display: "block", marginBottom: 6 }}>
-                                    Message
-                                </label>
-                                <textarea
-                                    required
-                                    placeholder="Tell me about your project, timeline, and budget..."
-                                    id="contact-message"
-                                    className="form-input"
-                                    style={{ minHeight: 140, resize: "vertical" }}
-                                    value={formData.message}
-                                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                                />
-                            </div>
-
-                            <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
-                                <button
-                                    type="submit"
-                                    className="btn-primary"
-                                    disabled={sending}
-                                    style={{
-                                        flex: 1,
-                                        justifyContent: "center",
-                                        opacity: sending ? 0.7 : 1,
-                                        cursor: sending ? "not-allowed" : "pointer",
-                                    }}
-                                >
-                                    <span style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                                        {sending ? (
-                                            <>Sending...</>
-                                        ) : sent ? (
-                                            <>✓ Message Sent!</>
-                                        ) : (
-                                            <><Send size={15} /> Send Message</>
-                                        )}
-                                    </span>
-                                </button>
-                                <button
-                                    type="button"
-                                    onClick={() => setFormData({ name: "", email: "", subject: "", message: "" })}
-                                    className="btn-outline"
-                                    style={{ padding: "12px 20px" }}
-                                >
-                                    Clear
-                                </button>
-                            </div>
-                        </form>
+                        <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-indigo-500 to-transparent" />
+                        <LeadMagnetForm />
                     </div>
                 </div>
             </div>
-
-            <style jsx global>{`
-                @media (max-width: 900px) {
-                    .contact-grid {
-                        grid-template-columns: 1fr !important;
-                    }
-                }
-                @media (max-width: 480px) {
-                    .form-row {
-                        grid-template-columns: 1fr !important;
-                    }
-                }
-            `}</style>
         </section>
     );
 }

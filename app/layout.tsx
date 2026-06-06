@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
+import { Inter, Outfit } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
-import { DATA } from "@/lib/data";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 
@@ -9,34 +9,68 @@ import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { MukitAI } from "@/components/MukitAI";
 import { JsonLd } from "@/components/JsonLd";
-
+import { MetaPixel } from "@/components/MetaPixel";
+import { GoogleAnalytics } from "@next/third-parties/google";
+import { Toaster } from "react-hot-toast";
 import Script from "next/script";
 
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
+
+const outfit = Outfit({
+  subsets: ["latin"],
+  variable: "--font-outfit",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
-  title: "MD Mukit Hasan | Full Stack Developer & AI Specialist",
-  description: "Founder @ CoderNest Digital Solutions. Full Stack Web Developer specializing in Next.js, Node.js, and AI Orchestration. Building high-performance SaaS, AI-powered apps, and scalable web solutions.",
+  metadataBase: new URL("https://www.codernest.cloud"),
+  title: {
+    default: "MD Mukit Hasan | Full-Stack SaaS Developer & AI Architect",
+    template: "%s | Full-Stack SaaS Developer & AI Architect",
+  },
+  description: "Founder @ CoderNest Digital Solutions. Elite Full Stack Web Developer specializing in high-performance SaaS, Next.js, TypeScript, and AI integrations (Gemini). Available for Remote SaaS development worldwide. Hire Next.js expert USA, AI Integration agency Europe.",
   keywords: [
-    "Full Stack Web Developer",
-    "AI Specialist",
-    "Next.js Developer",
-    "Node.js Developer",
-    "SaaS Developer",
-    "AI Integration",
+    "MD Mukit Hasan",
     "CoderNest Digital Solutions",
-    "Mukit Hasan",
-    "Gemini API",
-    "PostgreSQL",
-    "Prisma",
-    "React Developer",
+    "Principal Frontend Engineer",
+    "Full Stack Web Developer",
+    "AI Architect",
+    "Next.js Developer USA",
+    "Remote SaaS development",
+    "Hire Next.js expert USA",
+    "AI Integration agency Europe",
+    "SaaS Architecture",
+    "Gemini API Integration",
   ],
+  authors: [{ name: "MD Mukit Hasan", url: "https://www.codernest.cloud" }],
+  creator: "MD Mukit Hasan",
+  openGraph: {
+    title: "MD Mukit Hasan | Full-Stack SaaS Developer & AI Architect",
+    description: "Elite Full Stack Web Developer specializing in high-performance SaaS. Hire Next.js expert USA & Europe.",
+    url: "https://www.codernest.cloud",
+    siteName: "MD Mukit Hasan Portfolio",
+    type: "website",
+    images: [
+      {
+        url: "/og-image.jpg", // Ensure this exists or fallback to default
+        width: 1200,
+        height: 630,
+        alt: "MD Mukit Hasan Portfolio Cover",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "MD Mukit Hasan | Full-Stack SaaS Developer & AI Architect",
+    description: "Elite Full Stack Web Developer specializing in high-performance SaaS. Hire Next.js expert USA.",
+    creator: "@MukitHasan",
+  },
   verification: {
     google: "DHTqBavAyRLQpo3M-EgwQ6T5S3IrhjnBbdXp-A7x604",
-  },
-  openGraph: {
-    title: "MD Mukit Hasan | Full Stack Developer & AI Specialist",
-    description: "Engineering the Future with Code & AI. Founder @ CoderNest Digital Solutions.",
-    type: "website",
-    url: "https://www.codernest.cloud",
   },
 };
 
@@ -46,36 +80,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark" suppressHydrationWarning>
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
-      </head>
-      <body>
+    <html lang="en-US" suppressHydrationWarning className={`${inter.variable} ${outfit.variable}`}>
+      <body className="antialiased font-sans bg-background text-foreground overflow-x-hidden min-h-screen transition-colors duration-300">
         <Script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4590020337376910"
           crossOrigin="anonymous"
           strategy="afterInteractive"
         />
-        <Script
-          strategy="afterInteractive"
-          src="https://www.googletagmanager.com/gtag/js?id=G-P1HC1JZXVT"
-        />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-P1HC1JZXVT');
-          `}
-        </Script>
+        <GoogleAnalytics gaId="G-P1HC1JZXVT" />
+        <MetaPixel />
         <ThemeProvider
           attribute="class"
-          defaultTheme="dark"
-          enableSystem={false}
-          disableTransitionOnChange
+          defaultTheme="system"
+          enableSystem={true}
         >
           <Navbar />
           {children}
@@ -84,6 +102,7 @@ export default function RootLayout({
           <SpeedInsights />
           <MukitAI />
           <JsonLd />
+          <Toaster position="bottom-right" toastOptions={{ style: { background: '#1e293b', color: '#f8fafc', border: '1px solid #334155' } }} />
         </ThemeProvider>
       </body>
     </html>

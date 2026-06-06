@@ -1,32 +1,30 @@
-import { MetadataRoute } from 'next'
+import { MetadataRoute } from 'next';
+import { DATA } from '@/lib/data';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-    const baseUrl = 'https://www.codernest.cloud' // Updated with the user's provided domain from previous context if applicable, or safe default. User mentioned codernest.cloud in prompts.
+    const baseUrl = "https://www.codernest.cloud";
 
-    return [
-        {
-            url: baseUrl,
-            lastModified: new Date(),
-            changeFrequency: 'weekly',
-            priority: 1,
-        },
-        {
-            url: `${baseUrl}/#projects`,
-            lastModified: new Date(),
-            changeFrequency: 'weekly',
-            priority: 0.8,
-        },
-        {
-            url: `${baseUrl}/#services`,
-            lastModified: new Date(),
-            changeFrequency: 'monthly',
-            priority: 0.5,
-        },
-        {
-            url: `${baseUrl}/#contact`,
-            lastModified: new Date(),
-            changeFrequency: 'yearly',
-            priority: 0.5,
-        },
-    ]
+    // Base routes
+    const routes = [
+        "",
+        "/about",
+        "/services",
+        "/projects",
+        "/contact"
+    ].map((route) => ({
+        url: `${baseUrl}${route}`,
+        lastModified: new Date(),
+        changeFrequency: "weekly" as const,
+        priority: route === "" ? 1 : 0.8,
+    }));
+
+    // Dynamic project routes
+    const projectRoutes = DATA.projects.map((project) => ({
+        url: `${baseUrl}/projects/${project.slug}`,
+        lastModified: new Date(),
+        changeFrequency: "monthly" as const,
+        priority: 0.7,
+    }));
+
+    return [...routes, ...projectRoutes];
 }

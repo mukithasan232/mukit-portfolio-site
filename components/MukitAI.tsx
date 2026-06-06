@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Bot, X, Send, BarChart2, ChevronRight, Sparkles, Briefcase, UserCheck, MessageSquare } from "lucide-react";
+import { Bot, X, Send, BarChart2, ChevronRight, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 // --- Configuration & Data ---
@@ -12,16 +12,8 @@ const SKILL_DATA = [
     { name: "CSS", value: 85, color: "bg-blue-500" },
     { name: "JavaScript", value: 80, color: "bg-yellow-400" },
     { name: "React", value: 75, color: "bg-cyan-400" },
-    { name: "Next.js", value: 70, color: "bg-black dark:bg-white" },
+    { name: "Next.js", value: 70, color: "bg-slate-900 dark:bg-white" },
     { name: "Firebase", value: 65, color: "bg-yellow-600" },
-];
-
-const PREDEFINED_QUESTIONS = [
-    "What are Mukit's top skills?",
-    "Show React and Next.js proficiency",
-    "Which projects use Firebase?",
-    "Is Mukit suitable for frontend development?",
-    "Explain the skill growth chart",
 ];
 
 type MessageType = "user" | "bot" | "chart-skills" | "chart-growth";
@@ -48,33 +40,11 @@ interface Message {
 const ChatButton = ({ onClick, isOpen }: { onClick: () => void; isOpen: boolean }) => (
     <button
         onClick={onClick}
-        style={{
-            position: "fixed",
-            bottom: 24,
-            right: 24,
-            zIndex: 9999,
-            display: "flex",
-            alignItems: "center",
-            gap: 8,
-            fontSize: 14,
-            fontWeight: 600,
-            padding: "12px 20px",
-            borderRadius: 50,
-            background: isOpen
-                ? "rgba(99,102,241,0.15)"
-                : "linear-gradient(135deg, #6366f1, #8b5cf6)",
-            color: "#fff",
-            border: isOpen
-                ? "1px solid rgba(99,102,241,0.4)"
-                : "none",
-            cursor: "pointer",
-            boxShadow: isOpen
-                ? "0 4px 20px rgba(99,102,241,0.2)"
-                : "0 8px 32px rgba(99,102,241,0.4)",
-            backdropFilter: "blur(12px)",
-            transition: "all 0.3s ease",
-            fontFamily: "'Inter', sans-serif",
-        }}
+        className={`fixed bottom-6 right-6 z-[9999] flex items-center gap-2 text-[14px] font-semibold px-5 py-3 rounded-full transition-all duration-300 backdrop-blur-md shadow-lg ${
+            isOpen
+                ? "bg-indigo-100 dark:bg-indigo-500/15 text-indigo-600 dark:text-white border border-indigo-200 dark:border-indigo-500/40"
+                : "bg-indigo-600 text-white border-none shadow-[0_8px_32px_rgba(99,102,241,0.4)]"
+        }`}
         aria-label={isOpen ? "Close Chat" : "Open Mukit AI"}
     >
         {isOpen ? <X size={18} /> : <Bot size={18} />}
@@ -83,17 +53,17 @@ const ChatButton = ({ onClick, isOpen }: { onClick: () => void; isOpen: boolean 
 );
 
 const SkillChart = ({ data }: { data: typeof SKILL_DATA }) => (
-    <div className="mt-3 space-y-3 rounded-lg bg-card/50 p-3 backdrop-blur-sm border border-border/50 w-full shadow-sm">
-        <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2 flex items-center gap-2">
+    <div className="mt-3 space-y-3 rounded-xl bg-white/50 dark:bg-slate-800/50 p-3.5 backdrop-blur-sm border border-slate-200 dark:border-indigo-500/20 w-full shadow-sm">
+        <h4 className="text-[11px] font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-2 flex items-center gap-2">
             <BarChart2 size={12} /> Skill Proficiency
         </h4>
         {data.map((skill) => (
-            <div key={skill.name} className="space-y-1">
-                <div className="flex justify-between text-xs font-medium text-foreground">
+            <div key={skill.name} className="space-y-1.5">
+                <div className="flex justify-between text-[12px] font-semibold text-slate-700 dark:text-slate-300">
                     <span>{skill.name}</span>
-                    <span className="text-muted-foreground">{skill.value}%</span>
+                    <span className="text-indigo-600 dark:text-indigo-400">{skill.value}%</span>
                 </div>
-                <div className="h-2 w-full overflow-hidden rounded-full bg-secondary">
+                <div className="h-1.5 w-full overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700/50">
                     <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${skill.value}%` }}
@@ -107,8 +77,8 @@ const SkillChart = ({ data }: { data: typeof SKILL_DATA }) => (
 );
 
 const GrowthChart = () => (
-    <div className="mt-3 rounded-lg bg-card/50 p-4 backdrop-blur-sm border border-border/50 w-full shadow-sm">
-        <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3 flex items-center gap-2">
+    <div className="mt-3 rounded-xl bg-white/50 dark:bg-slate-800/50 p-4 backdrop-blur-sm border border-slate-200 dark:border-indigo-500/20 w-full shadow-sm">
+        <h4 className="text-[11px] font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-3 flex items-center gap-2">
             <Sparkles size={12} /> Learning Trajectory
         </h4>
         <div className="h-32 flex items-end justify-between gap-2 px-1">
@@ -118,12 +88,12 @@ const GrowthChart = () => (
                         initial={{ height: 0 }}
                         animate={{ height: `${h}%` }}
                         transition={{ delay: i * 0.1, duration: 0.5 }}
-                        className="w-full bg-gradient-to-t from-blue-600 to-cyan-400 rounded-t-sm opacity-80 hover:opacity-100 transition-opacity"
+                        className="w-full bg-gradient-to-t from-indigo-500 to-purple-400 dark:from-indigo-600 dark:to-cyan-400 rounded-t-sm opacity-80 hover:opacity-100 transition-opacity"
                     />
                 </div>
             ))}
         </div>
-        <div className="flex justify-between text-[10px] text-muted-foreground mt-2 px-1">
+        <div className="flex justify-between text-[10px] font-semibold text-slate-500 dark:text-slate-400 mt-2 px-1">
             <span>Jan</span>
             <span>Feb</span>
             <span>Mar</span>
@@ -493,63 +463,25 @@ export function MukitAI() {
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 20, scale: 0.95 }}
                         transition={{ duration: 0.2 }}
-                        className="fixed bottom-24 right-4 z-50 w-[90vw] max-w-[400px] overflow-hidden flex flex-col h-[520px] max-h-[75vh]"
-                        style={{
-                            background: "rgba(8, 13, 26, 0.95)",
-                            backdropFilter: "blur(24px)",
-                            WebkitBackdropFilter: "blur(24px)",
-                            border: "1px solid rgba(99, 102, 241, 0.25)",
-                            borderRadius: 20,
-                            boxShadow: "0 24px 80px rgba(99, 102, 241, 0.2)",
-                        }}
+                        className="fixed bottom-[85px] right-4 md:right-6 z-[9999] w-[calc(100vw-32px)] md:w-[400px] overflow-hidden flex flex-col h-[520px] max-h-[calc(100vh-120px)] bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-slate-200 dark:border-indigo-500/25 rounded-2xl shadow-2xl dark:shadow-[0_24px_80px_rgba(99,102,241,0.2)]"
                     >
                         {/* Header */}
-                        <div
-                            style={{
-                                padding: "16px 20px",
-                                borderBottom: "1px solid rgba(99, 102, 241, 0.15)",
-                                flexShrink: 0,
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "space-between",
-                                background: "linear-gradient(90deg, rgba(99,102,241,0.1), transparent)",
-                            }}
-                        >
-                            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                                <div
-                                    style={{
-                                        width: 32,
-                                        height: 32,
-                                        borderRadius: "50%",
-                                        background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
-                                        display: "flex",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                    }}
-                                >
-                                    <Bot size={16} color="white" />
+                        <div className="px-5 py-4 border-b border-slate-200 dark:border-indigo-500/15 shrink-0 flex items-center justify-between bg-slate-50 dark:bg-gradient-to-r dark:from-indigo-500/10 dark:to-transparent">
+                            <div className="flex items-center gap-3">
+                                <div className="w-8 h-8 rounded-full bg-indigo-600 dark:bg-gradient-to-br dark:from-indigo-500 dark:to-purple-500 flex items-center justify-center text-white shadow-sm">
+                                    <Bot size={16} />
                                 </div>
                                 <div>
-                                    <div style={{ fontSize: 14, fontWeight: 700, color: "#f0f4ff" }}>Mukit AI</div>
-                                    <div style={{ fontSize: 11, color: "#10b981", display: "flex", alignItems: "center", gap: 4 }}>
-                                        <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#10b981", display: "inline-block", boxShadow: "0 0 6px #10b981" }} />
+                                    <div className="text-[14px] font-bold text-slate-900 dark:text-[#f0f4ff]">Mukit AI</div>
+                                    <div className="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
+                                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400 shadow-[0_0_6px_rgba(16,185,129,0.5)]" />
                                         Online
                                     </div>
                                 </div>
                             </div>
                             <button
                                 onClick={() => setIsOpen(false)}
-                                style={{
-                                    background: "rgba(99,102,241,0.1)",
-                                    border: "1px solid rgba(99,102,241,0.2)",
-                                    borderRadius: 8,
-                                    padding: "4px 8px",
-                                    cursor: "pointer",
-                                    color: "#a5b4fc",
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                }}
+                                className="p-1.5 rounded-lg bg-slate-200 dark:bg-indigo-500/10 border border-slate-300 dark:border-indigo-500/20 text-slate-500 dark:text-indigo-300 hover:bg-slate-300 dark:hover:bg-indigo-500/20 transition-colors"
                                 aria-label="Close"
                             >
                                 <X size={16} />
@@ -557,54 +489,33 @@ export function MukitAI() {
                         </div>
 
                         {/* Messages Area */}
-                        <div style={{ flex: 1, overflowY: "auto", padding: "12px 14px", fontSize: 13, display: "flex", flexDirection: "column", gap: 8 }}>
+                        <div className="flex-1 overflow-y-auto p-4 text-[13px] flex flex-col gap-3">
                             {messages.map((msg) => (
                                 <motion.div
                                     key={msg.id}
                                     initial={{ opacity: 0, y: 10 }}
                                     animate={{ opacity: 1, y: 0 }}
-                                    style={{ display: "flex", justifyContent: msg.type === "user" ? "flex-end" : "flex-start", width: "100%" }}
+                                    className={`flex w-full ${msg.type === "user" ? "justify-end" : "justify-start"}`}
                                 >
                                     <div
-                                        style={{
-                                            maxWidth: "85%",
-                                            padding: "10px 14px",
-                                            borderRadius: msg.type === "user" ? "16px 16px 4px 16px" : "16px 16px 16px 4px",
-                                            background: msg.type === "user"
-                                                ? "linear-gradient(135deg, #6366f1, #8b5cf6)"
-                                                : "rgba(255,255,255,0.05)",
-                                            border: msg.type === "user"
-                                                ? "none"
-                                                : "1px solid rgba(99,102,241,0.15)",
-                                            color: msg.type === "user" ? "#fff" : "#94a3b8",
-                                            fontSize: 13,
-                                            lineHeight: 1.6,
-                                        }}
+                                        className={`max-w-[85%] p-3.5 leading-[1.6] ${
+                                            msg.type === "user" 
+                                                ? "rounded-[16px_16px_4px_16px] bg-indigo-600 text-white shadow-sm" 
+                                                : "rounded-[16px_16px_16px_4px] bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-indigo-500/15 text-slate-700 dark:text-slate-300"
+                                        }`}
                                     >
-                                        {msg.content && <p style={{ margin: 0, whiteSpace: "pre-wrap" }}>{msg.content}</p>}
+                                        {msg.content && <p className="m-0 whitespace-pre-wrap">{msg.content}</p>}
                                         {msg.type === "chart-skills" && msg.data && <SkillChart data={msg.data} />}
                                         {msg.type === "chart-growth" && <GrowthChart />}
 
                                         {/* Support multiple actions */}
                                         {msg.actions && (
-                                            <div style={{ marginTop: 10, display: "flex", flexWrap: "wrap", gap: 6 }}>
+                                            <div className="mt-3 flex flex-wrap gap-2">
                                                 {msg.actions.map((action, idx) => (
                                                     <button
                                                         key={idx}
                                                         onClick={() => handleAction(action)}
-                                                        style={{
-                                                            display: "flex",
-                                                            alignItems: "center",
-                                                            gap: 4,
-                                                            fontSize: 12,
-                                                            fontWeight: 600,
-                                                            color: "#a5b4fc",
-                                                            background: "rgba(99,102,241,0.1)",
-                                                            border: "1px solid rgba(99,102,241,0.25)",
-                                                            borderRadius: 8,
-                                                            padding: "5px 10px",
-                                                            cursor: "pointer",
-                                                        }}
+                                                        className="flex items-center gap-1 text-[12px] font-bold text-indigo-700 dark:text-indigo-300 bg-indigo-100 dark:bg-indigo-500/10 border border-indigo-200 dark:border-indigo-500/25 rounded-lg px-2.5 py-1.5 transition-colors hover:bg-indigo-200 dark:hover:bg-indigo-500/20"
                                                     >
                                                         {action.label} <ChevronRight size={12} />
                                                     </button>
@@ -616,18 +527,7 @@ export function MukitAI() {
                                         {msg.action && !msg.actions && (
                                             <button
                                                 onClick={() => handleAction(msg.action!)}
-                                                style={{
-                                                    marginTop: 8,
-                                                    display: "flex",
-                                                    alignItems: "center",
-                                                    gap: 4,
-                                                    fontSize: 12,
-                                                    fontWeight: 600,
-                                                    color: "#a5b4fc",
-                                                    background: "transparent",
-                                                    border: "none",
-                                                    cursor: "pointer",
-                                                }}
+                                                className="mt-2 flex items-center gap-1 text-[12px] font-bold text-indigo-700 dark:text-indigo-300 hover:text-indigo-800 dark:hover:text-indigo-200 transition-colors"
                                             >
                                                 {msg.action.label} <ChevronRight size={12} />
                                             </button>
@@ -637,29 +537,13 @@ export function MukitAI() {
                             ))}
 
                             {isTyping && (
-                                <div style={{ display: "flex", justifyContent: "flex-start" }}>
-                                    <div
-                                        style={{
-                                            background: "rgba(255,255,255,0.05)",
-                                            border: "1px solid rgba(99,102,241,0.15)",
-                                            borderRadius: "16px 16px 16px 4px",
-                                            padding: "12px 16px",
-                                            display: "flex",
-                                            gap: 5,
-                                            alignItems: "center",
-                                        }}
-                                    >
+                                <div className="flex justify-start">
+                                    <div className="bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-indigo-500/15 rounded-[16px_16px_16px_4px] px-4 py-3 flex gap-1.5 items-center">
                                         {[0, 1, 2].map((i) => (
                                             <span
                                                 key={i}
-                                                style={{
-                                                    width: 6,
-                                                    height: 6,
-                                                    borderRadius: "50%",
-                                                    background: "#6366f1",
-                                                    display: "inline-block",
-                                                    animation: `bounce 1s ease-in-out ${i * 0.15}s infinite`,
-                                                }}
+                                                className="w-1.5 h-1.5 rounded-full bg-indigo-500"
+                                                style={{ animation: `bounce 1s ease-in-out ${i * 0.15}s infinite` }}
                                             />
                                         ))}
                                     </div>
@@ -670,24 +554,14 @@ export function MukitAI() {
 
                         {/* Suggestions */}
                         {messages.length < 3 && !isTyping && (
-                            <div style={{ padding: "8px 14px", borderTop: "1px solid rgba(99,102,241,0.1)" }}>
-                                <p style={{ fontSize: 11, color: "#475569", marginBottom: 8, fontWeight: 600 }}>Suggested:</p>
-                                <div style={{ display: "flex", gap: 6, overflowX: "auto", paddingBottom: 4 }}>
+                            <div className="px-4 py-2 border-t border-slate-200 dark:border-indigo-500/10 bg-slate-50 dark:bg-transparent">
+                                <p className="text-[11px] font-bold text-slate-500 dark:text-slate-400 mb-2">Suggested:</p>
+                                <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
                                     {getSuggestions().map((q, i) => (
                                         <button
                                             key={i}
                                             onClick={() => handleSendMessage(q)}
-                                            style={{
-                                                whiteSpace: "nowrap",
-                                                borderRadius: 20,
-                                                border: "1px solid rgba(99,102,241,0.25)",
-                                                background: "rgba(99,102,241,0.06)",
-                                                padding: "5px 12px",
-                                                fontSize: 12,
-                                                color: "#a5b4fc",
-                                                cursor: "pointer",
-                                                fontWeight: 500,
-                                            }}
+                                            className="whitespace-nowrap rounded-full border border-slate-300 dark:border-indigo-500/25 bg-white dark:bg-indigo-500/5 px-3 py-1.5 text-[12px] font-semibold text-slate-700 dark:text-indigo-300 transition-colors hover:bg-slate-100 dark:hover:bg-indigo-500/15"
                                         >
                                             {q}
                                         </button>
@@ -697,48 +571,29 @@ export function MukitAI() {
                         )}
 
                         {/* Input Area */}
-                        <div
-                            style={{
-                                borderTop: "1px solid rgba(99,102,241,0.15)",
-                                padding: "12px 14px",
-                                background: "rgba(8,13,26,0.5)",
-                            }}
-                        >
+                        <div className="border-t border-slate-200 dark:border-indigo-500/15 p-3.5 bg-white dark:bg-slate-900/50">
                             <form
                                 onSubmit={(e) => {
                                     e.preventDefault();
                                     handleSendMessage(input);
                                 }}
-                                style={{ display: "flex", gap: 8, alignItems: "center" }}
+                                className="flex gap-2 items-center"
                             >
                                 <input
                                     type="text"
                                     value={input}
                                     onChange={(e) => setInput(e.target.value)}
                                     placeholder="Ask Mukit AI..."
-                                    className="form-input"
-                                    style={{ flex: 1, padding: "10px 14px", fontSize: 13 }}
+                                    className="flex-1 px-3.5 py-2.5 text-[13px] rounded-xl border border-slate-300 dark:border-indigo-500/20 bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-indigo-500 dark:focus:border-indigo-400 focus:ring-1 focus:ring-indigo-500 dark:focus:ring-indigo-400 transition-all"
                                 />
                                 <button
                                     type="submit"
                                     disabled={!input.trim()}
-                                    style={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        width: 40,
-                                        height: 40,
-                                        borderRadius: 10,
-                                        background: !input.trim()
-                                            ? "rgba(99,102,241,0.1)"
-                                            : "linear-gradient(135deg, #6366f1, #8b5cf6)",
-                                        border: "none",
-                                        cursor: !input.trim() ? "not-allowed" : "pointer",
-                                        color: "#fff",
-                                        opacity: !input.trim() ? 0.4 : 1,
-                                        flexShrink: 0,
-                                        transition: "all 0.2s ease",
-                                    }}
+                                    className={`flex items-center justify-center w-10 h-10 rounded-xl shrink-0 transition-all duration-200 ${
+                                        !input.trim()
+                                            ? "bg-slate-200 dark:bg-indigo-500/10 text-slate-400 dark:text-indigo-500/50 cursor-not-allowed"
+                                            : "bg-indigo-600 text-white shadow-md hover:bg-indigo-500"
+                                    }`}
                                 >
                                     <Send size={16} />
                                 </button>
