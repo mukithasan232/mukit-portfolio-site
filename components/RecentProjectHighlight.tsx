@@ -45,6 +45,7 @@ export const RecentProjectHighlight = () => {
                                         src={project.images[0]}
                                         alt={project.title}
                                         className="w-full h-full object-cover object-top block transition-transform duration-500 group-hover:scale-105 filter dark:brightness-90"
+                                        loading="lazy"
                                     />
                                 ) : (
                                     <div className="w-full h-full flex items-center justify-center text-[48px]">
