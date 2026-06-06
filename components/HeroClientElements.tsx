@@ -101,7 +101,7 @@ export function HeroCodeCard() {
 
             <div className="px-5 py-4 font-mono text-[13px] leading-loose">
                 {CODE_LINES_DARK.slice(0, visible).map((line, i) => (
-                    <div key={i} className="opacity-0 animate-[fade-in_0.3s_ease_forwards] relative">
+                    <div key={i} className="relative">
                         {/* Light Mode Line */}
                         <span className="block dark:hidden" style={{ color: CODE_LINES_LIGHT[i].color }}>
                             {line.token || " "}
