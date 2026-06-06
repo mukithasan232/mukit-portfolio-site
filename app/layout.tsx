@@ -7,12 +7,14 @@ import { Footer } from "@/components/Footer";
 
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { MukitAI } from "@/components/MukitAI";
 import { JsonLd } from "@/components/JsonLd";
-import { MetaPixel } from "@/components/MetaPixel";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { Toaster } from "react-hot-toast";
 import Script from "next/script";
+import dynamic from "next/dynamic";
+
+const MukitAI = dynamic(() => import("@/components/MukitAI").then(mod => mod.MukitAI), { ssr: false });
+const MetaPixel = dynamic(() => import("@/components/MetaPixel").then(mod => mod.MetaPixel), { ssr: false });
 
 const inter = Inter({
   subsets: ["latin"],

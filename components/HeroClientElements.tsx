@@ -15,7 +15,15 @@ export function TypingText() {
     const [charIdx, setCharIdx] = useState(0);
     const [deleting, setDeleting] = useState(false);
 
+    const [started, setStarted] = useState(false);
+
     useEffect(() => {
+        const t = setTimeout(() => setStarted(true), 2500);
+        return () => clearTimeout(t);
+    }, []);
+
+    useEffect(() => {
+        if (!started) return;
         const phrase = TYPING_PHRASES[phraseIdx];
         const delay = deleting ? 40 : charIdx === phrase.length ? 2000 : 70;
         const timeout = setTimeout(() => {
@@ -33,7 +41,7 @@ export function TypingText() {
             }
         }, delay);
         return () => clearTimeout(timeout);
-    }, [charIdx, deleting, phraseIdx]);
+    }, [charIdx, deleting, phraseIdx, started]);
 
     return (
         <span className="text-indigo-600 dark:text-indigo-300">
@@ -82,11 +90,19 @@ const CODE_LINES_LIGHT = [
 export function HeroCodeCard() {
     const [visible, setVisible] = useState(0);
 
+    const [started, setStarted] = useState(false);
+
     useEffect(() => {
+        const t = setTimeout(() => setStarted(true), 3000);
+        return () => clearTimeout(t);
+    }, []);
+
+    useEffect(() => {
+        if (!started) return;
         if (visible >= CODE_LINES_DARK.length) return;
         const t = setTimeout(() => setVisible((v) => v + 1), 180);
         return () => clearTimeout(t);
-    }, [visible]);
+    }, [visible, started]);
 
     return (
         <div className="w-full max-w-[400px] rounded-2xl overflow-hidden bg-white/80 dark:bg-slate-900/85 backdrop-blur-xl border border-slate-200 dark:border-indigo-500/25 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_24px_60px_rgba(0,0,0,0.5),0_0_0_1px_rgba(255,255,255,0.04)_inset]">
