@@ -81,13 +81,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en-US" suppressHydrationWarning className={`${inter.variable} ${outfit.variable}`}>
-      <body className="antialiased font-sans bg-background text-foreground overflow-x-hidden min-h-screen transition-colors duration-300">
+      <head>
         <Script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4590020337376910"
           crossOrigin="anonymous"
-          strategy="lazyOnload"
+          strategy="afterInteractive"
         />
+      </head>
+      <body className="antialiased font-sans bg-background text-foreground overflow-x-hidden min-h-screen transition-colors duration-300">
         {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
           <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
         )}
