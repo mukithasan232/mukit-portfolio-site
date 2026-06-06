@@ -62,7 +62,6 @@ export function About({ asH1 = false }: { asH1?: boolean }) {
                                 fill
                                 className="object-cover transition-all duration-300 filter dark:brightness-90 dark:saturate-90"
                                 unoptimized
-                                priority
                             />
                             {/* Dark tint overlay — tones down bright background */}
                             <div className="absolute inset-0 bg-transparent dark:bg-[#080d1a]/10 z-[1] pointer-events-none transition-colors duration-300" />

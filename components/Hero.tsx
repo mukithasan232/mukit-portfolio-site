@@ -34,13 +34,12 @@ export function Hero() {
             <div className="absolute inset-0 z-0 bg-[radial-gradient(theme(colors.slate.300)_1px,transparent_1px)] dark:bg-[radial-gradient(theme(colors.indigo.500/0.1)_1px,transparent_1px)] bg-[size:40px_40px]" />
 
             {/* Abstract Decorative Background Image */}
-            <div className="absolute top-0 right-0 opacity-5 dark:opacity-[0.03] pointer-events-none z-[1]">
+            <div className="hidden lg:block absolute top-0 right-0 opacity-5 dark:opacity-[0.03] pointer-events-none z-[1]">
                 <Image 
                     src="/logo.png" 
                     alt="CoderNest Background Asset" 
                     width={800} 
                     height={800} 
-                    priority 
                     className="object-cover"
                 />
             </div>
