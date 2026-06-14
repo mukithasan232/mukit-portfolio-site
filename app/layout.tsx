@@ -11,10 +11,7 @@ import { JsonLd } from "@/components/JsonLd";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { Toaster } from "react-hot-toast";
 import Script from "next/script";
-import dynamic from "next/dynamic";
-
-const MukitAI = dynamic(() => import("@/components/MukitAI").then(mod => mod.MukitAI), { ssr: false });
-const MetaPixel = dynamic(() => import("@/components/MetaPixel").then(mod => mod.MetaPixel), { ssr: false });
+import { LazyLoadedWidgets } from "@/components/LazyLoadedWidgets";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -95,7 +92,6 @@ export default function RootLayout({
         {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
           <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
         )}
-        <MetaPixel />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -106,7 +102,7 @@ export default function RootLayout({
           <Footer />
           <Analytics />
           <SpeedInsights />
-          <MukitAI />
+          <LazyLoadedWidgets />
           <JsonLd />
           <Toaster position="bottom-right" toastOptions={{ style: { background: '#1e293b', color: '#f8fafc', border: '1px solid #334155' } }} />
         </ThemeProvider>

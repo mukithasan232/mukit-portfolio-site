@@ -8,15 +8,17 @@ export async function fetchGitHubData(username: string) {
     try {
         console.log(`[GitHub] Fetching data for: ${username}`);
 
-        const userPromise = fetch(urls.user)
+        const headers: HeadersInit = process.env.GITHUB_TOKEN ? { Authorization: `Bearer ${process.env.GITHUB_TOKEN}` } : {};
+
+        const userPromise = fetch(urls.user, { headers, next: { revalidate: 3600 } })
             .then(res => res.ok ? res.json() : null)
             .catch(err => { console.error(`[GitHub] Failed to fetch User: ${urls.user}`, err); return null; });
 
-        const reposPromise = fetch(urls.repos)
+        const reposPromise = fetch(urls.repos, { headers, next: { revalidate: 3600 } })
             .then(res => res.ok ? res.json() : [])
             .catch(err => { console.error(`[GitHub] Failed to fetch Repos: ${urls.repos}`, err); return []; });
 
-        const contributionsPromise = fetch(urls.contributions)
+        const contributionsPromise = fetch(urls.contributions, { next: { revalidate: 3600 } })
             .then(res => res.ok ? res.json() : null)
             .then(data => {
                 if (!data || !data.contributions) return null;
