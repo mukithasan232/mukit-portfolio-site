@@ -10,7 +10,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { JsonLd } from "@/components/JsonLd";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { Toaster } from "react-hot-toast";
-import Script from "next/script";
+
 import { LazyLoadedWidgets } from "@/components/LazyLoadedWidgets";
 
 const inter = Inter({
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/og-image.jpg", // Ensure this exists or fallback to default
+        url: "/preview.png",
         width: 1200,
         height: 630,
         alt: "MD Mukit Hasan Portfolio Cover",
@@ -71,6 +71,17 @@ export const metadata: Metadata = {
   verification: {
     google: "DHTqBavAyRLQpo3M-EgwQ6T5S3IrhjnBbdXp-A7x604",
   },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
 };
 
 export default function RootLayout({
@@ -81,12 +92,11 @@ export default function RootLayout({
   return (
     <html lang="en-US" suppressHydrationWarning className={`${inter.variable} ${outfit.variable}`}>
       <head>
-        <Script
+        <script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4590020337376910"
           crossOrigin="anonymous"
-          strategy="afterInteractive"
-        />
+        ></script>
       </head>
       <body className="antialiased font-sans bg-background text-foreground overflow-x-hidden min-h-screen transition-colors duration-300">
         {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (

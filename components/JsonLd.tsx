@@ -18,7 +18,7 @@ export function JsonLd() {
             "Firebase",
             "SEO"
         ],
-        "image": "https://www.codernest.cloud/me.jpeg",
+        "image": "https://www.codernest.cloud/me.png",
         "description": DATA.headline,
         "address": {
             "@type": "PostalAddress",

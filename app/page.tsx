@@ -13,6 +13,9 @@ export function generateMetadata(): Metadata {
     return {
         title: "Home | MD Mukit Hasan - Full Stack & AI Developer",
         description: "MD Mukit Hasan is a Principal Frontend Engineer and AI Specialist. Discover full-stack SaaS projects, AI integrations, and high-performance web applications.",
+        alternates: {
+            canonical: "https://www.codernest.cloud",
+        },
     };
 }
 
@@ -35,7 +38,7 @@ export default function Home() {
         "@type": "Organization",
         name: "CoderNest Digital Solutions",
         url: "https://www.codernest.cloud",
-        logo: "https://www.codernest.cloud/me.png",
+        logo: "https://www.codernest.cloud/logo.png",
         founder: {
             "@type": "Person",
             name: DATA.name,
