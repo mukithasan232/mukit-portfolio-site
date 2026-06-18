@@ -10,6 +10,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { JsonLd } from "@/components/JsonLd";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { Toaster } from "react-hot-toast";
+import Script from "next/script";
 
 import { LazyLoadedWidgets } from "@/components/LazyLoadedWidgets";
 
@@ -92,11 +93,12 @@ export default function RootLayout({
   return (
     <html lang="en-US" suppressHydrationWarning className={`${inter.variable} ${outfit.variable}`}>
       <head>
-        <script
+        <Script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4590020337376910"
           crossOrigin="anonymous"
-        ></script>
+          strategy="afterInteractive"
+        />
       </head>
       <body className="antialiased font-sans bg-background text-foreground overflow-x-hidden min-h-screen transition-colors duration-300">
         {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
