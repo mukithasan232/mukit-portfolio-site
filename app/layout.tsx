@@ -8,7 +8,6 @@ import { Footer } from "@/components/Footer";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { JsonLd } from "@/components/JsonLd";
-import { GoogleAnalytics } from "@next/third-parties/google";
 import { Toaster } from "react-hot-toast";
 import Script from "next/script";
 
@@ -93,6 +92,19 @@ export default function RootLayout({
   return (
     <html lang="en-US" suppressHydrationWarning className={`${inter.variable} ${outfit.variable}`}>
       <head>
+        {/* Google tag (gtag.js) */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-P1HC1JZXVT"></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+
+              gtag('config', 'G-P1HC1JZXVT');
+            `,
+          }}
+        />
         <Script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4590020337376910"
@@ -101,7 +113,6 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased font-sans bg-background text-foreground overflow-x-hidden min-h-screen transition-colors duration-300">
-        <GoogleAnalytics gaId="G-P1HC1JZXVT" />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
