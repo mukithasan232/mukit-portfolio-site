@@ -101,9 +101,7 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased font-sans bg-background text-foreground overflow-x-hidden min-h-screen transition-colors duration-300">
-        {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
-          <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
-        )}
+        <GoogleAnalytics gaId="G-P1HC1JZXVT" />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
